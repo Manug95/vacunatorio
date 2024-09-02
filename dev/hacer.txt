@@ -1,0 +1,1 @@
+quitar el valor por defecto de la fecha de llegada de los sublotes y minilotes, y hacer que manualmente los empleados coloque la fecha de llegada en su respectiva vista.
