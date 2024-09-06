@@ -16,7 +16,7 @@ import { CentroVacunacion } from "../src/modelos/CentroVacunacion.js";
 import { Personal } from "../src/modelos/Personal.js";
 import { Paciente } from "../src/modelos/Paciente.js";
 import { Descarte } from "../src/modelos/Descarte.js";
-import { Enfermero } from "../src/modelos/Enfermero.js";
+import { Usuario } from "../src/modelos/Usuario.js";
 import { Vacunacion } from "../src/modelos/Vacunacion.js";
 import * as modelos from "../src/modelos/relaciones.js";
 
@@ -34,7 +34,7 @@ export async function pruebaSync() {
   await pruebaSyncRelaciones();
 }
 
-export async function pruebaSyncModelos() {
+async function pruebaSyncModelos() {
   console.log(pc.blue("INICIO SINCRONIZACION MODELOS"));
 
   try {
@@ -54,8 +54,8 @@ export async function pruebaSyncModelos() {
     await Personal.sync();
     await Paciente.sync();
     await Descarte.sync();
-    await Enfermero.sync();
     await Vacunacion.sync();
+    await Usuario.sync();
 
     console.log(pc.green("FIN SINCRONIZACION MODELOS"));
   } catch(err) {
@@ -66,7 +66,7 @@ export async function pruebaSyncModelos() {
   }
 }
 
-export async function pruebaSyncRelaciones() {
+async function pruebaSyncRelaciones() {
   console.log(pc.blue("INICIO SINCRONIZACION RELACIONES"));
 
   try {
@@ -81,13 +81,13 @@ export async function pruebaSyncRelaciones() {
     await modelos.MiniLote.sync({alter:true});
     await modelos.Paciente.sync({alter:true});
     await modelos.Personal.sync({alter:true});
-    await modelos.Enfermero.sync({alter:true});
     await modelos.Vacunacion.sync({alter:true});
     await modelos.DepositoNacional.sync({alter:true});
     await modelos.Almacena.sync({alter:true});
     await modelos.CentroVacunacion.sync({alter:true});
     await modelos.DistribucionProvincial.sync({alter:true});
     await modelos.Descarte.sync({alter:true});
+    await modelos.Usuario.sync({alter:true});
 
     console.log(pc.green("FIN SINCRONIZACION RELACIONES"));
   } catch(err) {

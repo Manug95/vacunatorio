@@ -19,6 +19,9 @@ Lote.init({
       is: {
         args: /^L\d{4}-\d{2}-\d{2}\/\d{2}:\d{2}:\d{2}$/,
         msg: "Formato de Nro de lote incorrecto"
+      },
+      notNull: {
+        msg: "El número de lote es requerido"
       }
     }
   },
@@ -26,16 +29,26 @@ Lote.init({
     type: DataTypes.DATE,
     allowNull: false,
     validate: {
-      isDate: true,
-      notNull: true
+      isDate: {
+        args: true,
+        msg: "La fecha de vencimiento no es una fecha"
+      },
+      notNull: {
+        msg: "La fecha de vencimiento es requerida"
+      }
     }
   },
   fechaFabricacion: {
     type: DataTypes.DATE,
     allowNull: false,
     validate: {
-      isDate: true,
-      notNull: true
+      isDate: {
+        args: true,
+        msg: "La fecha de fabricacion no es una fecha"
+      },
+      notNull: {
+        msg: "La fecha de fabricacion es requerida"
+      }
     }
   },
   fechaCompra: {
@@ -43,18 +56,29 @@ Lote.init({
     allowNull: false,
     defaultValue: DataTypes.NOW,
     validate: {
-      isDate: true,
-      notNull: true
+      isDate: {
+        args: true,
+        msg: "La fecha de compra no es una fecha"
+      },
+      notNull: {
+        msg: "La fecha de compra es requerida"
+      }
     }
   },
   cantidad: {
     type: DataTypes.INTEGER.UNSIGNED,
     allowNull: false,
     validate: {
-      isNumeric: true,
-      isInt: true,
-      notNull: true,
-      min: 1
+      isInt: {
+        msg: "El numero ingresado en la cantidad de vacunas del lote no un número entero"
+      },
+      notNull: {
+        msg: "La cantidad de vacunas del lote es requerida"
+      },
+      min: {
+        args: 1,
+        msg: "El valor minimo para la cantidad de vacunas del lote es de 1"
+      }
     }
   }
 }, {

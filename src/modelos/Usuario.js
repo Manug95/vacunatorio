@@ -1,15 +1,15 @@
 import { DataTypes, Model }from "sequelize";
 import { sequelize } from "../../sequelize.js";
 
-class Enfermero extends Model { }
+class Usuario extends Model { }
 
-Enfermero.init({
+Usuario.init({
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true
   },
-  nombres: {
+  username: {
     type: DataTypes.STRING(50),
     allowNull: false,
     validate: {
@@ -17,15 +17,15 @@ Enfermero.init({
       len: [1, 50]
     }
   },
-  apellidos: {
-    type: DataTypes.STRING(50),
+  password: {
+    type: DataTypes.STRING(60),
     allowNull: false,
     validate: {
       notEmpty: true,
-      len: [1, 50]
+      len: [1, 60]
     }
   },
-  licencia: {
+  rol: {
     type: DataTypes.ENUM,
     values: ['A', 'B', 'C'],
     allowNull: false,
@@ -36,10 +36,10 @@ Enfermero.init({
   }
 }, {
   sequelize,
-  modelName: "Enfermero",
-  tableName: "enfermero",
+  modelName: "Usuario",
+  tableName: "usuario",
   timestamps: false,
   freezeTableName: true
 });
 
-export { Enfermero };
+export { Usuario };

@@ -17,9 +17,9 @@ app.listen(PORT, () => {
     // .then(() => { 
     //   console.log(pc.green("INSERCIONES EN LA BD REALIZADAS CON EXITO"));
 
-    //   sequelize.query('ALTER TABLE vacunas ADD CONSTRAINT vacuna_unica UNIQUE (nombreComercial, laboratorio_id, tipoVacuna_id);')
-    //   .then(()=>{ console.log(pc.green("CONSTRAINTS DE LA TABLA VACUNAS AGREGADAS CON EXITO")); })
-    //   .catch(()=>{ console.log(pc.red("ERROR AL AGRAGAR LAS CONSTRAINTS DE LA TABLA VACUNAS")); });
+      // sequelize.query('ALTER TABLE vacunas ADD CONSTRAINT vacuna_unica UNIQUE (nombreComercial, laboratorioId, tipoVacunaId);')
+      // .then(()=>{ console.log(pc.green("CONSTRAINTS DE LA TABLA VACUNAS AGREGADAS CON EXITO")); })
+      // .catch(()=>{ console.log(pc.red("ERROR AL AGRAGAR LAS CONSTRAINTS DE LA TABLA VACUNAS")); });
     // })
     // .catch((e) => { 
     //   console.log(pc.red("ERROR AL REALIZAR LAS INSERCIONES EN LA BD"));

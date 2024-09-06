@@ -3,23 +3,44 @@ import { Op } from "sequelize";
 import { faker } from '@faker-js/faker';
 import * as modelos from "../src/modelos/relaciones.js";
 import Utils from "../utils.js";
+import loteServicio from "../src/servicios/loteServicio.js";
 
 export async function llenarBD() {
   try {
-    await llenarPaises();
-    await llenarProvincias();
-    await llenarLocalidades();
-    await llenarLaboratorios();
-    await llenarTiposVacunas();
-    await llenarVacunas();
-    await llenarLotes();
-    await llenarDepositoNacional();
-    await llenarCentrosVacunacion();
-    // await llenarAlmacen();
-    await llenarEnfermeros();
-    await llenarPersonal();
+    // await llenarPaises();
+    // await llenarProvincias();
+    // await llenarLocalidades();
+    // await llenarLaboratorios();
+    // await llenarTiposVacunas();
+    // await llenarVacunas();
+    // await llenarLotes();
+    // await llenarDepositoNacional();
+    // await llenarCentrosVacunacion();
+    // await llenarPersonal();
+    await llenarAlmacen();
   } catch (err) {
     console.error(err);
+  }
+}
+
+export async function probarModelo() {
+  const datosModelo = {
+    nroLote: "L2024-09-06/01:19:26",
+    vencimiento: Date.now(),
+    fechaFabricacion: Date.now(),
+    vacunaId: 1,
+    cantidad: 3
+  };
+
+  try {
+    const instanciaCreada = await loteServicio.crearLote({vacuna: 1, cantidad: 3});
+  } catch (error) {
+    // console.error(error);
+    console.log(error);
+    // console.log(error.errors[0].value);
+    //error.name = SequelizeUniqueConstraintError es el tipo de error de sequelize
+    //error.errors[0].path es la propieda/column de la bd donde ocurrio el error
+    //error.errors[0].value es el valor incorrecto ingresado
   }
 }
 
@@ -35,11 +56,11 @@ async function llenarPaises() {
 
 async function llenarLaboratorios() {
   await modelos.Laboratorio.bulkCreate([
-    { nombre: "El Bayern", pais: 2},
-    { nombre: "Laboratorio Yankee", pais: 1 },
-    { nombre: "Laboratorio Ponja", pais: 3 },
-    { nombre: "Laboratorio Ruso", pais: 4 },
-    { nombre: "Laboratorio Ingles", pais: 5 }
+    { nombre: "El Bayern", paisId: 2},
+    { nombre: "Laboratorio Yankee", paisId: 1 },
+    { nombre: "Laboratorio Ponja", paisId: 3 },
+    { nombre: "Laboratorio Ruso", paisId: 4 },
+    { nombre: "Laboratorio Ingles", paisId: 5 }
   ]);
 }
 
@@ -56,16 +77,16 @@ async function llenarTiposVacunas() {
 
 async function llenarVacunas() {
   await modelos.Vacuna.bulkCreate([
-    { nombreComercial: "BCGarda", laboratorio_id: 1, tipoVacuna_id: 1 },
-    { nombreComercial: "AntiTet", laboratorio_id: 2, tipoVacuna_id: 2 },
-    { nombreComercial: "SABINarda", laboratorio_id: 3, tipoVacuna_id: 3 },
-    { nombreComercial: "Sin Sarampion", laboratorio_id: 4, tipoVacuna_id: 4 },
-    { nombreComercial: "MMR pro", laboratorio_id: 5, tipoVacuna_id: 5 },
-    { nombreComercial: "Triplarda", laboratorio_id: 5, tipoVacuna_id: 6 },
-    { nombreComercial: "BCgita", laboratorio_id: 2, tipoVacuna_id: 1 },
-    { nombreComercial: "Sin Tetanos", laboratorio_id: 3, tipoVacuna_id: 2 },
-    { nombreComercial: "Chau Sarampion", laboratorio_id: 3, tipoVacuna_id: 4 },
-    { nombreComercial: "The Treble", laboratorio_id: 2, tipoVacuna_id: 6 },
+    { nombreComercial: "BCGarda", laboratorioId: 1, tipoVacunaId: 1 },
+    { nombreComercial: "AntiTet", laboratorioId: 2, tipoVacunaId: 2 },
+    { nombreComercial: "SABINarda", laboratorioId: 3, tipoVacunaId: 3 },
+    { nombreComercial: "Sin Sarampion", laboratorioId: 4, tipoVacunaId: 4 },
+    { nombreComercial: "MMR pro", laboratorioId: 5, tipoVacunaId: 5 },
+    { nombreComercial: "Triplarda", laboratorioId: 5, tipoVacunaId: 6 },
+    { nombreComercial: "BCgita", laboratorioId: 2, tipoVacunaId: 1 },
+    { nombreComercial: "Sin Tetanos", laboratorioId: 3, tipoVacunaId: 2 },
+    { nombreComercial: "Chau Sarampion", laboratorioId: 3, tipoVacunaId: 4 },
+    { nombreComercial: "The Treble", laboratorioId: 2, tipoVacunaId: 6 },
   ]);
 }
 
@@ -99,15 +120,15 @@ async function llenarProvincias() {
 
 async function llenarLocalidades() {
   await modelos.Localidad.bulkCreate([
-    { nombre: "localidad 1", provincia: 1 },
-    { nombre: "localidad 2", provincia: 2 },
-    { nombre: "localidad 3", provincia: 3 },
-    { nombre: "localidad 4", provincia: 4 },
-    { nombre: "localidad 5", provincia: 5 },
-    { nombre: "localidad 6", provincia: 1 },
-    { nombre: "localidad 7", provincia: 2 },
-    { nombre: "localidad 8", provincia: 3 },
-    { nombre: "localidad 9", provincia: 1 },
+    { nombre: "localidad 1", provinciaId: 1 },
+    { nombre: "localidad 2", provinciaId: 2 },
+    { nombre: "localidad 3", provinciaId: 3 },
+    { nombre: "localidad 4", provinciaId: 4 },
+    { nombre: "localidad 5", provinciaId: 5 },
+    { nombre: "localidad 6", provinciaId: 1 },
+    { nombre: "localidad 7", provinciaId: 2 },
+    { nombre: "localidad 8", provinciaId: 3 },
+    { nombre: "localidad 9", provinciaId: 1 },
     { nombre: "localidad 10", provincia: 1 },
     // { nombre: "San Luís" },
     // { nombre: "La Pampa" },
@@ -135,11 +156,11 @@ async function llenarDepositoNacional() {
 
 async function llenarCentrosVacunacion() {
   await modelos.CentroVacunacion.bulkCreate([
-    { nombre: "Centro Vacunacion A", ciudad: 1 },
-    { nombre: "Centro Vacunacion B", ciudad: 2 },
-    { nombre: "Centro Vacunacion C", ciudad: 3 },
-    { nombre: "Centro Vacunacion D", ciudad: 4 },
-    { nombre: "Centro Vacunacion E", ciudad: 5 }
+    { nombre: "Centro Vacunacion A", localidadId: 1 },
+    { nombre: "Centro Vacunacion B", localidadId: 2 },
+    { nombre: "Centro Vacunacion C", localidadId: 3 },
+    { nombre: "Centro Vacunacion D", localidadId: 4 },
+    { nombre: "Centro Vacunacion E", localidadId: 5 }
   ]);
 }
 
@@ -150,35 +171,35 @@ async function llenarLotes() {
       fechaFabricacion: new Date(2023, 0, 2),
       vencimiento: new Date(2025, 0, 2),
       cantidad: 10000,
-      vacuna_id: 2
+      vacunaId: 2
     },
     {
       // fechaCompra: new Date(2024, 1, 15),
       fechaFabricacion: new Date(2023, 0, 2),
       vencimiento: new Date(2025, 0, 2),
       cantidad: 5000,
-      vacuna_id: 1
+      vacunaId: 1
     },
     {
       // fechaCompra: new Date(2024 ,1, 20),
       fechaFabricacion: new Date(2023, 0, 2),
       vencimiento: new Date(2025, 0, 2),
       cantidad: 1000,
-      vacuna_id: 5
+      vacunaId: 5
     },
     {
       // fechaCompra: new Date(2024, 1, 18),
       fechaFabricacion: new Date(2023, 0, 2),
       vencimiento: new Date(2025, 0, 2),
       cantidad: 3500,
-      vacuna_id: 4
+      vacunaId: 4
     },
     {
       // fechaCompra: new Date(2024, 5, 18),
       fechaFabricacion: new Date(2023, 0, 2),
       vencimiento: new Date(2025, 0, 2),
       cantidad: 1000,
-      vacuna_id: 3
+      vacunaId: 3
     }
   ].map((lote, i) => {
     lote.nroLote = Utils.crearNroLote(i);
@@ -191,24 +212,24 @@ async function llenarLotes() {
 async function llenarAlmacen() {
   await modelos.Almacena.bulkCreate([
     {
-      lote: 1,
-      deposito: 1
+      loteId: "1507860f-14b4-438c-9196-7f546807a53e",
+      depositoId: 1
     },
     {
-      lote: 2,
-      deposito: 1
+      loteId: "84fefdb0-7ba4-48ec-8a00-1b73a50cf04d",
+      depositoId: 1
     },
     {
-      lote: 3,
-      deposito: 1
+      loteId: "9ded97b2-1766-4cf6-a2cf-63486cf6e0f2",
+      depositoId: 1
     },
     {
-      lote: 4,
-      deposito: 1
+      loteId: "a910d974-ab62-46e1-bd5c-0ff439ff1d22",
+      depositoId: 1
     },
     {
-      lote: 5,
-      deposito: 1
+      loteId: "e35be454-d0d8-438e-9b7e-6f0ab4ccde37",
+      depositoId: 1
     }
   ]);
 }
@@ -265,35 +286,30 @@ async function llenarPersonal() {
       apellidos: faker.person.lastName(),
       cargo: "LOGISTICA" 
     },
-  ]);
-}
-
-async function llenarEnfermeros() {
-  await modelos.Enfermero.bulkCreate([
     {
       nombres: faker.person.firstName(),
       apellidos: faker.person.lastName(),
-      licencia: "A"
+      cargo: "ENFERMERO" 
     },
     {
       nombres: faker.person.firstName(),
       apellidos: faker.person.lastName(),
-      licencia: "B"
+      cargo: "ENFERMERO" 
     },
     {
       nombres: faker.person.firstName(),
       apellidos: faker.person.lastName(),
-      licencia: "C"
+      cargo: "ENFERMERO" 
     },
     {
       nombres: faker.person.firstName(),
       apellidos: faker.person.lastName(),
-      licencia: "A"
+      cargo: "ENFERMERO" 
     },
     {
       nombres: faker.person.firstName(),
       apellidos: faker.person.lastName(),
-      licencia: "B"
+      cargo: "ENFERMERO" 
     },
   ]);
 }

@@ -27,11 +27,11 @@ Personal.init({
   },
   cargo: {
     type: DataTypes.ENUM,
-    values: ['ADMINISTRATIVO', 'LOGISTICA'],
+    values: ['ADMINISTRATIVO', 'LOGISTICA', 'ENFERMERO'],
     allowNull: false,
     validate: {
       notEmpty: true,
-      isIn: [['ADMINISTRATIVO', 'LOGISTICA']]
+      isIn: [['ADMINISTRATIVO', 'LOGISTICA', 'ENFERMERO']]
     }
   }
 }, {

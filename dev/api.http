@@ -1,0 +1,9 @@
+### Crear un lote nuevo
+POST http://localhost:3000/lotes
+Content-Type: application/json
+
+{
+    "vacuna": 2,
+    "cantidad": 12,
+    "deposito": 3
+}

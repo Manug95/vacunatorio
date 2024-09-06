@@ -7,7 +7,16 @@ Almacena.init({
   fechaAdquisicion: {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,
-    field: 'fecha-adquisicion',
+    allowNull: false,
+    validate: {
+      isDate: {
+        args: true,
+        msg: "La fecha de adquisicion no es una fecha"
+      },
+      notNull: {
+        msg: "La fecha de adquisición es requerida"
+      }
+    }
   }
 }, {
   sequelize,
