@@ -1,4 +1,4 @@
-import { Almacena } from "../modelos/relaciones.js";
+// import { Almacena } from "../modelos/relaciones.js";
 import { capturarErroresDeSequelize } from "../../utils.js";
 
 let instanciaServicio;
@@ -37,6 +37,14 @@ class AlmacenaServicio {
     } catch (error) {
       capturarErroresDeSequelize(error);
       throw new Error("Ocurrió un error al almacenar el lote comprado");
+    }
+  }
+
+  async traerLotesAlmacenados(opcionesConsulta) {
+    if (opcionesConsulta) {
+      return Almacena.findAndCountAll(opcionesConsulta);
+    } else {
+      return Almacena.findAndCountAll();
     }
   }
 }

@@ -7,3 +7,13 @@ Content-Type: application/json
     "cantidad": 12,
     "deposito": 3
 }
+
+### Crear un sublote nuevo
+POST http://localhost:3000/sublotes
+Content-Type: application/json
+
+{
+    "provincia": 1,
+    "cantidad": 50,
+    "lote": "2b4ef9dd-fe50-4469-9ff7-e39233987f45"
+}

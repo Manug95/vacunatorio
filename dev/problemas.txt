@@ -1,0 +1,5 @@
+Cuando una provincia hace diferentes pedidos de vacunas y los sublotes de vacunas que se generan de esos pedidos 
+vienen del mismo lote podria restar las cantidades de vacunas lote y sumarselas al sublote existente 
+para no tener varios sublotes del mismo lote dando vueltas.
+El problema de esto es que pierdo la informacion de las fechas de salida y llegada de los sublotes 
+que deberia crear, y asa información de fechas es un requerimiento del sistema.

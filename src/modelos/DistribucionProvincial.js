@@ -6,7 +6,7 @@ class DistribucionProvincial extends Model { }
 
 DistribucionProvincial.init({
   fechaSalida: {
-    type: DataTypes.DATE,
+    type: DataTypes.DATEONLY,
     defaultValue: DataTypes.NOW,
     allowNull: false,
     validate: {
@@ -15,7 +15,7 @@ DistribucionProvincial.init({
     }
   },
   fechaLlegada: {
-    type: DataTypes.DATE,
+    type: DataTypes.DATEONLY,
     defaultValue: DataTypes.NOW, // esto despues se borra (hacer.txt)
     allowNull: false,
     validate: {

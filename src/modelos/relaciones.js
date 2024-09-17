@@ -1,6 +1,5 @@
 import { Laboratorio } from "./Laboratorio.js";
 import { Pais } from "./Pais.js";
-import { Almacena } from "./Almacena.js";
 import { Lote } from "./Lote.js";
 import { SubLote } from "./SubLote.js";
 import { MiniLote } from "./MiniLote.js";
@@ -37,17 +36,17 @@ Localidad.belongsTo(Provincia, {foreignKey: "provinciaId"});
 Vacuna.hasMany(Lote, { foreignKey: "vacunaId" });
 Lote.belongsTo(Vacuna, { foreignKey: "vacunaId" });
 
+//Lote-DepositoNacional
+DepositoNacional.hasMany(Lote, { foreignKey: "depositoId" });
+Lote.belongsTo(DepositoNacional, { foreignKey: "depositoId" });
+
+//Descarte-Lote
+Descarte.hasMany(Lote, { foreignKey: "descarteId" });
+Lote.belongsTo(Descarte, { foreignKey: "descarteId" });
+
 //SubLote-Lote
 Lote.hasMany(SubLote, { foreignKey: "loteId" });
 SubLote.belongsTo(Lote, { foreignKey: "loteId" });
-
-//Lote-DepositoNacional por table Almacena
-Lote.belongsToMany(DepositoNacional, { through: Almacena, foreignKey: "loteId" });
-DepositoNacional.belongsToMany(Lote, { through: Almacena, foreignKey: "depositoId" });
-Lote.hasMany(Almacena, { foreignKey: "loteId" });
-Almacena.belongsTo(Lote, { foreignKey: "loteId" });
-DepositoNacional.hasMany(Almacena, { foreignKey: "depositoId" });
-Almacena.belongsTo(DepositoNacional, { foreignKey: "depositoId" });
 
 //Provincia-SubLote
 Provincia.hasMany(SubLote, {foreignKey: "provinciaId"});
@@ -70,16 +69,26 @@ CentroVacunacion.hasMany(DistribucionProvincial, { foreignKey: "centroId" });
 DistribucionProvincial.belongsTo(CentroVacunacion, { foreignKey: "centroId" });
 
 //Descarte-Personal
-Personal.hasMany(Descarte);
-Descarte.belongsTo(Personal);
+Personal.hasMany(Descarte, { foreignKey: "personalId" });
+Descarte.belongsTo(Personal, { foreignKey: "personalId" });
 
-//Vacunacion-Enfermero-Paciente-MiniLote
+//Descarte-SubLote
+Descarte.hasMany(SubLote, { foreignKey: "descarteId" });
+SubLote.belongsTo(Descarte, { foreignKey: "descarteId" });
+
+//Descarte-MiniLote
+Descarte.hasMany(MiniLote, { foreignKey: "descarteId" });
+MiniLote.belongsTo(Descarte, { foreignKey: "descarteId" });
+
+//Vacunacion-Enfermero-Paciente-MiniLote-CentroVacunacion
 Personal.hasMany(Vacunacion, { foreignKey: "enfermeroId" });
 Vacunacion.belongsTo(Personal, { foreignKey: "enfermeroId" });
 Paciente.hasMany(Vacunacion, { foreignKey: "pacienteId" });
 Vacunacion.belongsTo(Paciente, { foreignKey: "pacienteId" });
 MiniLote.hasMany(Vacunacion, { foreignKey: "miniloteId" });
 Vacunacion.belongsTo(MiniLote, { foreignKey: "miniloteId" });
+CentroVacunacion.hasMany(Vacunacion, { foreignKey: "centroId" });
+Vacunacion.belongsTo(CentroVacunacion, { foreignKey: "centroId" });
 
 //Usuario-Personal
 Personal.hasOne(Usuario, { foreignKey: "personalId" });
@@ -95,7 +104,6 @@ export {
   TipoVacuna,
   Vacuna,
   DepositoNacional,
-  Almacena,
   Provincia,
   Localidad,
   CentroVacunacion,

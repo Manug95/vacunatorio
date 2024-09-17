@@ -1,7 +1,6 @@
 import pc from "picocolors";
 
 import { DistribucionProvincial } from "../src/modelos/DistribucionProvincial.js";
-import { Almacena } from "../src/modelos/Almacena.js";
 import { Pais } from "../src/modelos/Pais.js";
 import { DepositoNacional } from "../src/modelos/DepositoNacional.js";
 import { Laboratorio } from "../src/modelos/Laboratorio.js";
@@ -42,27 +41,27 @@ async function pruebaSyncModelos() {
     await Provincia.sync();
     await Localidad.sync();
     await Laboratorio.sync();
+    await DepositoNacional.sync();
     await TipoVacuna.sync();
     await Vacuna.sync();
+    await Personal.sync();
+    await Descarte.sync();
     await Lote.sync();
     await SubLote.sync();
     await MiniLote.sync();
-    await DepositoNacional.sync();
-    await Almacena.sync();
     await CentroVacunacion.sync();
     await DistribucionProvincial.sync();
-    await Personal.sync();
     await Paciente.sync();
-    await Descarte.sync();
     await Vacunacion.sync();
     await Usuario.sync();
 
     console.log(pc.green("FIN SINCRONIZACION MODELOS"));
   } catch(err) {
-    console.error(pc.red("ERROR AL SINCRONIZAR LOS MODELOS"));
-    console.error(pc.red(err.parent.sqlMessage));
+    console.log(pc.red("ERROR AL SINCRONIZAR LOS MODELOS"));
+    console.log(pc.red(err.parent.sqlMessage));
     console.log(pc.red(err.parent.sql));
-    // console.error(err);
+    console.error(err);
+    throw new Error("ERROR AL SINCRONIZAR LOS MODELOS");
   }
 }
 
@@ -83,7 +82,6 @@ async function pruebaSyncRelaciones() {
     await modelos.Personal.sync({alter:true});
     await modelos.Vacunacion.sync({alter:true});
     await modelos.DepositoNacional.sync({alter:true});
-    await modelos.Almacena.sync({alter:true});
     await modelos.CentroVacunacion.sync({alter:true});
     await modelos.DistribucionProvincial.sync({alter:true});
     await modelos.Descarte.sync({alter:true});

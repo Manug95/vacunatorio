@@ -1,1 +1,11 @@
-quitar el valor por defecto de la fecha de llegada de los sublotes y minilotes, y hacer que manualmente los empleados coloque la fecha de llegada en su respectiva vista.
+*   quitar el valor por defecto de la fecha de llegada de los sublotes y minilotes, y hacer que manualmente los empleados coloque la fecha de llegada en su respectiva vista.
+*   el descarte de las vacunas se hace manualmente en la vista de los listados de los lotes/sublote/minilotes
+*   enviar el codigo de estado HTTP que corresponda en cada tipo de error
+*   
+
+
+SUBLOTES
+*   vista del listado de los lotes para que el usuario elija los los que se usaran para crear los sublotes. en la vista que se puedan hacer diferentes filtros para los lotes
+    que se pidan. los lotes vencidos que aparezcan en rojo.
+*   hacer el controlador para las solicitudes del listado de los lotes con los que se haran los sublotes.
+*   la funcion "crearSubLote" nueva del servicio de sublotes haga la creacion del sublote y la actualizacion de la cantidad de vacunas del lote que se uso.

@@ -8,6 +8,9 @@
     "dev": "nodemon index.js",
     "prueba": "node --watch ./src/index.js"
   },
+  "engines": {
+    "node": ">=20.10.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Manug95/vacunatorio.git"

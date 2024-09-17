@@ -10,37 +10,53 @@ SubLote.init({
     primaryKey: true
   },
   fechaSalida: {
-    type: DataTypes.DATE,
+    type: DataTypes.DATEONLY,
     defaultValue: DataTypes.NOW,
     allowNull: false,
     validate: {
-      isDate: true,
-      notNull: true
+      isDate: {
+        args: true,
+        msg: "La fecha de salida no es una fecha"
+      },
+      notNull: {
+        msg: "La fecha de salida es requerida"
+      }
     }
   },
   fechaLlegada: {
-    type: DataTypes.DATE,
+    type: DataTypes.DATEONLY,
     defaultValue: DataTypes.NOW, // esto despues se borra (hacer.txt)
     allowNull: false,
     validate: {
-      isDate: true,
-      notNull: true
+      isDate: {
+        args: true,
+        msg: "La fecha de llegada no es una fecha"
+      },
+      notNull: {
+        msg: "La fecha de llegada es requerida"
+      }
     }
   },
   cantidad: {
     type: DataTypes.INTEGER.UNSIGNED,
     allowNull: false,
     validate: {
-      isNumeric: true,
-      isInt: true,
-      notNull: true,
-      min: 1
+      isInt: {
+        msg: "El numero ingresado en la cantidad de vacunas del sublote no un número entero"
+      },
+      notNull: {
+        msg: "La cantidad de vacunas del sublote es requerida"
+      },
+      min: {
+        args: 1,
+        msg: "El valor minimo para la cantidad de vacunas del sublote es de 1"
+      }
     }
   }
 }, {
   sequelize,
   modelName: "SubLote",
-  tableName: "sub-lote",
+  tableName: "sublotes",
   timestamps: false,
   freezeTableName: true
 });

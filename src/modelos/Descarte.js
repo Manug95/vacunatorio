@@ -10,20 +10,30 @@ Descarte.init({
     autoIncrement: true
   },
   fecha: {
-    type: DataTypes.DATE,
+    type: DataTypes.DATEONLY,
     allowNull: false,
-    primaryKey: true,
     defaultValue: DataTypes.NOW,
     validate: {
-      isDate: true,
-      notNull: true
+      isDate: {
+        args: true,
+        msg: "La fecha de descarte no es una fecha"
+      },
+      notNull: {
+        msg: "La fecha de descarte es requerida"
+      }
     }
   },
   motivo: {
     type: DataTypes.STRING(100),
     allowNull: false,
     validate: {
-      len: [1,100]
+      notNull: {
+        msg: "El motivo del descarte es requerido"
+      },
+      len: {
+        args: [1,100],
+        msg: "La descripción del motivo del descarte debe tener entre 1 y 100 caracteres"
+      }
     }
   },
   formaDescarte: {
@@ -31,8 +41,16 @@ Descarte.init({
     values: ["INCINERACION", "OTRO"],
     allowNull: false,
     validate: {
-      notEmpty: true,
-      isIn: [["INCINERACION", "OTRO"]]
+      notNull: {
+        msg: "La forma de descarte es requerido"
+      },
+      notEmpty: {
+        msg: "La forma de descarte es requerido"
+      },
+      isIn: {
+        args: [["INCINERACION", "OTRO"]],
+        msg: "El dato ingresado no corresponde a un motivo válido"
+      }
     }
   }
 }, {

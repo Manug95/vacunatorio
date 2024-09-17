@@ -26,7 +26,7 @@ Lote.init({
     }
   },
   vencimiento: {
-    type: DataTypes.DATE,
+    type: DataTypes.DATEONLY,
     allowNull: false,
     validate: {
       isDate: {
@@ -39,7 +39,7 @@ Lote.init({
     }
   },
   fechaFabricacion: {
-    type: DataTypes.DATE,
+    type: DataTypes.DATEONLY,
     allowNull: false,
     validate: {
       isDate: {
@@ -52,7 +52,7 @@ Lote.init({
     }
   },
   fechaCompra: {
-    type: DataTypes.DATE,
+    type: DataTypes.DATEONLY,
     allowNull: false,
     defaultValue: DataTypes.NOW,
     validate: {
@@ -62,6 +62,20 @@ Lote.init({
       },
       notNull: {
         msg: "La fecha de compra es requerida"
+      }
+    }
+  },
+  fechaAdquisicion: {
+    type: DataTypes.DATEONLY,
+    defaultValue: DataTypes.NOW,
+    allowNull: false,
+    validate: {
+      isDate: {
+        args: true,
+        msg: "La fecha de adquisicion no es una fecha"
+      },
+      notNull: {
+        msg: "La fecha de adquisición es requerida"
       }
     }
   },

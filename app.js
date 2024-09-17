@@ -1,6 +1,7 @@
 import express from "express";
 
 import { loteRouter } from "./src/rutas/loteRouter.js";
+import { subloteRouter } from "./src/rutas/subloteRouter.js"
 
 const app = express();
 
@@ -9,6 +10,7 @@ app.use(express.static("public"));
 app.use(express.json());
 
 app.use("/lotes", loteRouter);
+app.use("/sublotes", subloteRouter);
 
 
 app.get("*", (req, res) => {

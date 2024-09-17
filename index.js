@@ -22,13 +22,13 @@ app.listen(PORT, () => {
       // .catch(()=>{ console.log(pc.red("ERROR AL AGRAGAR LAS CONSTRAINTS DE LA TABLA VACUNAS")); });
     // })
     // .catch((e) => { 
-    //   console.log(pc.red("ERROR AL REALIZAR LAS INSERCIONES EN LA BD"));
+    //   console.log(pc.red(e.message));
     //   console.error(e);
     // });
 
   // })
   // .catch((e) => { 
-  //   console.log(pc.red("ERROR AL SINCRONIZAR LOS MODELOS EN INDEX.JS"));
+  //   console.log(pc.red(e.message));
   //   console.error(e);
   // });
 

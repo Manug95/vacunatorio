@@ -1,18 +1,10 @@
 export default class Utils {
-  static afechaArgentina(fecha) {
+  static formatearAfechaArgentina(fecha) {
     return fecha.toISOString().split("T")[0].split("-").reverse().join("-");
   }
 
   static crearNroLote(segundos) {
     return "L" + crearFechaDeLotes(segundos);
-  }
-
-  static crearNroSubLote() {
-    return "SL" + crearFechaDeLotes();
-  }
-
-  static crearNroMiniLote() {
-    return "ML" + crearFechaDeLotes();
   }
 }
 

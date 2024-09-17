@@ -1,5 +1,3 @@
-import { sequelize } from "../sequelize.js";
-import { Op } from "sequelize";
 import { faker } from '@faker-js/faker';
 import * as modelos from "../src/modelos/relaciones.js";
 import Utils from "../utils.js";
@@ -7,19 +5,19 @@ import loteServicio from "../src/servicios/loteServicio.js";
 
 export async function llenarBD() {
   try {
-    // await llenarPaises();
-    // await llenarProvincias();
-    // await llenarLocalidades();
-    // await llenarLaboratorios();
-    // await llenarTiposVacunas();
-    // await llenarVacunas();
-    // await llenarLotes();
-    // await llenarDepositoNacional();
-    // await llenarCentrosVacunacion();
-    // await llenarPersonal();
-    await llenarAlmacen();
+    await llenarPaises();
+    await llenarProvincias();
+    await llenarLocalidades();
+    await llenarLaboratorios();
+    await llenarTiposVacunas();
+    await llenarVacunas();
+    await llenarLotes();
+    await llenarDepositoNacional();
+    await llenarCentrosVacunacion();
+    await llenarPersonal();
   } catch (err) {
     console.error(err);
+    throw new Error("ERROR AL REALIZAR LAS INSERCIONES EN LA BD");
   }
 }
 
@@ -207,31 +205,6 @@ async function llenarLotes() {
   });
 
   await modelos.Lote.bulkCreate(lotes);
-}
-
-async function llenarAlmacen() {
-  await modelos.Almacena.bulkCreate([
-    {
-      loteId: "1507860f-14b4-438c-9196-7f546807a53e",
-      depositoId: 1
-    },
-    {
-      loteId: "84fefdb0-7ba4-48ec-8a00-1b73a50cf04d",
-      depositoId: 1
-    },
-    {
-      loteId: "9ded97b2-1766-4cf6-a2cf-63486cf6e0f2",
-      depositoId: 1
-    },
-    {
-      loteId: "a910d974-ab62-46e1-bd5c-0ff439ff1d22",
-      depositoId: 1
-    },
-    {
-      loteId: "e35be454-d0d8-438e-9b7e-6f0ab4ccde37",
-      depositoId: 1
-    }
-  ]);
 }
 
 async function llenarPersonal() {
