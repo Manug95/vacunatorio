@@ -5,22 +5,9 @@ export default class SubLoteControlador {
   static async crear(req, res) {
     let status = 201;
     const respuesta = { ok: true };
+    const { lote, provincia, cantidad } = req.body;
 
     try {
-      const { lote, provincia, cantidad } = req.body;
-
-      if (!lote) {
-        throw new Error("Es necesario especificar el lote origen del sublote");
-      }
-  
-      if (!provincia) {
-        throw new Error("Es necesario especificar la provincia a la que se enviara el sublote");
-      }
-  
-      if (!cantidad) {
-        throw new Error("Es necesario especificar la cantidad de vacunas que se quieren");
-      }
-
       await subLoteServicio.crearSubLote({ provincia, cantidad, lote });
     }
     catch (error) {

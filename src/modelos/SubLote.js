@@ -48,8 +48,8 @@ SubLote.init({
         msg: "La cantidad de vacunas del sublote es requerida"
       },
       min: {
-        args: 1,
-        msg: "El valor minimo para la cantidad de vacunas del sublote es de 1"
+        args: [0],
+        msg: "La cantidad no puede ser negativa"
       }
     }
   }

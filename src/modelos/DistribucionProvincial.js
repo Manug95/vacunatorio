@@ -5,13 +5,23 @@ import { CentroVacunacion } from "./relaciones.js";
 class DistribucionProvincial extends Model { }
 
 DistribucionProvincial.init({
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
   fechaSalida: {
     type: DataTypes.DATEONLY,
     defaultValue: DataTypes.NOW,
     allowNull: false,
     validate: {
-      isDate: true,
-      notNull: true
+      isDate: {
+        args: true,
+        msg: "La fecha de salida no es una fecha"
+      },
+      notNull: {
+        msg: "La fecha de salida es requerida"
+      }
     }
   },
   fechaLlegada: {
@@ -19,8 +29,13 @@ DistribucionProvincial.init({
     defaultValue: DataTypes.NOW, // esto despues se borra (hacer.txt)
     allowNull: false,
     validate: {
-      isDate: true,
-      notNull: true
+      isDate: {
+        args: true,
+        msg: "La fecha de llegada no es una fecha"
+      },
+      notNull: {
+        msg: "La fecha de llegada es requerida"
+      }
     }
   },
   redistribuidoPor: {
@@ -34,10 +49,16 @@ DistribucionProvincial.init({
     type: DataTypes.INTEGER.UNSIGNED,
     allowNull: false,
     validate: {
-      isNumeric: true,
-      isInt: true,
-      notNull: true,
-      min: 1
+      isInt: {
+        msg: "El numero ingresado en la cantidad de vacunas no un número entero"
+      },
+      notNull: {
+        msg: "La cantidad de vacunas es requerida"
+      },
+      min: {
+        args: [0],
+        msg: "La cantidad no puede ser negativa"
+      }
     }
   }
 }, {

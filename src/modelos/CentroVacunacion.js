@@ -14,8 +14,16 @@ CentroVacunacion.init({
     allowNull: false,
     unique: true,
     validate: {
-      notEmpty: true,
-      len: [1, 50]
+      notEmpty: {
+        msg: "El nombre del centro de vacunación es requerido"
+      },
+      len: {
+        args: [1, 50],
+        msg: "El nombre de tener entre 1 y 50 caracteres de largo"
+      },
+      notNull: {
+        msg: "El nombre del centro de vacunación es requerido"
+      }
     }
   }
 }, {

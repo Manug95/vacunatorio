@@ -51,6 +51,20 @@ class SubLoteServicio {
     return;
   }
 
+  async actualizarCantidadVacunas({ id, cantidadADecrementar, transaction }) {
+    const optObj = {
+      where: {
+        id: id
+      }
+    };
+
+    if (transaction) {
+      optObj.transaction = transaction;
+    }
+
+    return SubLote.decrement({ cantidad: cantidadADecrementar }, optObj);
+  }
+
   async crearSubLoteAutomatico({ provincia, cantidad, tipoVacuna }) {
     // ACA ESTOY TRAYENDO TODOS LOS LOTES DEL MISMO TIPO DE VACUNA
     const lotesRecuperados = [];

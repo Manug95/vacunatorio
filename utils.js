@@ -19,6 +19,30 @@ export function capturarErroresDeSequelize(error) {
   }
 }
 
+export function validarCantidad(cantidad) {
+  if (cantidad === undefined) {
+    throw new Error("Es necesario especificar la cantidad de vacunas");
+  }
+  
+  const c = Number(cantidad);
+
+  if (Number.isNaN(c)) {
+    throw new Error("Cantidad de vacunas invalida");
+  }
+
+  if (!Number.isInteger(c)) {
+    throw new Error("La cantidad de vacunas recibida no es un numero entero");
+  }
+
+  if (c === 0) {
+    throw new Error("La cantidad no puede ser 0");
+  }
+
+  if (c < 0) {
+    throw new Error("La cantidad no puede ser negativa");
+  }
+}
+
 function crearFechaDeLotes(segundos) {
   let fecha = new Date();
 

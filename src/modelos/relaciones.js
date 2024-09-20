@@ -68,6 +68,10 @@ DistribucionProvincial.belongsTo(MiniLote, { foreignKey: "miniloteId" });
 CentroVacunacion.hasMany(DistribucionProvincial, { foreignKey: "centroId" });
 DistribucionProvincial.belongsTo(CentroVacunacion, { foreignKey: "centroId" });
 
+//DistribucionProvincial-Descarte
+Descarte.hasMany(DistribucionProvincial, { foreignKey: "descarteId" });
+DistribucionProvincial.belongsTo(Descarte, { foreignKey: "descarteId" });
+
 //Descarte-Personal
 Personal.hasMany(Descarte, { foreignKey: "personalId" });
 Descarte.belongsTo(Personal, { foreignKey: "personalId" });
@@ -77,8 +81,8 @@ Descarte.hasMany(SubLote, { foreignKey: "descarteId" });
 SubLote.belongsTo(Descarte, { foreignKey: "descarteId" });
 
 //Descarte-MiniLote
-Descarte.hasMany(MiniLote, { foreignKey: "descarteId" });
-MiniLote.belongsTo(Descarte, { foreignKey: "descarteId" });
+// Descarte.hasMany(MiniLote, { foreignKey: "descarteId" });
+// MiniLote.belongsTo(Descarte, { foreignKey: "descarteId" });
 
 //Vacunacion-Enfermero-Paciente-MiniLote-CentroVacunacion
 Personal.hasMany(Vacunacion, { foreignKey: "enfermeroId" });

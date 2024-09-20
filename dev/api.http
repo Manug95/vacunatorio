@@ -3,9 +3,9 @@ POST http://localhost:3000/lotes
 Content-Type: application/json
 
 {
-    "vacuna": 2,
-    "cantidad": 12,
-    "deposito": 3
+    "vacuna": 4,
+    "cantidad": 0,
+    "deposito": 2
 }
 
 ### Crear un sublote nuevo
@@ -13,7 +13,29 @@ POST http://localhost:3000/sublotes
 Content-Type: application/json
 
 {
-    "provincia": 1,
+    "provincia": 2,
+    "cantidad": 200,
+    "lote": "be6817d9-6960-48b9-afaa-e4fb74112a58"
+}
+
+### Crear un minilote nuevo
+POST http://localhost:3000/minilotes
+Content-Type: application/json
+
+{
+    "sublote": "0e424fea-9094-4efb-9830-98dd1909bd60",
     "cantidad": 50,
-    "lote": "2b4ef9dd-fe50-4469-9ff7-e39233987f45"
+    "centro": 2
+}
+
+### redistribuir un minilote
+POST http://localhost:3000/minilotes/redistribuir
+Content-Type: application/json
+
+{
+    "distribucion": 1,
+    "cantidad": 10,
+    "minilote": "95a51594-c67a-47c0-873a-6a4a5e582ff4",
+    "centroOrigen": 1,
+    "centroDestino": 3
 }

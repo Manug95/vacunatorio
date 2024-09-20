@@ -169,35 +169,40 @@ async function llenarLotes() {
       fechaFabricacion: new Date(2023, 0, 2),
       vencimiento: new Date(2025, 0, 2),
       cantidad: 10000,
-      vacunaId: 2
+      vacunaId: 2,
+      depositoId: 1
     },
     {
       // fechaCompra: new Date(2024, 1, 15),
       fechaFabricacion: new Date(2023, 0, 2),
       vencimiento: new Date(2025, 0, 2),
       cantidad: 5000,
-      vacunaId: 1
+      vacunaId: 1,
+      depositoId: 1
     },
     {
       // fechaCompra: new Date(2024 ,1, 20),
       fechaFabricacion: new Date(2023, 0, 2),
       vencimiento: new Date(2025, 0, 2),
       cantidad: 1000,
-      vacunaId: 5
+      vacunaId: 5,
+      depositoId: 1
     },
     {
       // fechaCompra: new Date(2024, 1, 18),
       fechaFabricacion: new Date(2023, 0, 2),
       vencimiento: new Date(2025, 0, 2),
       cantidad: 3500,
-      vacunaId: 4
+      vacunaId: 4,
+      depositoId: 1
     },
     {
       // fechaCompra: new Date(2024, 5, 18),
       fechaFabricacion: new Date(2023, 0, 2),
       vencimiento: new Date(2025, 0, 2),
       cantidad: 1000,
-      vacunaId: 3
+      vacunaId: 3,
+      depositoId: 1
     }
   ].map((lote, i) => {
     lote.nroLote = Utils.crearNroLote(i);
