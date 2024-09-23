@@ -46,4 +46,26 @@ export default class MiniLoteControlador {
 
     return;
   }
+
+  static async descartar(req, res) {
+    let statusCode = 200;
+    const respuesta = { ok: true };
+    const { distribucion, fecha, motivo, formaDescarte } = req.body;
+
+    try {
+      await distribucionProvincialServicio.descartarDistribucion({ id: distribucion, fecha, motivo, formaDescarte });
+    }
+    catch (error) {
+      
+      statusCode = 400;
+      respuesta.ok = false;
+      respuesta.mensaje = error.message;
+
+    }
+    finally {
+      res.status(statusCode).json(respuesta);
+    }
+
+    return;
+  }
 }

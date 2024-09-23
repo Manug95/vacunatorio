@@ -9,3 +9,7 @@ SUBLOTES
     que se pidan. los lotes vencidos que aparezcan en rojo.
 *   hacer el controlador para las solicitudes del listado de los lotes con los que se haran los sublotes.
 *   la funcion "crearSubLote" nueva del servicio de sublotes haga la creacion del sublote y la actualizacion de la cantidad de vacunas del lote que se uso.
+
+
+DESCARTES
+*   falta asociar el personal que realizo el descarte.

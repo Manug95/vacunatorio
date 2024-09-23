@@ -39,3 +39,36 @@ Content-Type: application/json
     "centroOrigen": 1,
     "centroDestino": 3
 }
+
+### descartar un lote
+POST http://localhost:3000/lotes/descartar
+Content-Type: application/json
+
+{
+    "fecha": "2024-09-23",
+    "motivo": "tamo probando",
+    "lote": "48f99d17-0b09-4b0c-8d1e-75d948ed8b20",
+    "formaDescarte": "INCINERACION"
+}
+
+### descartar un sublote
+POST http://localhost:3000/sublotes/descartar
+Content-Type: application/json
+
+{
+    "fecha": "2024-09-23",
+    "motivo": "tamo probando el descarte de sublotes",
+    "sublote": "0e424fea-9094-4efb-9830-98dd1909bd60",
+    "formaDescarte": "OTRO"
+}
+
+### descartar una distribucion provincial
+POST http://localhost:3000/minilotes/descartar
+Content-Type: application/json
+
+{
+    "fecha": "2024-09-23",
+    "motivo": "tamo probando el descarte de distribucion provincial",
+    "distribucion": 2,
+    "formaDescarte": "OTRO"
+}

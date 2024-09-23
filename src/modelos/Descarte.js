@@ -42,14 +42,14 @@ Descarte.init({
     allowNull: false,
     validate: {
       notNull: {
-        msg: "La forma de descarte es requerido"
+        msg: "La forma de descarte es requerida"
       },
       notEmpty: {
-        msg: "La forma de descarte es requerido"
+        msg: "La forma de descarte es requerida"
       },
       isIn: {
         args: [["INCINERACION", "OTRO"]],
-        msg: "El dato ingresado no corresponde a un motivo válido"
+        msg: "El dato ingresado no corresponde a una forma de descarte válida"
       }
     }
   }

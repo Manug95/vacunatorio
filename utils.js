@@ -19,6 +19,10 @@ export function capturarErroresDeSequelize(error) {
   }
 }
 
+export function esForeignKeyError(error) {
+  return error.name === "SequelizeForeignKeyConstraintError" && error.parent.code === "ER_NO_REFERENCED_ROW_2";
+}
+
 export function validarCantidad(cantidad) {
   if (cantidad === undefined) {
     throw new Error("Es necesario especificar la cantidad de vacunas");

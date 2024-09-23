@@ -1,12 +1,14 @@
 import { Router } from "express";
 import MiniLoteControlador from "../controladores/miniloteControlador.js";
-import { validarRedistribucionMniLote, validarDistribucionMniLote } from "../middlewares/validaciones.js";
+import { validarRedistribucionMiniLote, validarDistribucionMiniLote, validarDescarteDistribucionProvincial } from "../middlewares/validaciones.js";
 
 const miniloteRouter = Router();
 
-miniloteRouter.post("/", validarDistribucionMniLote, MiniLoteControlador.distribuir);
+miniloteRouter.post("/", validarDistribucionMiniLote, MiniLoteControlador.distribuir);
 
-miniloteRouter.post("/redistribuir", validarRedistribucionMniLote, MiniLoteControlador.redistribuir);
+miniloteRouter.post("/redistribuir", validarRedistribucionMiniLote, MiniLoteControlador.redistribuir);
+
+miniloteRouter.post("/descartar", validarDescarteDistribucionProvincial, MiniLoteControlador.descartar);
 
 
 export { miniloteRouter };

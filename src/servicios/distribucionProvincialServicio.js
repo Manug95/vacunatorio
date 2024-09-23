@@ -2,7 +2,8 @@ import { sequelize } from "../../sequelize.js";
 import { DistribucionProvincial } from "../modelos/relaciones.js";
 import miniloteServicio from "./miniloteServicio.js";
 import subLoteServicio from "./subloteServicio.js";
-import { capturarErroresDeSequelize } from "../../utils.js";
+import descarteServicio from "./descarteServicio.js";
+import { capturarErroresDeSequelize, esForeignKeyError } from "../../utils.js";
 import pc from "picocolors";
 
 let instanciaServicio;
@@ -34,6 +35,23 @@ class DistribucionProvincialServicio {
     }
   }
 
+  async actualizarDistribucion({ id, cantidad, fechaSalida, fechaLlegada, descarteId, transaction }) {
+    if (!id) throw new Error("Falta la id de la distribucion");
+
+    const distribucionActualizada = {};
+
+    if (cantidad) distribucionActualizada.cantidad = cantidad;
+    if (fechaSalida) distribucionActualizada.fechaSalida = fechaSalida;
+    if (fechaLlegada) distribucionActualizada.fechaLlegada = fechaLlegada;
+    if (descarteId) distribucionActualizada.descarteId = descarteId;
+
+    if (transaction) {
+      return DistribucionProvincial.update(distribucionActualizada, { where: { id }, transaction });
+    } else {
+      return DistribucionProvincial.update(distribucionActualizada, { where: { id } });
+    }
+  }
+
   async getDistribucionPorId({ id, transaction }) {
     if (transaction) {
       return DistribucionProvincial.findByPk(id, { transaction: transaction });
@@ -45,13 +63,14 @@ class DistribucionProvincialServicio {
   async distribuirMiniLote({ subloteId, cantidad, centroId, transaction }) {
     const t = transaction ?? await sequelize.transaction();
     try {
+      // await subLoteServicio.comprobarSubLoteNoDescartado(subloteId);
 
       let miniloteCreado;
       try {
         miniloteCreado = await miniloteServicio.crearMiniLote({ subloteId, transaction: t });
       } catch (error) {
         console.log(pc.red("Error al crear el minilote"));
-        if (error.name === "SequelizeForeignKeyConstraintError" && error.parent.code === "ER_NO_REFERENCED_ROW_2") {
+        if (esForeignKeyError(error)) {
           console.log(pc.red("Error en la clave foranea 'subLoteId' al crear el miniLote"));
           throw new Error("El Sublote es invalido");
         } else {
@@ -73,7 +92,7 @@ class DistribucionProvincialServicio {
         throw new Error("No se puede crear un minilote con mas vacunas de las que tiene el sublote de origen");
       }
 
-      if (error.name === "SequelizeForeignKeyConstraintError" && error.parent.code === "ER_NO_REFERENCED_ROW_2") {
+      if (esForeignKeyError(error)) {
         console.log(pc.red("Error en la clave foranea 'centroId' al distribuir el miniLote"));
         throw new Error("Centro de vacunación incorrecto");
       }
@@ -104,7 +123,7 @@ class DistribucionProvincialServicio {
         throw new Error("No se puede redistribuir con mas vacunas de las que tiene el minilote de origen");
       }
 
-      if (error.name === "SequelizeForeignKeyConstraintError" && error.parent.code === "ER_NO_REFERENCED_ROW_2") {
+      if (esForeignKeyError(error)) {
         console.log(pc.red("Error en la clave foranea del centro origen o el centro destino al redistribuir el miniLote"));
         throw new Error("Centro de vacunación incorrecto");
       }
@@ -114,15 +133,40 @@ class DistribucionProvincialServicio {
     }
   }
 
-  async #comprobarDistribucionNoDescartada(id) {
+  async descartarDistribucion({ id, fecha, motivo, formaDescarte }) {
+    const t = await sequelize.transaction();
+    try {
+      const descarte = await descarteServicio.crearDescarte({ fecha, motivo, formaDescarte, transaction: t });
+      await this.actualizarDistribucion({ id, descarteId: descarte.id, transaction: t });
+
+      await t.commit()
+    } catch (error) {
+      await t.rollback();
+      capturarErroresDeSequelize();
+
+      if (esForeignKeyError(error)) {
+        console.log(pc.red("Error en una clave foranea al descartar la distribucion"));
+        throw new Error("distribucion incorrecta");
+      } else {
+        console.log(pc.red("Error al descartar la distribucion"));
+      }
+
+      throw new Error("Hubo un problema al realizar la operación");
+    }
+    
+  }
+
+  async comprobarDistribucionNoDescartada(id) {
     let distribucion;
     try {
-      distribucion = await this.getDistribucionPorId(id);
+      distribucion = await this.getDistribucionPorId({ id });
     } catch (error) {
       console.log(pc.red("Error al traer la distribucion por ID"));
     }
 
-    if (distribucion.descarteId) throw new Error("No se pueden redistribuir vacunas descartadsa");
+    if (!distribucion) throw new Error("No existe la distribucion");
+
+    if (distribucion.descarteId) throw new Error("No se pueden redistribuir vacunas descartadas");
   }
 
   async actualizarCantidadVacunas({ id, cantidadADecrementar, transaction }) {

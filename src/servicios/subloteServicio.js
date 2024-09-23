@@ -1,7 +1,8 @@
 import { sequelize } from "../../sequelize.js";
 import { SubLote } from "../modelos/relaciones.js";
 import loteServicio from './loteServicio.js';
-import { capturarErroresDeSequelize } from "../../utils.js";
+import descarteServicio from "./descarteServicio.js";
+import { capturarErroresDeSequelize, esForeignKeyError } from "../../utils.js";
 import pc from "picocolors";
 
 let instanciaServicio;
@@ -24,6 +25,8 @@ class SubLoteServicio {
 
     const t = await sequelize.transaction();
     try {
+      // await loteServicio.comprobarLoteNoDescartado(lote);
+
       await Promise.all([
         SubLote.create(sublote, { transaction: t }),
         loteServicio.actualizarCantidadVacunas(lote, cantidad, t)
@@ -39,7 +42,7 @@ class SubLoteServicio {
         throw new Error("No se puede crear un sublote con mas vacunas de las que tiene el lote de origen");
       }
 
-      if (error.name === "SequelizeForeignKeyConstraintError" && error.parent.code === "ER_NO_REFERENCED_ROW_2") {
+      if (esForeignKeyError(error)) {
         console.log(pc.red("Error en una clave foranea al crear el subLote"));
         throw new Error("Provincia o lote incorrecto/s");
       }
@@ -49,6 +52,54 @@ class SubLoteServicio {
     }
 
     return;
+  }
+
+  async getSubLotePorId({ id, transaction }) {
+    if (transaction) {
+      return SubLote.findByPk(id, { transaction: transaction });
+    } else {
+      return SubLote.findByPk(id);
+    }
+  }
+
+  async actualizarSubLote({ id, cantidad, fechaLlegada, fechaSalida, descarteId, transaction }) {
+    if (!id) throw new Error("Falta la id del sublote");
+
+    const subloteActualizado = {};
+
+    if (cantidad) subloteActualizado.cantidad = cantidad;
+    if (fechaLlegada) subloteActualizado.fechaLlegada = fechaLlegada;
+    if (fechaSalida) subloteActualizado.fechaSalida = fechaSalida;
+    if (descarteId) subloteActualizado.descarteId = descarteId;
+
+    if (transaction) {
+      return SubLote.update(subloteActualizado, { where: { id }, transaction });
+    } else {
+      return SubLote.update(subloteActualizado, { where: { id } });
+    }
+  }
+
+  async descartarSubLote({ subloteId, fecha, motivo, formaDescarte }) {
+    const t = await sequelize.transaction();
+    try {
+      const descarte = await descarteServicio.crearDescarte({ fecha, motivo, formaDescarte, transaction: t });
+      await this.actualizarSubLote({ id: subloteId, descarteId: descarte.id, transaction: t });
+
+      await t.commit()
+    } catch (error) {
+      await t.rollback();
+      capturarErroresDeSequelize();
+
+      if (esForeignKeyError(error)) {
+        console.log(pc.red("Error en una clave foranea al descartar el SubLote"));
+        throw new Error("Sub Lote incorrecto");
+      } else {
+        console.log(pc.red("Error al descartar el SubLote"));
+      }
+
+      throw new Error("Hubo un problema al realizar la operación");
+    }
+    
   }
 
   async actualizarCantidadVacunas({ id, cantidadADecrementar, transaction }) {
@@ -63,6 +114,19 @@ class SubLoteServicio {
     }
 
     return SubLote.decrement({ cantidad: cantidadADecrementar }, optObj);
+  }
+
+  async comprobarSubLoteNoDescartado(id) {
+    let sublote;
+    try {
+      sublote = await this.getSubLotePorId({ id });
+    } catch (error) {
+      console.log(pc.red("Error al traer el sublote por ID"));
+    }
+
+    if (!sublote) throw new Error("No existe el sublote");
+
+    if (sublote.descarteId) throw new Error("No se pueden distribuir vacunas de un sublote descartado");
   }
 
   async crearSubLoteAutomatico({ provincia, cantidad, tipoVacuna }) {

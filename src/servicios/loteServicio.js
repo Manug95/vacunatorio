@@ -3,7 +3,9 @@ import { Op } from "sequelize";
 import { faker } from '@faker-js/faker';
 import { capturarErroresDeSequelize } from "../../utils.js";
 import pc from "picocolors";
-import Utils from "../../utils.js";
+import Utils, { esForeignKeyError } from "../../utils.js";
+import descarteServicio from "./descarteServicio.js";
+import { sequelize } from "../../sequelize.js";
 
 let instanciaServicio;
 
@@ -43,7 +45,7 @@ class LoteServicio {
 
     } catch (error) {
       
-      if (error.name === "SequelizeForeignKeyConstraintError" && error.parent.code === "ER_NO_REFERENCED_ROW_2") {
+      if (esForeignKeyError(error)) {
         console.log(pc.red("Error en una clave foranea al crear el Lote"));
         throw new Error("Vacuna, deposito o lote incorrecto/s");
       } else {
@@ -52,6 +54,56 @@ class LoteServicio {
 
       capturarErroresDeSequelize(error);
       throw new Error("Hubo un problema al realizar la operación");
+    }
+  }
+
+  async actualizarLote({ id, cantidad, fechaAdquisicion, fechaCompra, fechaFabricacion, vencimiento, descarteId, transaction }) {
+    if (!id) throw new Error("Falta la id del lote");
+
+    const loteActualizado = {};
+
+    if (cantidad) loteActualizado.cantidad = cantidad;
+    if (fechaAdquisicion) loteActualizado.fechaAdquisicion = fechaAdquisicion;
+    if (fechaCompra) loteActualizado.fechaCompra = fechaCompra;
+    if (fechaFabricacion) loteActualizado.fechaFabricacion = fechaFabricacion;
+    if (vencimiento) loteActualizado.vencimiento = vencimiento;
+    if (descarteId) loteActualizado.descarteId = descarteId;
+
+    if (transaction) {
+      return Lote.update(loteActualizado, { where: { id }, transaction });
+    } else {
+      return Lote.update(loteActualizado, { where: { id } });
+    }
+  }
+
+  async descartarLote({ loteId, fecha, motivo, formaDescarte }) {
+    const t = await sequelize.transaction();
+    try {
+      const descarte = await descarteServicio.crearDescarte({ fecha, motivo, formaDescarte, transaction: t });
+      await this.actualizarLote({ id: loteId, descarteId: descarte.id, transaction: t });
+
+      await t.commit()
+    } catch (error) {
+      await t.rollback();
+      capturarErroresDeSequelize();
+
+      if (esForeignKeyError(error)) {
+        console.log(pc.red("Error en una clave foranea al descartar el Lote"));
+        throw new Error("lote incorrecto");
+      } else {
+        console.log(pc.red("Error al descartar el lote"));
+      }
+
+      throw new Error("Hubo un problema al realizar la operación");
+    }
+    
+  }
+
+  async getLotePorId({ id, transaction }) {
+    if (transaction) {
+      return Lote.findByPk(id, { transaction: transaction });
+    } else {
+      return Lote.findByPk(id);
     }
   }
 
@@ -152,9 +204,7 @@ class LoteServicio {
     if (transaction) {
       optObj.transaction = transaction;
     }
-
-    // return Lote.update({ cantidad: cantidadNueva }, optObj);
-    // return Lote.increment({ cantidad: -cantidadNueva }, optObj);
+    
     return Lote.decrement({ cantidad: cantidadADecrementar }, optObj);
   }
 
@@ -195,6 +245,19 @@ class LoteServicio {
 
   #esOrdenValido(orden) {
     return this.#opcionesDeOrdenamiento.includes(orden);
+  }
+
+  async comprobarLoteNoDescartado(id) {
+    let lote;
+    try {
+      lote = await this.getLotePorId({ id });
+    } catch (error) {
+      console.log(pc.red("Error al traer el lote por ID"));
+    }
+
+    if (!lote) throw new Error("No existe el lote");
+
+    if (lote.descarteId) throw new Error("No se pueden distribuir vacunas de un lote descartado");
   }
 }
 
