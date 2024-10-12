@@ -3,7 +3,8 @@ import { DistribucionProvincial } from "../modelos/relaciones.js";
 import miniloteServicio from "./miniloteServicio.js";
 import subLoteServicio from "./subloteServicio.js";
 import descarteServicio from "./descarteServicio.js";
-import { capturarErroresDeSequelize, esForeignKeyError } from "../../utils.js";
+import { capturarErroresDeSequelize } from "../../utils.js";
+import { NoAffectedRowsError, DataOutOfRangeError } from "../modelos/Errores/errores.js";
 import pc from "picocolors";
 
 let instanciaServicio;
@@ -63,41 +64,35 @@ class DistribucionProvincialServicio {
   async distribuirMiniLote({ subloteId, cantidad, centroId, transaction }) {
     const t = transaction ?? await sequelize.transaction();
     try {
-      // await subLoteServicio.comprobarSubLoteNoDescartado(subloteId);
+      await subLoteServicio.comprobarSubLoteNoDescartado(subloteId);
 
       let miniloteCreado;
       try {
         miniloteCreado = await miniloteServicio.crearMiniLote({ subloteId, transaction: t });
       } catch (error) {
         console.log(pc.red("Error al crear el minilote"));
-        if (esForeignKeyError(error)) {
-          console.log(pc.red("Error en la clave foranea 'subLoteId' al crear el miniLote"));
-          throw new Error("El Sublote es invalido");
-        } else {
-          throw error;
-        }
+        throw error;
       }
 
-      await Promise.all([
+      const values = await Promise.all([
         this.crearDistribucion({ miniloteId: miniloteCreado.id, cantidad, centroId, transaction: t }),
         subLoteServicio.actualizarCantidadVacunas({ id: subloteId, cantidadADecrementar: cantidad, transaction: t })
       ]);
+
+      // compruebo que se haya realizado la actualizacion del sublote
+      if (values[1][0][1] === 0) throw new NoAffectedRowsError("No se actualizó la cantidad de vacunas del sublote");
 
       await t.commit();
     } catch (error) {
       await t.rollback();
       console.log(pc.red("Error al distribuir el minilote"));
 
-      if (error.name === "SequelizeDatabaseError" && error.parent.code === "ER_DATA_OUT_OF_RANGE") {
+      capturarErroresDeSequelize(error);
+
+      if (error instanceof DataOutOfRangeError) {
         throw new Error("No se puede crear un minilote con mas vacunas de las que tiene el sublote de origen");
       }
-
-      if (esForeignKeyError(error)) {
-        console.log(pc.red("Error en la clave foranea 'centroId' al distribuir el miniLote"));
-        throw new Error("Centro de vacunación incorrecto");
-      }
       
-      capturarErroresDeSequelize(error);
       throw new Error("Hubo un problema al realizar la operación");
     }
 
@@ -105,30 +100,29 @@ class DistribucionProvincialServicio {
   }
 
   async redistribuirMiniLote({ miniloteId, cantidad, centroOrigen, centroDestino, distribucionId }) {
-    // this.#comprobarDistribucionNoDescartada(distribucionId);
+    this.comprobarDistribucionNoDescartada(distribucionId);
 
     const transaction = await sequelize.transaction();
     try {
-      await Promise.all([
+      const values = await Promise.all([
         this.crearDistribucion({ miniloteId, cantidad, centroId: centroDestino, redistribuidoPor: centroOrigen, transaction }),
         this.actualizarCantidadVacunas({ id: distribucionId, cantidadADecrementar: cantidad, transaction })
       ]);
+
+      // compruebo que se haya realizado la actualizacion del sublote
+      if (values[1][0][1] === 0) throw new NoAffectedRowsError("No se actualizó la cantidad de vacunas de la distribución");
+
       await transaction.commit();
     } catch (error) {
       await transaction.rollback();
 
       console.log(pc.red("Error al redistribuir el minilote"));
+      capturarErroresDeSequelize(error);
 
-      if (error.name === "SequelizeDatabaseError" && error.parent.code === "ER_DATA_OUT_OF_RANGE") {
+      if (error instanceof DataOutOfRangeError) {
         throw new Error("No se puede redistribuir con mas vacunas de las que tiene el minilote de origen");
       }
-
-      if (esForeignKeyError(error)) {
-        console.log(pc.red("Error en la clave foranea del centro origen o el centro destino al redistribuir el miniLote"));
-        throw new Error("Centro de vacunación incorrecto");
-      }
       
-      capturarErroresDeSequelize(error);
       throw new Error("Hubo un problema al realizar la operación");
     }
   }
@@ -137,20 +131,16 @@ class DistribucionProvincialServicio {
     const t = await sequelize.transaction();
     try {
       const descarte = await descarteServicio.crearDescarte({ fecha, motivo, formaDescarte, transaction: t });
-      await this.actualizarDistribucion({ id, descarteId: descarte.id, transaction: t });
+      const [ affectedCount ] = await this.actualizarDistribucion({ id, descarteId: descarte.id, transaction: t });
+
+      // compruebo que se haya realizado la actualizacion del sublote
+      if (affectedCount === 0) throw new NoAffectedRowsError("No se agrego la id del descarte a la distribucion descartada");
 
       await t.commit()
     } catch (error) {
+
       await t.rollback();
-      capturarErroresDeSequelize();
-
-      if (esForeignKeyError(error)) {
-        console.log(pc.red("Error en una clave foranea al descartar la distribucion"));
-        throw new Error("distribucion incorrecta");
-      } else {
-        console.log(pc.red("Error al descartar la distribucion"));
-      }
-
+      capturarErroresDeSequelize(error);
       throw new Error("Hubo un problema al realizar la operación");
     }
     

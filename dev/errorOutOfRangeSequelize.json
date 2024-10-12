@@ -1,0 +1,19 @@
+{
+    "name": "SequelizeDatabaseError",
+    "parent": {
+        "code": "ER_DATA_OUT_OF_RANGE",
+        "errno": 1690,
+        "sqlState": "22003",
+        "sqlMessage": "BIGINT UNSIGNED value is out of range in '`vacunatorio`.`sublotes`.`cantidad` - 500'",
+        "sql": "UPDATE `sublotes` SET `cantidad`=`cantidad`- 500 WHERE `id` = '0e424fea-9094-4efb-9830-98dd1909bd60'"
+    },
+    "original": {
+        "code": "ER_DATA_OUT_OF_RANGE",
+        "errno": 1690,
+        "sqlState": "22003",
+        "sqlMessage": "BIGINT UNSIGNED value is out of range in '`vacunatorio`.`sublotes`.`cantidad` - 500'",
+        "sql": "UPDATE `sublotes` SET `cantidad`=`cantidad`- 500 WHERE `id` = '0e424fea-9094-4efb-9830-98dd1909bd60'"
+    },
+    "sql": "UPDATE `sublotes` SET `cantidad`=`cantidad`- 500 WHERE `id` = '0e424fea-9094-4efb-9830-98dd1909bd60'",
+    "parameters": {}
+}

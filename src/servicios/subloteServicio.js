@@ -2,7 +2,8 @@ import { sequelize } from "../../sequelize.js";
 import { SubLote } from "../modelos/relaciones.js";
 import loteServicio from './loteServicio.js';
 import descarteServicio from "./descarteServicio.js";
-import { capturarErroresDeSequelize, esForeignKeyError } from "../../utils.js";
+import { capturarErroresDeSequelize } from "../../utils.js";
+import { NoAffectedRowsError, DataOutOfRangeError } from "../modelos/Errores/errores.js";
 import pc from "picocolors";
 
 let instanciaServicio;
@@ -25,29 +26,27 @@ class SubLoteServicio {
 
     const t = await sequelize.transaction();
     try {
-      // await loteServicio.comprobarLoteNoDescartado(lote);
+      await loteServicio.comprobarLoteNoDescartado(lote);
 
-      await Promise.all([
+      const values = await Promise.all([
         SubLote.create(sublote, { transaction: t }),
         loteServicio.actualizarCantidadVacunas(lote, cantidad, t)
       ]);
+
+      // compruebo que se haya realizado la actualizacion del sublote
+      if (values[1][0][1] === 0) throw new NoAffectedRowsError("No se actualizó la cantidad de vacunas del lote");
 
       await t.commit();
     } catch (error) {
       await t.rollback();
       
       console.log(pc.red("Error al crear los subLotes"));
+      capturarErroresDeSequelize(error);
 
-      if (error.name === "SequelizeDatabaseError" && error.parent.code === "ER_DATA_OUT_OF_RANGE") {
+      if (error instanceof DataOutOfRangeError) {
         throw new Error("No se puede crear un sublote con mas vacunas de las que tiene el lote de origen");
       }
-
-      if (esForeignKeyError(error)) {
-        console.log(pc.red("Error en una clave foranea al crear el subLote"));
-        throw new Error("Provincia o lote incorrecto/s");
-      }
       
-      capturarErroresDeSequelize(error);
       throw new Error("Hubo un problema al realizar la operación");
     }
 
@@ -83,20 +82,16 @@ class SubLoteServicio {
     const t = await sequelize.transaction();
     try {
       const descarte = await descarteServicio.crearDescarte({ fecha, motivo, formaDescarte, transaction: t });
-      await this.actualizarSubLote({ id: subloteId, descarteId: descarte.id, transaction: t });
+      const [ affectedCount ] = await this.actualizarSubLote({ id: subloteId, descarteId: descarte.id, transaction: t });
+
+      // compruebo que se haya realizado la actualizacion del sublote
+      if (affectedCount === 0) throw new NoAffectedRowsError("No se agrego la id del descarte al sublote");
 
       await t.commit()
     } catch (error) {
+      
       await t.rollback();
-      capturarErroresDeSequelize();
-
-      if (esForeignKeyError(error)) {
-        console.log(pc.red("Error en una clave foranea al descartar el SubLote"));
-        throw new Error("Sub Lote incorrecto");
-      } else {
-        console.log(pc.red("Error al descartar el SubLote"));
-      }
-
+      capturarErroresDeSequelize(error);
       throw new Error("Hubo un problema al realizar la operación");
     }
     

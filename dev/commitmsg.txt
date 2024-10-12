@@ -1,0 +1,43 @@
+-1° Commit
+
+-2° Commit
+app express, modelos y DER
+
+-3° Commit
+Creacion y almacenamiento de lotes
+
+Cambie el modelo Enfermero por Usuario y a Enfermero lo uni con Personal
+Cree el controlador, servicio y el router de lote
+Servicio de almacena
+Cambio de nombre de las claves foraneas de las tablas de la BD
+
+-4° Commit
+Creacion de sublotes
+
+controlador, servicio y router de sublote
+Eliminado el modelo Almacena y sus relaciones
+Se cambio los tipos de dato de las columnas DATE a DATEONLY
+Cree los servicios de Provincia y DepositoNacional
+
+-5° Commit
+Creacion, distribucion y redistribucion de minilotes
+
+controlador, servicio y router de minilote
+servicios de distribucionProvincial y CentroVacunacion
+middlewares de validaciones de datos
+
+-6° Commit
+Descarte de vacunas
+
+creacion de descarteServicio
+update de lotes, sublotes y distribucionProvincial
+funciones getters de lotes, sublotes y distribucionProvincial por ID
+funciones para comprobar si un lote, sublote o distribucionProvincial esta o no descartado
+middlewares de validacion de los descartes
+
+-7° Commit
+Manejo de errores
+
+errores NoAffectedRowsError y DataOutOfRangeError
+SequelizeForeignKeyConstraintError ahora se captura en la funcion 'capturarErroresDeSequelize'
+las funciones que realizan operaciones de actualizaciones ahora pueden arrojar el error 'NoAffectedRowsError'

@@ -45,7 +45,7 @@ POST http://localhost:3000/lotes/descartar
 Content-Type: application/json
 
 {
-    "fecha": "2024-09-23",
+    "fecha": "2024-09-24",
     "motivo": "tamo probando",
     "lote": "48f99d17-0b09-4b0c-8d1e-75d948ed8b20",
     "formaDescarte": "INCINERACION"

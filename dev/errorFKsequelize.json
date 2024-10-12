@@ -1,0 +1,49 @@
+{
+    "name": "SequelizeForeignKeyConstraintError",
+    "parent": {
+        "code": "ER_NO_REFERENCED_ROW_2",
+        "errno": 1452,
+        "sqlState": "23000",
+        "sqlMessage": "Cannot add or update a child row: a foreign key constraint fails (`vacunatorio`.`sublotes`, CONSTRAINT `sublotes_ibfk_5` FOREIGN KEY (`provinciaId`) REFERENCES `provincias` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)",
+        "sql": "INSERT INTO `sublotes` (`id`,`fechaSalida`,`fechaLlegada`,`cantidad`,`loteId`,`provinciaId`) VALUES (?,?,?,?,?,?);",
+        "parameters": [
+            "a20682b0-5a72-4b7c-9c33-0c399c5fb88d",
+            "2024-09-24",
+            "2024-09-24",
+            200,
+            "be6817d9-6960-48b9-afaa-e4fb74112a58",
+            "a"
+        ]
+    },
+    "original": {
+        "code": "ER_NO_REFERENCED_ROW_2",
+        "errno": 1452,
+        "sqlState": "23000",
+        "sqlMessage": "Cannot add or update a child row: a foreign key constraint fails (`vacunatorio`.`sublotes`, CONSTRAINT `sublotes_ibfk_5` FOREIGN KEY (`provinciaId`) REFERENCES `provincias` (`id`) ON DELETE SET NULL ON UPDATE CASCADE)",
+        "sql": "INSERT INTO `sublotes` (`id`,`fechaSalida`,`fechaLlegada`,`cantidad`,`loteId`,`provinciaId`) VALUES (?,?,?,?,?,?);",
+        "parameters": [
+            "a20682b0-5a72-4b7c-9c33-0c399c5fb88d",
+            "2024-09-24",
+            "2024-09-24",
+            200,
+            "be6817d9-6960-48b9-afaa-e4fb74112a58",
+            "a"
+        ]
+    },
+    "sql": "INSERT INTO `sublotes` (`id`,`fechaSalida`,`fechaLlegada`,`cantidad`,`loteId`,`provinciaId`) VALUES (?,?,?,?,?,?);",
+    "parameters": [
+        "a20682b0-5a72-4b7c-9c33-0c399c5fb88d",
+        "2024-09-24",
+        "2024-09-24",
+        200,
+        "be6817d9-6960-48b9-afaa-e4fb74112a58",
+        "a"
+    ],
+    "table": "provincias",
+    "fields": [
+        "provinciaId"
+    ],
+    "value": "a",
+    "index": "sublotes_ibfk_5",
+    "reltype": "child"
+}

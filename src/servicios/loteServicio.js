@@ -1,11 +1,11 @@
 import { Lote, Vacuna, TipoVacuna, Laboratorio } from "../modelos/relaciones.js";
 import { Op } from "sequelize";
 import { faker } from '@faker-js/faker';
-import { capturarErroresDeSequelize } from "../../utils.js";
+import Utils, { capturarErroresDeSequelize } from "../../utils.js";
 import pc from "picocolors";
-import Utils, { esForeignKeyError } from "../../utils.js";
 import descarteServicio from "./descarteServicio.js";
 import { sequelize } from "../../sequelize.js";
+import { NoAffectedRowsError } from "../modelos/Errores/errores.js";
 
 let instanciaServicio;
 
@@ -44,14 +44,6 @@ class LoteServicio {
       }
 
     } catch (error) {
-      
-      if (esForeignKeyError(error)) {
-        console.log(pc.red("Error en una clave foranea al crear el Lote"));
-        throw new Error("Vacuna, deposito o lote incorrecto/s");
-      } else {
-        console.log(pc.red("Error al crear el lote"));
-      }
-
       capturarErroresDeSequelize(error);
       throw new Error("Hubo un problema al realizar la operación");
     }
@@ -80,20 +72,16 @@ class LoteServicio {
     const t = await sequelize.transaction();
     try {
       const descarte = await descarteServicio.crearDescarte({ fecha, motivo, formaDescarte, transaction: t });
-      await this.actualizarLote({ id: loteId, descarteId: descarte.id, transaction: t });
+      const [ affectedCount ] = await this.actualizarLote({ id: loteId, descarteId: descarte.id, transaction: t });
 
+      // compruebo que se haya realizado la actualizacion del lote
+      if (affectedCount === 0) throw new NoAffectedRowsError("No se agrego la id del descarte al lote");
+      
       await t.commit()
     } catch (error) {
+
       await t.rollback();
-      capturarErroresDeSequelize();
-
-      if (esForeignKeyError(error)) {
-        console.log(pc.red("Error en una clave foranea al descartar el Lote"));
-        throw new Error("lote incorrecto");
-      } else {
-        console.log(pc.red("Error al descartar el lote"));
-      }
-
+      capturarErroresDeSequelize(error);
       throw new Error("Hubo un problema al realizar la operación");
     }
     
