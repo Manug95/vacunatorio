@@ -14,25 +14,42 @@ Paciente.init({
     allowNull: false,
     unique: true,
     validate: {
-      notEmpty: true,
-      isNumeric: true,
-      len: [8, 8]
+      notEmpty: {
+        msg: "El DNI es requerido"
+      },
+      isNumeric: {
+        msg: "El DNI debe estar compuesto sólo de números"
+      },
+      len: {
+        msg: "El DNI debe tener 8 números",
+        args: [8, 8]
+      }
     }
   },
   nombres: {
     type: DataTypes.STRING(50),
     allowNull: false,
     validate: {
-      notEmpty: true,
-      len: [1, 50]
+      notEmpty: {
+        msg: "El nombre es requerido"
+      },
+      len: {
+        msg: "El nombre debe tener entre 1 y 50 caracteres",
+        args: [1, 50]
+      }
     }
   },
   apellidos: {
     type: DataTypes.STRING(50),
     allowNull: false,
     validate: {
-      notEmpty: true,
-      len: [1, 50]
+      notEmpty: {
+        msg: "El apellido es requerido"
+      },
+      len: {
+        msg: "El apellido debe tener entre 1 y 50 caracteres",
+        args: [1, 50]
+      }
     }
   },
   email: {
@@ -40,33 +57,54 @@ Paciente.init({
     allowNull: false,
     unique: true,
     validate: {
-      notEmpty: true,
-      isEmail: true
+      notEmpty: {
+        msg: "El mail es requerido"
+      },
+      isEmail: {
+        msg: "El mail tiene un formato NO válido"
+      }
     }
   },
   telefono: {
     type: DataTypes.STRING(20),
     allowNull: false,
     validate: {
-      notEmpty: true,
-      isNumeric: true,
-      len: [1, 20]
+      notEmpty: {
+        msg: "El teléfono es requerido"
+      },
+      isNumeric: {
+        msg: "El teléfono debe estar compuesto sólo de números"
+      },
+      len: {
+        args: [10, 10],
+        msg: "El teléfono es un número de 10 dígitos"
+      }
     }
   },
   fechaNac: {
     type: DataTypes.DATEONLY,
     allowNull: false,
     validate: {
-      isDate: true,
-      notNull: true
+      isDate: {
+        msg: "La fecha de nacimiento tiene un formato incorrecto",
+        args: true
+      },
+      notNull: {
+        msg: "La fecha de nacimiento es requerida"
+      }
     }
   },
   genero: {
     type: DataTypes.ENUM("Femenino", "Masculino"),
     allowNull: false,
     validate: {
-      notEmpty: true,
-      isIn: [["Femenino", "Masculino"]]
+      notEmpty: {
+        msg: "Se debe especificar el género de la persona"
+      },
+      isIn: {
+        msg: "El genero ingresado no es correcto",
+        args: [["Femenino", "Masculino"]]
+      }
     }
   }
 }, {

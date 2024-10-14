@@ -14,8 +14,13 @@ Vacunacion.init({
     allowNull: false,
     defaultValue: DataTypes.NOW,
     validate: {
-      isDate: true,
-      notNull: true
+      isDate: {
+        msg: "La fecha tiene un formato incorrecto",
+        args: true
+      },
+      notNull: {
+        msg: "La fecha de vacunación es requerida"
+      }
     }
   }
 }, {

@@ -1,4 +1,5 @@
 import { sequelize } from "../../sequelize.js";
+import { Op } from "sequelize";
 import { DistribucionProvincial } from "../modelos/relaciones.js";
 import miniloteServicio from "./miniloteServicio.js";
 import subLoteServicio from "./subloteServicio.js";
@@ -172,6 +173,25 @@ class DistribucionProvincialServicio {
 
     return DistribucionProvincial.decrement({ cantidad: cantidadADecrementar }, optObj);
   }
+
+  async buscarDistribucionPorMiniloteYCentro({ miniloteId, centroId }) {
+    if (!miniloteId) throw new Error("Falta el minilote");
+    if (!centroId) throw new Error("Falta el centro de vacunación");
+
+    return DistribucionProvincial.findOne({ 
+      where: { 
+        [Op.and]: [
+          { miniloteId }, 
+          { centroId }, 
+          { cantidad: { 
+              [Op.gt]: 0
+            } 
+          }
+        ] 
+      } 
+    });
+  }
+  
 }
 
 const distribucionProvincialServicio = Object.freeze(new DistribucionProvincialServicio());

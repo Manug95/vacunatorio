@@ -72,3 +72,38 @@ Content-Type: application/json
     "distribucion": 2,
     "formaDescarte": "OTRO"
 }
+
+### crear personal
+POST http://localhost:3000/personal
+Content-Type: application/json
+
+{
+    "nombres": "rebertita",
+    "apellidos": "titarober",
+    "cargo": "ENFERMERO"
+}
+
+### crear paciente
+POST http://localhost:3000/pacientes
+Content-Type: application/json
+
+{
+    "dni": "38932073",
+    "nombres": "Manuel",
+    "apellidos": "Gutierrez",
+    "email": "mlgz1995@hotmail.com",
+    "telefono": "2364567187",
+    "fechaNac": "1995-11-08",
+    "genero": "Masculino"
+}
+
+### crear vacunacion
+POST http://localhost:3000/vacunacion
+Content-Type: application/json
+
+{
+    "pacienteId": 1,
+    "personalId": 16,
+    "centroId": 2,
+    "miniloteId": "7ef94f24-f61c-497d-ac79-d89e0bae80c1"
+}

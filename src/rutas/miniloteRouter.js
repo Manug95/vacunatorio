@@ -11,4 +11,4 @@ miniloteRouter.post("/redistribuir", validarRedistribucionMiniLote, MiniLoteCont
 miniloteRouter.post("/descartar", validarDescarteDistribucionProvincial, MiniLoteControlador.descartar);
 
 
-export { miniloteRouter };
+export default miniloteRouter;

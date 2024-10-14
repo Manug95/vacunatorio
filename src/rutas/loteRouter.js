@@ -9,4 +9,4 @@ loteRouter.post("/", validarNuevoLote, LoteControlador.crear);
 loteRouter.post("/descartar", validarDescarteLote, LoteControlador.descartar);
 
 
-export { loteRouter };
+export default loteRouter;

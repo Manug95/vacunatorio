@@ -1,8 +1,11 @@
 import express from "express";
 
-import { loteRouter } from "./src/rutas/loteRouter.js";
-import { subloteRouter } from "./src/rutas/subloteRouter.js"
-import { miniloteRouter } from "./src/rutas/miniloteRouter.js";
+import loteRouter from "./src/rutas/loteRouter.js";
+import subloteRouter from "./src/rutas/subloteRouter.js"
+import miniloteRouter from "./src/rutas/miniloteRouter.js";
+import personalRouter from "./src/rutas/personalRouter.js";
+import pacienteRouter from "./src/rutas/pacienteRouter.js";
+import vacunacionRouter from "./src/rutas/vacunacionRouter.js";
 
 const app = express();
 
@@ -13,6 +16,9 @@ app.use(express.json());
 app.use("/lotes", loteRouter);
 app.use("/sublotes", subloteRouter);
 app.use("/minilotes", miniloteRouter);
+app.use("/personal", personalRouter);
+app.use("/pacientes", pacienteRouter);
+app.use("/vacunacion", vacunacionRouter);
 
 
 app.get("*", (req, res) => {

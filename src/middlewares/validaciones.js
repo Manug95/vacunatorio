@@ -169,3 +169,89 @@ export function validarDescarteDistribucionProvincial(req, res, next) {
 		res.status(400).json({ ok: false, mensaje: error.message });
 	}
 }
+
+export function validarNuevoPersonal(req, res, next) {
+	const { nombres, apellidos, cargo } = req.body;
+
+	try {
+		if (!nombres) {
+			throw new Error("Faltan los nombres");
+		}
+
+		if (!apellidos) {
+      throw new Error("Faltan los apellidos");
+    }
+
+    if (!cargo) {
+      throw new Error("Falta el cargo");
+    }
+
+		next();
+	} catch (error) {
+		res.status(400).json({ ok: false, mensaje: error.message });
+	}
+}
+
+export function validarNuevoPaciente(req, res, next) {
+	const { dni, nombres, apellidos, email, telefono, fechaNac, genero } = req.body;
+
+	try {
+		if (!nombres) {
+			throw new Error("Faltan los nombres");
+		}
+
+		if (!apellidos) {
+      throw new Error("Faltan los apellidos");
+    }
+
+    if (!dni) {
+      throw new Error("Falta el DNI");
+    }
+
+    if (!email) {
+      throw new Error("Falta el email");
+    }
+
+    if (!telefono) {
+      throw new Error("Falta el teléfono");
+    }
+
+    if (!fechaNac) {
+      throw new Error("Falta la fecha de nacimiento");
+    }
+
+    if (!genero) {
+      throw new Error("Falta el genero");
+    }
+
+		next();
+	} catch (error) {
+		res.status(400).json({ ok: false, mensaje: error.message });
+	}
+}
+
+export function validarVacunacion(req, res, next) {
+	const { pacienteId, centroId, personalId, miniloteId } = req.body;
+
+	try {
+		if (!pacienteId) {
+			throw new Error("Falta el paciente");
+		}
+
+		if (!centroId) {
+      throw new Error("Falta el centro de vacunación");
+    }
+
+    if (!personalId) {
+      throw new Error("Falta el/la enfermero/a");
+    }
+
+    if (!miniloteId) {
+      throw new Error("Falta el minilote");
+    }
+
+		next();
+	} catch (error) {
+		res.status(400).json({ ok: false, mensaje: error.message });
+	}
+}

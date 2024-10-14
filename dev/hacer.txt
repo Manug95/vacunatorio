@@ -13,3 +13,7 @@ SUBLOTES
 
 DESCARTES
 *   falta asociar el personal que realizo el descarte.
+
+
+PERSONAL
+*   crear el codigo del personal

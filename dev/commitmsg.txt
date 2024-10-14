@@ -41,3 +41,10 @@ Manejo de errores
 errores NoAffectedRowsError y DataOutOfRangeError
 SequelizeForeignKeyConstraintError ahora se captura en la funcion 'capturarErroresDeSequelize'
 las funciones que realizan operaciones de actualizaciones ahora pueden arrojar el error 'NoAffectedRowsError'
+
+-8° Commit
+Registro de pacientes y vacunaciones
+
+controlador, servicio y router de personal. paciente y vacunacion
+creacion y updates de personal, paciente y vacunacion
+busqueda de paciente por id y dni

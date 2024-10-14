@@ -9,4 +9,4 @@ subloteRouter.post("/", validarNuevoSubLote, SubLoteControlador.crear);
 subloteRouter.post("/descartar", validarDescarteSubLote, SubLoteControlador.descartar);
 
 
-export { subloteRouter };
+export default subloteRouter;
