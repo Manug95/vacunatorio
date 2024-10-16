@@ -22,7 +22,7 @@ const FKmap = new Map([
 
 export default class Utils {
   static formatearAfechaArgentina(fecha) {
-    return fecha.toISOString().split("T")[0].split("-").reverse().join("-");
+    return fecha.split("-").reverse().join("-");
   }
 
   static crearNroLote(segundos) {

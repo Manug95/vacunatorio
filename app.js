@@ -1,4 +1,5 @@
 import express from "express";
+import pug from "pug";
 
 import loteRouter from "./src/rutas/loteRouter.js";
 import subloteRouter from "./src/rutas/subloteRouter.js"
@@ -20,6 +21,18 @@ app.use("/personal", personalRouter);
 app.use("/pacientes", pacienteRouter);
 app.use("/vacunacion", vacunacionRouter);
 
+
+app.get("/", (req, res) => {
+  if (req.url.includes("favicon.ico")) {
+    res.end();
+  }
+
+  res.send(pug.renderFile("src/vistas/index.pug", {
+    pretty: true,
+    activeLink: "home",
+    estilos: "styles.css",
+  }));
+});
 
 app.get("*", (req, res) => {
   if (req.url.includes("favicon.ico")) {

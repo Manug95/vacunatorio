@@ -48,3 +48,12 @@ Registro de pacientes y vacunaciones
 controlador, servicio y router de personal. paciente y vacunacion
 creacion y updates de personal, paciente y vacunacion
 busqueda de paciente por id y dni
+
+-9° Commit
+Vistas de registrar compra, listado y descarte de lote
+
+vistas de los formularios de comprar, descartar y listar lotes
+vistas index, navbar, modal mensaje y paginador
+scripts y estilos de las vistas
+handlers, validaciones, servicios y rutas de las vistas
+vacunaServicio

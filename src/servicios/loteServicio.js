@@ -68,10 +68,10 @@ class LoteServicio {
     }
   }
 
-  async descartarLote({ loteId, fecha, motivo, formaDescarte }) {
+  async descartarLote({ loteId, fecha, motivo, formaDescarte, personalId }) {
     const t = await sequelize.transaction();
     try {
-      const descarte = await descarteServicio.crearDescarte({ fecha, motivo, formaDescarte, transaction: t });
+      const descarte = await descarteServicio.crearDescarte({ fecha, motivo, formaDescarte, personalId, transaction: t });
       const [ affectedCount ] = await this.actualizarLote({ id: loteId, descarteId: descarte.id, transaction: t });
 
       // compruebo que se haya realizado la actualizacion del lote
@@ -92,68 +92,6 @@ class LoteServicio {
       return Lote.findByPk(id, { transaction: transaction });
     } else {
       return Lote.findByPk(id);
-    }
-  }
-
-  async listarLotesPorDeposito(deposito, { offset, limit, order, orderType }) {
-    try {
-      const opcionesConsulta = {
-        where: {
-          [Op.and]: [
-            { cantidad: { [Op.gt]: 0 } },
-            { descarteId: { [Op.eq]: null } },
-            { depositoId: deposito }
-          ]
-        },
-        include: [
-          {
-            model: Lote,
-            attributes: { exclude: ["fechaFabricacion", "fechaCompra"] },
-            required: true,
-            include: [
-              {
-                model: Vacuna,
-                required: true,
-                include: [
-                  {
-                    model: TipoVacuna,
-                    required: true
-                  },
-                  {
-                    model: Laboratorio,
-                    attributes: { exclude: ["paisId"] },
-                    required: true
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
-  
-      if (offset) opcionesConsulta.offset = +offset;
-      if (limit) opcionesConsulta.limit = +limit;
-      if (order && this.#esOrdenValido(order)) {
-        opcionesConsulta.order = [this.#calcularOrderEnTraerLotesAlmacenados(order, orderType)];
-      }
-  
-      const { rows, count } = await Lote.findAndCountAll(opcionesConsulta);
-  
-      const lotes = rows.map(l => {
-        return {
-          tipoVacuna: l.Lote.Vacuna.TipoVacuna.tipo,
-          cantidad: l.Lote.cantidad,
-          vencimiento: Utils.formatearAfechaArgentina(l.Lote.vencimiento),
-          nombreComercial: l.Lote.Vacuna.nombreComercial,
-          laboratorio: l.Lote.Vacuna.Laboratorio.nombre,
-        };
-      });
-    
-      return { lotes, cantidadLotes: count };
-    } catch (e) {
-      console.log(pc.red("Error al traer los lotes en LoteServicio"));
-      console.error(e);
-      throw new Error("No se pudo recuperar el stock de lotes");
     }
   }
 
@@ -196,6 +134,60 @@ class LoteServicio {
     return Lote.decrement({ cantidad: cantidadADecrementar }, optObj);
   }
 
+  async listarLotesPorDeposito(deposito_id, { offset, limit, order, orderType }) {
+    try {
+      const opciones = {
+        where: {
+          [Op.and]: [
+            { cantidad: { [Op.gt]: 0 } },
+            { descarteId: { [Op.eq]: null } },
+            { depositoId: deposito_id }
+          ]
+        },
+        include: [
+          {
+            model: Vacuna,
+            required: true,
+            include: [
+              {
+                model: TipoVacuna,
+                required: true
+              },
+              {
+                model: Laboratorio,
+                attributes: { exclude: ["paisId"] },
+                required: true
+              }
+            ]
+          }
+        ],
+        attributes: { exclude: ["fechaFabricacion", "fechaCompra", "fechaAdquisicion"] }
+      }
+  
+      if (offset) opciones.offset = +offset;
+      if (limit) opciones.limit = +limit;
+      if (order) opciones.order = [this.#calcularOrderEnTraerLotesPorDeposito(order, orderType)];
+  
+      const { rows, count } = await Lote.findAndCountAll(opciones);
+  
+      const lotes = rows.map(l => {
+        return {
+          id: l.id,
+          tipoVacuna: l.Vacuna.TipoVacuna.tipo,
+          cantidad: l.cantidad,
+          vencimiento: Utils.formatearAfechaArgentina(l.vencimiento),
+          nombreComercial: l.Vacuna.nombreComercial,
+          laboratorio: l.Vacuna.Laboratorio.nombre,
+        };
+      });
+    
+      return { lotes, cantidadLotes: count };
+    } catch (e) {
+      console.error(e);
+      throw new Error("Error al traer el stock de lotes");
+    }
+  }
+
   #crearNroLote(segundos) {
     let fecha = new Date();
   
@@ -229,6 +221,32 @@ class LoteServicio {
     if (order === this.#opcionesDeOrdenamiento[4]) {
       return [Lote, Vacuna, TipoVacuna, "tipo", orderType];
     }
+  }
+
+  #calcularOrderEnTraerLotesPorDeposito(order, orderType) {
+    let orderArray;
+
+    if (order === "tipo-vacuna") {
+      orderArray = [Vacuna, TipoVacuna, "tipo", orderType];
+    }
+
+    if (order === "cantidad") {
+      orderArray = ["cantidad", orderType];
+    }
+
+    if (order === "vencimiento") {
+      orderArray = ["vencimiento", orderType];
+    }
+
+    if (order === "nombre-comercial") {
+      orderArray = [Vacuna, "nombreComercial", orderType];
+    }
+
+    if (order === "laboratorio") {
+      orderArray = [Vacuna, Laboratorio, "nombre", orderType];
+    }
+
+    return orderArray;
   }
 
   #esOrdenValido(orden) {

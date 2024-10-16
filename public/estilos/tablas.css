@@ -1,0 +1,32 @@
+/* ESTILOS TABLAS */
+.fixed-height-table-container {
+    height: 550px;
+    overflow-y: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+thead {
+    border-bottom: 3px solid black !important;
+}
+
+thead th {
+    position: sticky;
+    top: 0;
+}
+
+#cuerpo tr td {
+    height: 55px !important;
+    min-height: 55px !important;
+    max-height: 55px !important;
+}
+
+/*#cuerpo tr td > div {
+    height: 100% !important; /* Asegura que el contenido interno se extienda a la altura de la celda 
+    display: flex !important;
+    align-items: center !important; /* Centra verticalmente el contenido dentro de las celdas 
+}*/

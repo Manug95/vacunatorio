@@ -26,13 +26,20 @@ class ProvinciaServicio {
     return this.#provincias;
   }
 
+  async findProvincias(transaction) {
+    if (transaction) {
+      return await Provincia.findAll({ transaction: transaction });
+    } else {
+      return await Provincia.findAll();
+    }
+  }
+
   async #traerProvincias(transaction) {
+    let datos;
+
     try {
-      if (transaction) {
-        this.#provincias = await Provincia.findAll({ transaction: transaction });
-      } else {
-        this.#provincias = await Provincia.findAll();
-      }
+      datos = await this.findProvincias(transaction);
+      this.#provincias = datos.map(d => d.toJSON());
     } catch (error) {
       console.log(error);
       capturarErroresDeSequelize(error);

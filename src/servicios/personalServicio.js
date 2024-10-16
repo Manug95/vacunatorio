@@ -60,6 +60,14 @@ class PersonalServicio {
 		return Personal.findAll({ where: { activo: { [Op.eq]: true } } });
 	}
 
+	async traerPersonalPorCodigo({ codigo, transaction }) {
+		if (transaction) {
+			return Personal.findOne({ where: { codigo }, transaction });
+		} else {
+			return Personal.findOne({ where: { codigo } });
+		}
+	}
+
 	async #crearCodigo() {
 		let codigo;
 

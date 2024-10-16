@@ -105,7 +105,7 @@ export function validarRedistribucionMiniLote(req, res, next) {
 }
 
 export function validarDescarteLote(req, res, next) {
-  const { lote, motivo, formaDescarte } = req.body;
+  const { lote, motivo, formaDescarte, codigo } = req.body;
 
 	try {
 		if (!lote) {
@@ -118,6 +118,10 @@ export function validarDescarteLote(req, res, next) {
 
     if (!formaDescarte) {
       throw new Error("Falta la forma de descarte");
+    }
+
+    if (!codigo) {
+      throw new Error("Falta el código");
     }
 
 		next();

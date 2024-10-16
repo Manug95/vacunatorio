@@ -1,0 +1,10 @@
+#modal-mensaje.modal.fade.modal-sm(tabindex="-1", aria-labelledby="titulo-modal", aria-hidden="true")
+  .modal-dialog.modal-dialog-centered
+    .modal-content
+      .modal-header
+        #titulo-modal.modal-title.fs-5 Alerta
+        button.btn-close(type="button", data-bs-dismiss="modal", aria-label="Close")
+      .modal-body.justify-content-center.align-items-center
+        p#mensaje.text-center.fw-bold.fs-5
+      .modal-footer.justify-content-center
+        button#btn-mensaje.btn.btn-primary(type="button", data-bs-dismiss="modal") OK

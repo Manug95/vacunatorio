@@ -1,0 +1,7 @@
+.position-relative
+    label.form-label.fw-bold(for="deposito-Prov") Seleccionar provincia
+    select#provincia(name="provincia", class="form-select cursor-pointer")
+        option(value="", selected, disabled) Seleccionar
+        each provincia in provincias 
+            option(value=provincia.id) #{provincia.nombre} 
+    .invalid-tooltip Este campo es requerido

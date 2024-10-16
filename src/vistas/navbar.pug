@@ -1,0 +1,19 @@
+nav(class="navbar navbar-expand-lg bg-body-secondary")
+    .container-fluid 
+        button(class="navbar-toggler", type="button", data-bs-toggle="collapse", data-bs-target="#navbarToggler", aria-controls="navbarToggler", aria-expanded="false", aria-label="Toggle navigation")
+            span(class="navbar-toggler-icon")
+        .collapse.navbar-collapse(id="navbarToggler")
+            ul(class="navbar-nav me-auto mb-2 mb-lg-0")
+                li(class="nav-item")
+                    a(class="nav-link", class=activeLink==="home"?"active-link":"", href="/", aria-current="page") Home
+                li(class="nav-item")
+                    a(class="nav-link", class=activeLink==="sol-nac"?"active-link":"", href="/lotes/sublotes/solicitar") Solicitar Nación
+                li(class="nav-item")
+                    a(class="nav-link", class=activeLink==="comprar"?"active-link":"", href="/lotes/comprar") Comprar 
+                li(class="nav-item dropdown")
+                    a(class="nav-link dropdown-toggle", href="#", role="button", data-bs-toggle="dropdown", aria-expanded="false", class=activeLink.includes("listado")?"active-link":"") Listados
+                    ul(class="dropdown-menu")
+                        li
+                            a(class="dropdown-item" href="/lotes/vista-solicitudes-compra") Solicitudes de compra
+                            a(class="dropdown-item" href="/lotes/sublotes/stock") Stocks provinciales
+                            a(class="dropdown-item" href="/lotes/listado") Stocks nacionales

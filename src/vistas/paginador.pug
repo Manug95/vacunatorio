@@ -1,0 +1,12 @@
+nav
+    ul#paginador(class="pagination justify-content-center")
+        li#flecha-pag-izq(class="page-item", class=paginadores===1 ? "disabled" : "")
+            a(class="page-link", href="#")
+                span &laquo;
+        -var i = 0;
+        while i < paginadores
+            li(class="page-item")
+                a(class="page-link", href="#", class=i===0?"active":"")= ++i
+        li#flecha-pag-der(class="page-item", class=paginadores===1 ? "disabled" : "")
+            a(class="page-link", href="#")
+                span &raquo;

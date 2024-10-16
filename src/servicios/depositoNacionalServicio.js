@@ -26,13 +26,30 @@ class DepositoNacionalServicio {
     return this.#depositos;
   }
 
+  async getDepositoNacionalPorID({ id, transaction }) {
+    if (!id) throw new Error("Falta la id");
+    
+    if (!this.#depositos) {
+      await this.#traerDepositos(transaction);
+    }
+    
+    return this.#depositos.find(d => d.id === +id);
+  }
+
+  async findDepositos(transaction) {
+    if (transaction) {
+      return await DepositoNacional.findAll({ transaction: transaction });
+    } else {
+      return await DepositoNacional.findAll();
+    }
+  }
+
   async #traerDepositos(transaction) {
+    let datos;
+
     try {
-      if (transaction) {
-        this.#depositos = await DepositoNacional.findAll({ transaction: transaction });
-      } else {
-        this.#depositos = await DepositoNacional.findAll();
-      }
+      datos = await this.findDepositos(transaction);
+      this.#depositos = datos.map(d => d.toJSON());
     } catch (error) {
       console.log(error);
       capturarErroresDeSequelize(error);

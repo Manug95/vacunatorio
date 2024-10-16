@@ -1,0 +1,46 @@
+extends ../index.pug
+
+block scripts 
+    script(src="/scripts/descartarLote.js", type="module", defer) 
+
+block contenido
+    .container-md.mt-3 
+        h1(class="text-center") Descartar Lote
+        
+        form#descartar-lote-form(class="p-3 mx-auto border rounded-4 shadow-sm w-75 needs-validation mt-3")
+            .row.mb-md-4.mt-3 
+                .col-12.col-md-6.col-lg-4.offset-lg-2.mb-3.mb-md-0
+                    .position-relative
+                        label(for="lote", class="form-label fw-bold") Lote
+                        input#lote(type="text", name="lote", class="form-control", aria-label="lote a descartar", value=lote) 
+                        .invalid-tooltip Este campo es requerido
+                .col-12.col-md-6.col-lg-4.mb-3.mb-md-0
+                    .position-relative
+                        label(for="fecha", class="form-label fw-bold") Fecha
+                        input#fecha(type="date", name="fecha", class="form-control", aria-label="fecha de descarte")
+                        .invalid-tooltip Este campo es requerido
+            .row.mb-md-4
+                .col-12.col-md-6.col-lg-4.offset-lg-2.mb-3.mb-md-0
+                    .position-relative
+                        label(for="codigo" class="form-label fw-bold") Código personal
+                        input#codigo(type="number", name="codigo", class="form-control", aria-label="codigo del personal que realiza el descarte")
+                        .invalid-tooltip Campo vacío o incorrecto
+                .col-12.col-md-6.col-lg-4.mb-3.mb-md-0
+                    .position-relative
+                        label(for="forma-descarte" class="form-label fw-bold") Forma de descarte
+                        select#forma-descarte(name="forma-descarte", class="form-select", aria-label="forma en que se realiza el descarte")
+                            option(value="", selected, disabled) Seleccionar 
+                            option(value="INCINERACION") INCINERACION
+                            option(value="OTRO") OTRO
+                        .invalid-tooltip Este campo es requerido
+            .row.mb-4 
+                .col-12.col-lg-8.offset-lg-2.mb-3.mb-md-0
+                    .position-relative
+                        label(for="motivo" class="form-label fw-bold") Motivo
+                        textarea#motivo(name="motivo", rows="3", class="form-control", maxlength="100", aria-label="motivo del descarte")
+                        .invalid-tooltip Este campo es requerido
+            .row.mb-3.justify-content-center 
+                .col-2.d-flex.justify-content-center
+                    input(type="submit", value="Descartar", class="btn btn-primary d-block mx-auto") 
+
+    include ../modalMensaje.pug

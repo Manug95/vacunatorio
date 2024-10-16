@@ -1,0 +1,7 @@
+.position-relative
+    label.form-label.fw-bold(for="deposito-nac") Seleccionar deposito nacional
+    select#deposito-nac(name="deposito", class="form-select cursor-pointer")
+        option(value="", selected, disabled) Seleccionar
+        each deposito in depositosNac 
+            option(value=deposito.id) #{deposito.nombre} 
+    .invalid-tooltip Este campo es requerido
