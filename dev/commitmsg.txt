@@ -57,3 +57,8 @@ vistas index, navbar, modal mensaje y paginador
 scripts y estilos de las vistas
 handlers, validaciones, servicios y rutas de las vistas
 vacunaServicio
+
+10° Commit
+Registro y listado de solicitudes de sublotes
+
+modelo, servicio, controlador y router de las solicitudes de sublotes

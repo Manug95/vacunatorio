@@ -15,6 +15,7 @@ import { DistribucionProvincial } from "./DistribucionProvincial.js";
 import { Paciente } from "./Paciente.js";
 import { Vacunacion } from "./Vacunacion.js";
 import { Usuario } from "./Usuario.js";
+import { SolicitudSublote } from "./SolicitudSublote.js";
 
 //Laboratorio-Pais
 Pais.hasMany(Laboratorio, {foreignKey: "paisId"});
@@ -98,6 +99,14 @@ Vacunacion.belongsTo(CentroVacunacion, { foreignKey: "centroId" });
 Personal.hasOne(Usuario, { foreignKey: "personalId" });
 Usuario.belongsTo(Personal, { foreignKey: "personalId" });
 
+//SolicitudSublote-TipoVacuna
+TipoVacuna.hasMany(SolicitudSublote, { foreignKey: "tipoVacunaId" });
+SolicitudSublote.belongsTo(TipoVacuna, { foreignKey: "tipoVacunaId" });
+
+//SolicituSublote-Provincia
+Provincia.hasMany(SolicitudSublote, { foreignKey: "provinciaId" });
+SolicitudSublote.belongsTo(Provincia, { foreignKey: "provinciaId" });
+
 
 export {
   Pais,
@@ -116,5 +125,6 @@ export {
   DistribucionProvincial,
   Paciente,
   Vacunacion,
-  Usuario
+  Usuario,
+  SolicitudSublote
 };

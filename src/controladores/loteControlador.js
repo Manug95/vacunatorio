@@ -31,7 +31,7 @@ export default class LoteControlador {
     let statusCode = 200;
     const respuesta = { ok: true };
     const { lote, fecha, motivo, formaDescarte, codigo } = req.body;
-    const codigoCompleto = "C-" + codigo;console.log(codigoCompleto);
+    const codigoCompleto = "C-" + codigo;
 
     try {
       const personal = personalServicio.traerPersonalPorCodigo({ codigo: codigoCompleto });

@@ -7,6 +7,7 @@ import miniloteRouter from "./src/rutas/miniloteRouter.js";
 import personalRouter from "./src/rutas/personalRouter.js";
 import pacienteRouter from "./src/rutas/pacienteRouter.js";
 import vacunacionRouter from "./src/rutas/vacunacionRouter.js";
+import solicitudesRouter from "./src/rutas/solicitudesRouter.js";
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.use("/minilotes", miniloteRouter);
 app.use("/personal", personalRouter);
 app.use("/pacientes", pacienteRouter);
 app.use("/vacunacion", vacunacionRouter);
+app.use("/solicitudes", solicitudesRouter);
 
 
 app.get("/", (req, res) => {

@@ -17,6 +17,7 @@ import { Paciente } from "../src/modelos/Paciente.js";
 import { Descarte } from "../src/modelos/Descarte.js";
 import { Usuario } from "../src/modelos/Usuario.js";
 import { Vacunacion } from "../src/modelos/Vacunacion.js";
+import { SolicitudSublote } from "../src/modelos/SolicitudSublote.js";
 import * as modelos from "../src/modelos/relaciones.js";
 
 export async function pruebaBD() {
@@ -37,23 +38,24 @@ async function pruebaSyncModelos() {
   console.log(pc.blue("INICIO SINCRONIZACION MODELOS"));
 
   try {
-    await Pais.sync();
-    await Provincia.sync();
-    await Localidad.sync();
-    await Laboratorio.sync();
-    await DepositoNacional.sync();
-    await TipoVacuna.sync();
-    await Vacuna.sync();
-    await Personal.sync();
-    await Descarte.sync();
-    await Lote.sync();
-    await SubLote.sync();
-    await MiniLote.sync();
-    await CentroVacunacion.sync();
-    await DistribucionProvincial.sync();
-    await Paciente.sync();
-    await Vacunacion.sync();
-    await Usuario.sync();
+    // await Pais.sync();
+    // await Provincia.sync();
+    // await Localidad.sync();
+    // await Laboratorio.sync();
+    // await DepositoNacional.sync();
+    // await TipoVacuna.sync();
+    // await Vacuna.sync();
+    // await Personal.sync();
+    // await Descarte.sync();
+    // await Lote.sync();
+    // await SubLote.sync();
+    // await MiniLote.sync();
+    // await CentroVacunacion.sync();
+    // await DistribucionProvincial.sync();
+    // await Paciente.sync();
+    // await Vacunacion.sync();
+    // await Usuario.sync();
+    await SolicitudSublote.sync();
 
     console.log(pc.green("FIN SINCRONIZACION MODELOS"));
   } catch(err) {
@@ -69,23 +71,24 @@ async function pruebaSyncRelaciones() {
   console.log(pc.blue("INICIO SINCRONIZACION RELACIONES"));
 
   try {
-    await modelos.Pais.sync({alter:true});
-    await modelos.Provincia.sync({alter:true});
-    await modelos.Localidad.sync({alter: true});
-    await modelos.Laboratorio.sync({alter:true});
-    await modelos.TipoVacuna.sync({alter:true});
-    await modelos.Vacuna.sync({alter:true});
-    await modelos.Lote.sync({alter:true});
-    await modelos.SubLote.sync({alter:true});
-    await modelos.MiniLote.sync({alter:true});
-    await modelos.Paciente.sync({alter:true});
-    await modelos.Personal.sync({alter:true});
-    await modelos.Vacunacion.sync({alter:true});
-    await modelos.DepositoNacional.sync({alter:true});
-    await modelos.CentroVacunacion.sync({alter:true});
-    await modelos.DistribucionProvincial.sync({alter:true});
-    await modelos.Descarte.sync({alter:true});
-    await modelos.Usuario.sync({alter:true});
+    // await modelos.Pais.sync({alter:true});
+    // await modelos.Provincia.sync({alter:true});
+    // await modelos.Localidad.sync({alter: true});
+    // await modelos.Laboratorio.sync({alter:true});
+    // await modelos.TipoVacuna.sync({alter:true});
+    // await modelos.Vacuna.sync({alter:true});
+    // await modelos.Lote.sync({alter:true});
+    // await modelos.SubLote.sync({alter:true});
+    // await modelos.MiniLote.sync({alter:true});
+    // await modelos.Paciente.sync({alter:true});
+    // await modelos.Personal.sync({alter:true});
+    // await modelos.Vacunacion.sync({alter:true});
+    // await modelos.DepositoNacional.sync({alter:true});
+    // await modelos.CentroVacunacion.sync({alter:true});
+    // await modelos.DistribucionProvincial.sync({alter:true});
+    // await modelos.Descarte.sync({alter:true});
+    // await modelos.Usuario.sync({alter:true});
+    await modelos.SolicitudSublote.sync({alter:true});
 
     console.log(pc.green("FIN SINCRONIZACION RELACIONES"));
   } catch(err) {

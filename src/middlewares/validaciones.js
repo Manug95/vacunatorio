@@ -259,3 +259,23 @@ export function validarVacunacion(req, res, next) {
 		res.status(400).json({ ok: false, mensaje: error.message });
 	}
 }
+
+export function validarSolicitudSublote(req, res, next) {
+	const { tipoVacuna, provincia, cantidad } = req.body;
+
+	try {
+		if (!tipoVacuna) {
+			throw new Error("Falta el tipo de vacuna");
+		}
+
+		if (!provincia) {
+      throw new Error("Falta la provincia");
+    }
+
+    validarCantidad(cantidad);
+
+		next();
+	} catch (error) {
+		res.status(400).json({ ok: false, mensaje: error.message });
+	}
+}
