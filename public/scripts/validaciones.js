@@ -39,11 +39,24 @@ function validarCodigo(codigo) {
 
   codigo += "";
 
-  if (codigo.includes(".") || codigo.includes("+") || codigo.includes("e")) return false;
+  if (codigo.includes(".") || codigo.includes("+") || codigo.includes("e") || codigo.includes("-")) return false;
 
   if (codigo.length !== 4) return false;
 
   if (!Number.parseInt(codigo)) return false
+
+  return true;
+}
+
+export function validarInputNumberPositivo(value) {
+  if (!value) return false;
+  value += "";
+
+  if (value.includes(".") || value.includes("+") || value.includes("e") || value.includes("-")) return false;
+
+  const num = Number.parseInt(value);
+  if (!num) return false
+  if (num < 0) return false
 
   return true;
 }
@@ -66,13 +79,13 @@ export function validarFormularioDescarte(values) {
     isValid = isValid && true;
   }
 
-  if (!validarLote(values.lote)) {
-    setInvalidInputStyle("lote");
-    isValid = isValid && false;
-  } else {
-    setValidInputStyle("lote");
-    isValid = isValid && true;
-  }
+  // if (!validarLote(values.lote)) {
+  //   setInvalidInputStyle("lote");
+  //   isValid = isValid && false;
+  // } else {
+  //   setValidInputStyle("lote");
+  //   isValid = isValid && true;
+  // }
 
   if (!validarFecha(values.fecha)) {
     setInvalidInputStyle("fecha");
@@ -95,6 +108,36 @@ export function validarFormularioDescarte(values) {
     isValid = isValid && false;
   } else {
     setValidInputStyle("motivo");
+    isValid = isValid && true;
+  }
+
+  return isValid;
+}
+
+export function validarFormSolicitarSublote(values) {
+  let isValid = true;
+
+  if (!validarFormSelect(values.tipoVacuna)) {
+    setInvalidInputStyle("vacuna");
+    isValid = isValid && false;
+  } else {
+    setValidInputStyle("vacuna");
+    isValid = isValid && true;
+  }
+
+  if (!validarFormSelect(values.provincia)) {
+    setInvalidInputStyle("provincia");
+    isValid = isValid && false;
+  } else {
+    setValidInputStyle("provincia");
+    isValid = isValid && true;
+  }
+
+  if (!validarFormSelect(values.cantidad)) {
+    setInvalidInputStyle("cantidad");
+    isValid = isValid && false;
+  } else {
+    setValidInputStyle("cantidad");
     isValid = isValid && true;
   }
 

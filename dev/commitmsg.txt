@@ -62,3 +62,10 @@ vacunaServicio
 Registro y listado de solicitudes de sublotes
 
 modelo, servicio, controlador y router de las solicitudes de sublotes
+
+11° Commit
+Vistas solicitar, crear, listar y descartar Sublotes
+
+scripts de las vistas
+rutas de estas acciones
+middlewares validadores de las peticiones post

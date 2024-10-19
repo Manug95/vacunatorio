@@ -7,13 +7,15 @@ nav(class="navbar navbar-expand-lg bg-body-secondary")
                 li(class="nav-item")
                     a(class="nav-link", class=activeLink==="home"?"active-link":"", href="/", aria-current="page") Home
                 li(class="nav-item")
-                    a(class="nav-link", class=activeLink==="sol-nac"?"active-link":"", href="/lotes/sublotes/solicitar") Solicitar Nación
+                    a(class="nav-link", class=activeLink==="sol-nac"?"active-link":"", href="/solicitudes/sublote-form") Solicitar Sublotes
                 li(class="nav-item")
                     a(class="nav-link", class=activeLink==="comprar"?"active-link":"", href="/lotes/comprar") Comprar 
+                li(class="nav-item")
+                    a(class="nav-link", class=activeLink==="crear-sub"?"active-link":"", href="/sublotes/crear") Crear Sublote 
                 li(class="nav-item dropdown")
                     a(class="nav-link dropdown-toggle", href="#", role="button", data-bs-toggle="dropdown", aria-expanded="false", class=activeLink.includes("listado")?"active-link":"") Listados
                     ul(class="dropdown-menu")
                         li
-                            a(class="dropdown-item" href="/lotes/vista-solicitudes-compra") Solicitudes de compra
-                            a(class="dropdown-item" href="/lotes/sublotes/stock") Stocks provinciales
+                            a(class="dropdown-item" href="/solicitudes/sublote-listado") Solicitudes de Sublotes
+                            a(class="dropdown-item" href="/sublotes/listado") Stocks provinciales
                             a(class="dropdown-item" href="/lotes/listado") Stocks nacionales

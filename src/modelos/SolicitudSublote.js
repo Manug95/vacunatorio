@@ -26,7 +26,7 @@ SolicitudSublote.init({
     }
   },
   fechaSolicitud: {
-    type: DataTypes.DATE,
+    type: DataTypes.DATEONLY,
     defaultValue: DataTypes.NOW,
     allowNull: false,
     validate: {
@@ -42,6 +42,7 @@ SolicitudSublote.init({
   estado: {
     type: DataTypes.ENUM,
     values: ['COMPRADA', 'PENDIENTE', 'RECHAZADA'],
+    defaultValue: "PENDIENTE",
     allowNull: false,
     validate: {
       isUppercase: {

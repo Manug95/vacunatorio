@@ -51,10 +51,9 @@ class LoteServicio {
 
   async actualizarLote({ id, cantidad, fechaAdquisicion, fechaCompra, fechaFabricacion, vencimiento, descarteId, transaction }) {
     if (!id) throw new Error("Falta la id del lote");
-
     const loteActualizado = {};
 
-    if (cantidad) loteActualizado.cantidad = cantidad;
+    if (cantidad !== undefined) loteActualizado.cantidad = cantidad;
     if (fechaAdquisicion) loteActualizado.fechaAdquisicion = fechaAdquisicion;
     if (fechaCompra) loteActualizado.fechaCompra = fechaCompra;
     if (fechaFabricacion) loteActualizado.fechaFabricacion = fechaFabricacion;
@@ -96,12 +95,13 @@ class LoteServicio {
   }
 
   // conseguir los lotes de las vacunas requeridas
-  async traerLotesDisponibles(tipoVacuna) {
-    return Lote.findAll({
+  async traerLotesDisponiblesParaCrearSublotes({ tipoVacuna, deposito, transaction}) {
+    const queryOpt = {
       attributes: ["id", "nroLote", "vencimiento", "vacunaId", "cantidad"],
       where: {
         [Op.and]: [
           { '$Vacuna.tipoVacunaId$': { [Op.eq]: tipoVacuna } },
+          { depositoId: deposito },
           { '$Lote.vencimiento$': { [Op.gt]: new Date() } },
           { '$Lote.cantidad$': { [Op.gt]: 0 } },
           { '$Lote.descarteId$': { [Op.eq]: null } }
@@ -114,10 +114,12 @@ class LoteServicio {
           required: true
         }
       ],
-      order: [
-        ["vencimiento", "ASC"]
-      ]
-    });
+      order: [ ["vencimiento", "ASC"] ]
+    };
+
+    if (transaction) queryOpt.transaction = transaction;
+
+    return Lote.findAll(queryOpt);
   }
 
   async actualizarCantidadVacunas(id, cantidadADecrementar, transaction) {
@@ -186,6 +188,50 @@ class LoteServicio {
       console.error(e);
       throw new Error("Error al traer el stock de lotes");
     }
+  }
+
+  async traerLotePorTipoVacunaYDeposito({ tipoVacuna, cantidad, deposito, transaction }) {
+    const opcionesConsulta = { 
+      where: { 
+        [Op.and]: [
+          { '$Vacuna.tipoVacunaId$' : tipoVacuna },
+          { 
+            cantidad: {
+              [Op.gt]: cantidad ?? 0 
+            }
+          },
+          { depositoId: deposito },
+          {
+            vencimiento: {
+              [Op.gt]: new Date()
+            }
+          },
+          {
+            descarteId: {
+              [Op.not]: null
+            }
+          }
+        ]
+      },
+      include: [
+        {
+          model: Vacuna,
+          required: true,
+          include: [
+            {
+              model: TipoVacuna,
+              required: true
+            }
+          ]
+        }
+      ],
+      limit: 1,
+      order: [["cantidad", "ASC"]]
+    };
+    
+    if (transaction) opcionesConsulta.transaction = transaction;
+
+    return Lote.findOne(opcionesConsulta);
   }
 
   #crearNroLote(segundos) {

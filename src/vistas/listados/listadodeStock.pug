@@ -36,12 +36,8 @@ block contenido
             .col-12.col-md-6.col-lg-2 
                 label.form-label.fw-bold(for="cantidad-resultados") Cant. Resultados 
                 select#cantidad-resultados.form-select(name="CantidadResultados")
-                    option(value="5") 5 
-                    option(value="10", selected) 10 
-                    option(value="15") 15 
-                    option(value="20") 20 
-                    option(value="25") 25 
-                    option(value="50") 50 
+                    each results in cantResultsPorPaginacion
+                        option(value=results, selected=cantResultsSelected===results) #{results}
             .col-12.col-lg-2.d-flex.justify-content-center.align-items-end.mt-3.mt-lg-0
                 span.w-50.d-flex.justify-content-center
                     button#consultar-btn.btn.btn-info(type="button") Colsultar

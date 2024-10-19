@@ -18,7 +18,7 @@ export function renderizarTablaStock(datos, depositoSeleccionado, rutaDescarte) 
       createElement(
         "td", 
         { 
-          content: createElement("a", { content: "Descartar", href: rutaDescarte+`?loteADescartar=${d.id}` }, "btn", "btn-warning")
+          content: createElement("a", { content: "Descartar", href: rutaDescarte+d.id }, "btn", "btn-warning")
         }, 
         "ps-3", "align-middle", "text-center"
       )
@@ -42,7 +42,7 @@ export function crearFilaMensajeDeTablaStock(mensaje, tabla = getElementById("cu
   tabla.appendChild(fila);
 }
 
-export function renderizarTablaSolicitudesCompra(datos) {
+export function renderizarTablaSolicitudesCompra(datos, rutaCrearSublote) {
   const tabla = getElementById("cuerpo");
   tabla.innerHTML = "";
 
@@ -50,7 +50,7 @@ export function renderizarTablaSolicitudesCompra(datos) {
     const fila = createElement("tr", {});
 
     Object.keys(s).forEach(key => {
-      if (key !== "tipoVacunaId"){
+      if (key !== "id") {
         fila.appendChild(createElement("td", { content: s[key].toString() }, "align-middle", "text-center", "text-break"));
       }
     });
@@ -59,8 +59,11 @@ export function renderizarTablaSolicitudesCompra(datos) {
       createElement(
         "td", 
         { 
-          content: createElement("a", { content: "Comprar", href:"#" }, "btn", "btn-primary")
-        }, 
+          content: createElement(
+            "a", 
+            { content: "Enviar", href: `/sublotes/crear?sol=${s.id}&tipoVac=${s.tipoVacuna}&prov=${s.provincia}&cant=${s.cantidad}` }, 
+            "btn", "btn-primary", "p-1")
+        },
         "ps-3", "align-middle", "text-center"
       ));
 

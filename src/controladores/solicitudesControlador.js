@@ -1,4 +1,6 @@
 import solicitudesServicio from "../servicios/solicitudServicio.js";
+import provinciaServicio from "../servicios/provinciaServicio.js";
+import vacunaServicio from "../servicios/vacunaServicio.js"
 import pug from "pug";
 
 export default class SolicitudesControlador {
@@ -47,55 +49,57 @@ export default class SolicitudesControlador {
 
   }
 
-  // static async vistaComprarLote (req, res) {
-  //   const resultadosConsultas = {};
-  //   const { vacunaSolicitada } = req.query;
+  static async vistaFormularioSolicitarSublote (req, res) {
+    const resultadosConsultas = {};
 
-  //   try {
-  //     const [ depositosNac, vacunas ] = await Promise.all([
-  //       depositoNacionalServicio.getDepositosNacionales(),
-  //       vacunaServicio.getVacunas()
-  //     ]);
+    try {
+      const [ provincias, vacunas ] = await Promise.all([
+        provinciaServicio.getProvincias(),
+        vacunaServicio.getTiposDeVacunas()
+      ]);
 
-  //     resultadosConsultas.depositosNac = depositosNac;
-  //     resultadosConsultas.vacunas = vacunas.map(v => v.toJSON());
+      resultadosConsultas.provincias = provincias;
+      resultadosConsultas.vacunas = vacunas;
       
-  //   } catch(e) {
-  //     console.error(e);
-  //   } finally {
-  //     res.send(pug.renderFile("src/vistas/formularios/comprarLote.pug", {
-  //       pretty: true,
-  //       activeLink: "comprar",
-  //       depositos: resultadosConsultas.depositosNac ?? [],
-  //       vacunas: resultadosConsultas.vacunas ?? [],
-  //       vacunaSolicitada
-  //     }));
-  //   }
+    } catch(e) {
+      console.error(e);
+    } finally {
+      res.send(pug.renderFile("src/vistas/formularios/solicitarSubLote.pug", {
+        pretty: true,
+        activeLink: "sol-nac",
+        provincias: resultadosConsultas.provincias ?? [],
+        vacunas: resultadosConsultas.vacunas ?? []
+      }));
+    }
 
-  // }
+    return;
 
-  // static async vistaListadoLotes(req, res) {
-  //   const datos = { error: false };
+  }
 
-  //   try {
-  //     datos.depositosNac = await depositoNacionalServicio.getDepositosNacionales();
-  //   }
-  //   catch (error) {
-  //     datos.error = true;
-  //     console.log(error.message);
-  //   }
-  //   finally {
-  //     res.send(pug.renderFile("src/vistas/listados/listadodeStock.pug", {
-  //       pretty: true,
-  //       activeLink: "listado-sublotes",
-  //       depositosNac: datos.depositosNac,
-  //       paginadores: 1,
-  //       error: datos.error,
-  //       nacional: true
-  //     }));
-  //   }
+  static async vistaListadoSolicitarSublote(req, res) {
+    const resultadosConsultas = {
+      solicitudes: [],
+      cantidadSolicitudes: 1,
+      error: false
+    };
 
-  //   return;
-  // }
+    try {
+      const solicitudes = await solicitudesServicio.listarSolicitudesSublote(req.query);
+      Object.assign(resultadosConsultas, solicitudes);
+    }
+    catch (error) {
+      resultadosConsultas.error = true;
+      console.log(error.message);
+    } finally {
+      res.send(pug.renderFile("src/vistas/listados/listadoSolicitudesSublote.pug", {
+        pretty: true,
+        activeLink: "listado-sol",
+        solicitudes: resultadosConsultas.solicitudes,
+        paginadores: Math.floor(resultadosConsultas.cantidadSolicitudes / 10 + 1) ?? 1,
+        error: resultadosConsultas.error
+      }));
+    }
+
+  }
 
 }

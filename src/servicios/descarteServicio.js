@@ -11,10 +11,11 @@ class DescarteServicio {
     instanciaServicio = this;
   }
 
-  async crearDescarte({ fecha, motivo, formaDescarte, transaction }) {
+  async crearDescarte({ fecha, motivo, formaDescarte, personalId, transaction }) {
     const descarte = { //fecha tiene por defecto la fecha actual
       motivo,
-      formaDescarte
+      formaDescarte,
+      personalId
     };
 
     if (fecha) descarte.fecha = fecha;

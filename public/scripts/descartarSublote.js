@@ -1,16 +1,17 @@
 import { funcionEnviarPost } from "./httpRequests.js";
 import { getElementById, getFormInputValue } from "./frontUtils.js";
-import { validarFormularioDescarte } from "./validaciones.js";
+import { validarFormularioDescarte, setValidInputStyle } from "./validaciones.js";
 
 document.addEventListener("DOMContentLoaded", (e) => {
-  const enviar = funcionEnviarPost("/lotes/descartar");
-  const lote = getFormInputValue("sublote");
+  const enviar = funcionEnviarPost("/sublotes/descartar");
+  const sublote = getFormInputValue("sublote");
   
-  if (lote.length > 0) setValidInputStyle("lote");
+  if (sublote.length > 0) setValidInputStyle("sublote");
 
-  getElementById("descartar-lote-form").addEventListener("submit", async (e) => {
+  getElementById("descartar-sublote-form").addEventListener("submit", async (e) => {
     e.preventDefault();
     const formValues = getFormValues();
+    formValues.sublote = sublote;
     
     if (validarFormularioDescarte(formValues)) {
       await enviar(formValues);

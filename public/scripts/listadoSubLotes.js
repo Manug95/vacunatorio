@@ -4,14 +4,14 @@ import Paginador from "./paginador.js";
 import { enviarGET } from "./httpRequests.js";
 import { setInvalidInputStyle, validarFormSelect } from "./validaciones.js";
 
-const rutaDescarte = "/lotes/descartar?lote=";
+const rutaDescarte = "/sublotes/descartar?sublote=";
 
 document.addEventListener("DOMContentLoaded", () => {
   const paginador = new Paginador();
   paginador.setFuncionEnviarPeticionPaginador(eventoClicksDeLasPaginasDelPaginador(paginador.instanciaPaginador));
 
   getElementById("consultar-btn").addEventListener("click", async () => {
-    const selectDeposito = getElementById("deposito-nac");
+    const selectDeposito = getElementById("provincia");
     
     if (!validarSelectDelDeposito(selectDeposito)) return;
     
@@ -22,10 +22,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const datos = await enviarPeticion(id, { offset: 0, limit, order, orderType });
     
     if (datos) {
-      const { lotes, depositoSeleccionado } = datos;
+      const { sublotes, depositoSeleccionado } = datos;
       
-      if (lotes.length > 0) {
-        renderizarTablaStock(lotes, depositoSeleccionado, rutaDescarte);
+      if (sublotes.length > 0) {
+        renderizarTablaStock(sublotes, depositoSeleccionado, rutaDescarte);
         paginador.cantidadPaginadores = datos.paginadores;
       } else {
         paginador.resetCantidadPaginadores();
@@ -47,16 +47,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function eventoClicksDeLasPaginasDelPaginador(paginador) {
   return async () => {
-    const idDepositoSeleccionado = getElementById("deposito-nac").value;
+    const idProvinciaSeleccionada = getElementById("provincia").value;
 
     const offset = (paginador.paginaActual - 1) * paginador.resultadosPorPagina;
     const limit = paginador.resultadosPorPagina;
     const { order, orderType } = obtenerOpcionesDeConsulta(paginador.instanciaPaginador);
 
-    const datos = await enviarPeticion(idDepositoSeleccionado, { offset, limit, order, orderType });
+    const datos = await enviarPeticion(idProvinciaSeleccionada, { offset, limit, order, orderType });
     
     if (datos) {
-      renderizarTablaStock(datos.lotes, datos.depositoSeleccionado, rutaDescarte);
+      renderizarTablaStock(datos.sublotes, datos.depositoSeleccionado, rutaDescarte);
     } else {
       paginador.resetCantidadPaginadores();
       crearFilaMensajeDeTablaStock("NO SE PUDO CARGAR EL STOCK DEL DEPOSITO");
@@ -67,7 +67,7 @@ function eventoClicksDeLasPaginasDelPaginador(paginador) {
 }
 
 async function enviarPeticion(id, { offset, limit, order, orderType }) {
-  let url = `/lotes/listado/${id}`;
+  let url = `/sublotes/listado/${id}`;
 
   const queryParams = formarQueryParams({ offset, limit, order, orderType });
   if (queryParams) url += `?${queryParams}`;
@@ -105,7 +105,7 @@ function validarSelectDelDeposito(select) {
   let isValid = true;
 
   if (!validarFormSelect(select.value)) {
-    setInvalidInputStyle("deposito-Prov");
+    setInvalidInputStyle("provincia");
     isValid = isValid && false;
   } else {
     removerClases(select, "is-invalid");

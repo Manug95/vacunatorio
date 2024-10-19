@@ -1,18 +1,18 @@
 extends ../index.pug
 
 block scripts 
-    script(src="/scripts/descartarLote.js", type="module", defer) 
+    script(src="/scripts/descartarSublote.js", type="module", defer) 
 
 block contenido
     .container-md.mt-3 
-        h1(class="text-center") Descartar Lote
+        h1(class="text-center") Descartar Sublote
         
-        form#descartar-lote-form(class="p-3 mx-auto border rounded-4 shadow-sm w-75 needs-validation mt-3")
+        form#descartar-sublote-form(class="p-3 mx-auto border rounded-4 shadow-sm w-75 needs-validation mt-3")
             .row.mb-md-4.mt-3 
                 .col-12.col-md-6.col-lg-4.offset-lg-2.mb-3.mb-md-0
                     .position-relative
-                        label(for="lote", class="form-label fw-bold") Lote
-                        input#lote(type="text", name="lote", class="form-control", aria-label="lote a descartar", value=lote) 
+                        label(for="lote", class="form-label fw-bold") Sublote
+                        input#sublote(type="text", name="sublote", class="form-control", aria-label="sublote a descartar", value=sublote, disabled) 
                         .invalid-tooltip Este campo es requerido
                 .col-12.col-md-6.col-lg-4.mb-3.mb-md-0
                     .position-relative

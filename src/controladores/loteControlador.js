@@ -3,6 +3,7 @@ import depositoNacionalServicio from "../servicios/depositoNacionalServicio.js";
 import vacunaServicio from "../servicios/vacunaServicio.js";
 import personalServicio from "../servicios/personalServicio.js";
 import pug from "pug";
+import { cantidadesCompraLote, formasDescarte, cantResultsPorPaginacion } from "../../utils.js";
 
 export default class LoteControlador {
   static async crear(req, res){
@@ -34,7 +35,7 @@ export default class LoteControlador {
     const codigoCompleto = "C-" + codigo;
 
     try {
-      const personal = personalServicio.traerPersonalPorCodigo({ codigo: codigoCompleto });
+      const personal = await personalServicio.traerPersonalPorCodigo({ codigo: codigoCompleto });
 
       if (!personal) throw new Error("El código no existe");
 
@@ -106,7 +107,8 @@ export default class LoteControlador {
         activeLink: "comprar",
         depositos: resultadosConsultas.depositosNac ?? [],
         vacunas: resultadosConsultas.vacunas ?? [],
-        vacunaSolicitada
+        vacunaSolicitada,
+        cantidadesCompraLote
       }));
     }
 
@@ -129,7 +131,9 @@ export default class LoteControlador {
         depositosNac: datos.depositosNac,
         paginadores: 1,
         error: datos.error,
-        nacional: true
+        nacional: true,
+        cantResultsPorPaginacion,
+        cantResultsSelected: "10"
       }));
     }
 
@@ -138,7 +142,7 @@ export default class LoteControlador {
 
   static async vistaFormDescartarLotes(req, res) {
     const datos = { error: false };
-    const { loteADescartar } = req.query;
+    const { lote } = req.query;
 
     try {
       datos.depositosNac = await depositoNacionalServicio.getDepositosNacionales();
@@ -151,10 +155,11 @@ export default class LoteControlador {
       res.send(pug.renderFile("src/vistas/formularios/descartarLote.pug", {
         pretty: true,
         activeLink: "descartar-lote",
-        lote: loteADescartar ?? "",
+        lote: lote ?? "",
         paginadores: 1,
         error: datos.error,
-        nacional: true
+        nacional: true,
+        formasDescarte
       }));
     }
 

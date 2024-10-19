@@ -20,6 +20,10 @@ const FKmap = new Map([
   ["pacienteId", "Paciente"],
 ]);
 
+export const formasDescarte = ["INCINERACION", "OTRO"];
+export const cantidadesCompraLote = ["500000", "1000000", "2000000", "3000000", "5000000"];
+export const cantResultsPorPaginacion = ["5", "10", "15", "20", "25", "50"];
+
 export default class Utils {
   static formatearAfechaArgentina(fecha) {
     return fecha.split("-").reverse().join("-");

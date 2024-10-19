@@ -25,20 +25,21 @@ export function validarNuevoLote(req, res, next) {
 }
 
 export function validarNuevoSubLote(req, res, next) {
-	const { lote, provincia, cantidad } = req.body;
+	// const { lote, provincia, cantidad } = req.body;
+	const { tipoVacuna, provincia, cantidad, deposito } = req.body;
 
   try {
-		if (!lote) {
-			throw new Error("Es necesario especificar el lote origen del sublote");
+		if (!tipoVacuna) {
+			throw new Error("Falta la vacuna");
 		}
 
 		if (!provincia) {
 			throw new Error("Es necesario especificar la provincia a la que se enviara el sublote");
 		}
 
-		// if (!cantidad) {
-		// 	throw new Error("Es necesario especificar la cantidad de vacunas que se quieren");
-		// }
+		if (!deposito) {
+			throw new Error("Es necesario especificar el deposito origen");
+		}
 
 		validarCantidad(cantidad);
 
@@ -131,7 +132,7 @@ export function validarDescarteLote(req, res, next) {
 }
 
 export function validarDescarteSubLote(req, res, next) {
-  const { sublote, motivo, formaDescarte } = req.body;
+  const { sublote, motivo, formaDescarte, codigo } = req.body;
 
 	try {
 		if (!sublote) {
@@ -144,6 +145,10 @@ export function validarDescarteSubLote(req, res, next) {
 
     if (!formaDescarte) {
       throw new Error("Falta la forma de descarte");
+    }
+
+    if (!codigo) {
+      throw new Error("Falta el codigo del empleado");
     }
 
 		next();

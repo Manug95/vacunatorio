@@ -1,5 +1,6 @@
 import { SolicitudSublote, TipoVacuna, Provincia } from "../modelos/relaciones.js";
 import Utils, { capturarErroresDeSequelize } from "../../utils.js";
+import { Op } from "sequelize";
 
 let instanciaServicio;
 
@@ -13,11 +14,10 @@ class SolicitudesServicio {
   }
 
   async crearSolicitudSublote({ tipoVacuna, provincia, cantidad, fechaSolicitud, transaction }) {
-    const solicitud = {
+    const solicitud = { // fechaSolicitud y estado se crear con sus valores por defecto
       tipoVacunaId: tipoVacuna,
       provinciaId: provincia,
-      cantidad,
-      estado: "PENDIENTE"
+      cantidad
     };
 
     if (fechaSolicitud) solicitud.fechaSolicitud = fechaSolicitud;
@@ -58,7 +58,9 @@ class SolicitudesServicio {
     try {
       const opciones = {
         where: {
-          estado: "PENDIENTE"
+          cantidad: {
+            [Op.gt]: 0
+          }
         },
         include: [
           {
@@ -81,10 +83,10 @@ class SolicitudesServicio {
       const solicitudes = rows.map(s => {
         return {
           id: s.id,
+          provincia: s.Provincium.nombre,
           tipoVacuna: s.TipoVacuna.tipo,
           cantidad: s.cantidad,
           fechaSolicitud: Utils.formatearAfechaArgentina(s.fechaSolicitud),
-          provincia: s.Provincia.nombre,
         };
       });
     
@@ -94,6 +96,34 @@ class SolicitudesServicio {
       throw new Error("Error al traer las solicitudes de sublotes");
     }
   }
+
+  async actualizarCantidadVacunas(id, cantidadADecrementar, transaction) {
+    const optObj = {
+      where: {
+        id: id
+      }
+    };
+
+    if (transaction) {
+      optObj.transaction = transaction;
+    }
+    
+    return SolicitudSublote.decrement({ cantidad: cantidadADecrementar }, optObj);
+  }
+
+  // async completarSolicitudSublote({ id, cantidad, transaction }) {
+  //   if (!id) throw new Error("Falta la id de la solicitud");
+
+  //   const sol = await SolicitudSublote.findByPk(id);
+  //   sol.estado = "COMPRADA";
+  //   sol.cantidad -= cantidad;
+
+  //   if (transaction) {
+  //     return SolicitudSublote.update(sol, { where: { id }, transaction });
+  //   } else {
+  //     return SolicitudSublote.update(sol, { where: { id } });
+  //   }
+  // }
 
   #calcularElOrdenDelListadoDeSolicitudes(order, direccion) {
     const orden = [];

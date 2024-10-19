@@ -1,6 +1,6 @@
 import { mostrarMensaje } from "./frontUtils.js";
 
-export function funcionEnviarPostEnDescarte(url) {
+export function funcionEnviarPost(url) {
   return async function (formValues) {
     const respuesta = await enviarPOST(url, formValues);
     mostrarMensaje(respuesta.ok, respuesta.mensaje ?? "Operación realizada");

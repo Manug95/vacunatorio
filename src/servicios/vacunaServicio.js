@@ -75,18 +75,14 @@ class VacunaServicio {
         this.#tiposVacunas = await Vacuna.findAll({
           group: "tipo",
           order: [[TipoVacuna, 'tipo', 'ASC']],
-          include: [
-            TipoVacuna
-          ],
+          include: [ { model: TipoVacuna, required: true } ],
           transaction
         });
       } else {
         this.#tiposVacunas = await Vacuna.findAll({
           group: "tipo",
           order: [[TipoVacuna, 'tipo', 'ASC']],
-          include: [
-            TipoVacuna
-          ]
+          include: [ { model: TipoVacuna, required: true } ]
         });
       }
     } catch (e) {

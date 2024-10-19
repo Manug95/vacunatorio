@@ -1,0 +1,48 @@
+extends ../index.pug
+
+block scripts 
+    script(src="/scripts/solicitarSubLote.js", type="module", defer) 
+
+block contenido
+    .container-md.mt-3 
+        h1(class="text-center") Solicitar Sublotes de Vacunas
+        
+        form(id="solicitar-sublote-form" class="p-3 mx-auto border rounded-4 shadow-sm w-75 needs-validation mt-3")
+            .row.mb-md-4.mt-3 
+                .col-12.col-md-6.col-lg-4.offset-lg-2.mb-3.mb-md-0
+                    .position-relative
+                        label(for="vacuna" class="form-label fw-bold") Vacuna
+                        select#vacuna(name="vacuna", class="form-select", aria-label="vacuna que se necestia")
+                            option(value="", selected, disabled) Seleccionar vacuna 
+                            each vacuna in vacunas
+                                option(value=vacuna.TipoVacuna.id) #{vacuna.TipoVacuna.tipo}
+                            else 
+                                option(value="", selected, disabled) error al obtener las vacunas 
+                        .invalid-tooltip Este campo es requerido
+                .col-12.col-md-6.col-lg-4.mb-3.mb-md-0
+                    .position-relative
+                        label(for="cantidad" class="form-label fw-bold") Cantidad
+                        select#cantidad(name="cantidad", class="form-select", aria-label="cantida vacunas a pedir")
+                            option(value="", selected, disabled) Seleccionar la cantidad 
+                            option(value="10000") 10.000 
+                            option(value="20000") 20.000 
+                            option(value="30000") 30.000 
+                            option(value="40000") 40.000 
+                            option(value="50000") 50.000 
+                        .invalid-tooltip Este campo es requerido
+            .row.mb-4 
+                .col-12.col-md-6.col-lg-4.offset-lg-2.mb-3.mb-md-0
+                    .position-relative
+                        label(for="provincia" class="form-label fw-bold") Pedida por
+                        select#provincia(name="provincia", class="form-select", aria-label="deposito provincial")
+                            option(value="", selected, disabled) Seleccionar provincia
+                            each provincia in provincias
+                                option(value=provincia.id) #{provincia.nombre} 
+                            else 
+                                option(value="", selected, disabled) error al obtener las provincias. 
+                        .invalid-tooltip Este campo es requerido
+            .row.mb-3.justify-content-center 
+                .col-2.d-flex.justify-content-center
+                    input(type="submit", value="Solicitar", class="btn btn-primary d-block mx-auto") 
+
+    include ../modalMensaje.pug

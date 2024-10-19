@@ -8,5 +8,13 @@ subloteRouter.post("/", validarNuevoSubLote, SubLoteControlador.crear);
 
 subloteRouter.post("/descartar", validarDescarteSubLote, SubLoteControlador.descartar);
 
+subloteRouter.get("/crear", SubLoteControlador.vistaFormCrearSublote);
+
+subloteRouter.get("/listado", SubLoteControlador.vistaListadoSublotes);
+
+subloteRouter.get("/listado/:provinciaId", SubLoteControlador.listarSublotes);
+
+subloteRouter.get("/descartar", SubLoteControlador.vistaFormDescartarSublote);
+
 
 export default subloteRouter;

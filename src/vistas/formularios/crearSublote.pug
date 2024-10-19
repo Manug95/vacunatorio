@@ -1,36 +1,44 @@
 extends ../index.pug
 
 block scripts 
-    script(src="/scripts/comprarLote.js", type="module", defer) 
+    script(src="/scripts/crearSubLote.js", type="module", defer) 
 
 block contenido
     .container-md.mt-3 
-        h1(class="text-center") Comprar Vacunas
+        h1(class="text-center") Crear Sublote
         
-        form(id="comprar-lote-form" class="p-3 mx-auto border rounded-4 shadow-sm w-75 needs-validation mt-3")
+        form(id="crear-sublote-form" class="p-3 mx-auto border rounded-4 shadow-sm w-75 needs-validation mt-3")
+            input#solicitud(type="hidden", name="solicitud", value=sol)
             .row.mb-md-4.mt-3 
                 .col-12.col-md-6.col-lg-4.offset-lg-2.mb-3.mb-md-0
                     .position-relative
                         label(for="vacuna" class="form-label fw-bold") Vacuna
                         select#vacuna(name="vacuna", class="form-select", aria-label="vacuna")
-                            option(value="", selected=!vacunaSolicitada, disabled) Seleccionar vacuna 
+                            option(value="", selected=!tipoVac, disabled) Seleccionar vacuna 
                             each vacuna in vacunas
-                                option(value=vacuna.id, selected=vacunaSolicitada) #{vacuna.TipoVacuna.tipo} (#{vacuna.Laboratorio.nombre})
+                                option(value=vacuna.id, selected=(vacuna.TipoVacuna.tipo===tipoVac)) #{vacuna.TipoVacuna.tipo}
                             else 
                                 option(value="", selected, disabled) error al obtener las vacunas 
                         .invalid-tooltip Este campo es requerido
                 .col-12.col-md-6.col-lg-4.mb-3.mb-md-0
                     .position-relative
                         label(for="cantidad" class="form-label fw-bold") Cantidad
-                        select#cantidad(name="cantidad", class="form-select", aria-label="cantida vacunas a comprar")
-                            option(value="", selected, disabled) Seleccionar la cantidad 
-                            each cant in cantidadesCompraLote
-                                option(value=cant) #{cant} 
+                        input#cantidad(type="number", name="cantidad", class="form-control", aria-label="codigo de vacunas", value=cant?cant:"") 
                         .invalid-tooltip Este campo es requerido
             .row.mb-4 
                 .col-12.col-md-6.col-lg-4.offset-lg-2.mb-3.mb-md-0
                     .position-relative
-                        label(for="deposito-nacional" class="form-label fw-bold") Almacenar en
+                        label(for="provincia" class="form-label fw-bold") Provincia destino
+                        select#provincia(name="provincia", class="form-select", aria-label="provincia destino")
+                            option(value="", selected=!provSel, disabled) Seleccionar provincia 
+                            each provincia in provincias
+                                option(value=provincia.id, selected=(provincia.nombre===provSel)) #{provincia.nombre} 
+                            else 
+                                option(value="", selected, disabled) error al obtener las provincias
+                        .invalid-tooltip Este campo es requerido
+                .col-12.col-md-6.col-lg-4.mb-3.mb-md-0
+                    .position-relative
+                        label(for="deposito-nacional" class="form-label fw-bold") Origen
                         select#deposito-nacional(name="deposito", class="form-select", aria-label="deposito nacional")
                             option(value="", selected, disabled) Seleccionar deposito 
                             each deposito in depositos
@@ -40,6 +48,6 @@ block contenido
                         .invalid-tooltip Este campo es requerido
             .row.mb-3.justify-content-center 
                 .col-2.d-flex.justify-content-center
-                    input(type="submit", value="Comprar", class="btn btn-primary d-block mx-auto") 
+                    input(type="submit", value="Enviar", class="btn btn-primary d-block mx-auto") 
 
     include ../modalMensaje.pug

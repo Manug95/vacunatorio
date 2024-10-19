@@ -1,0 +1,61 @@
+extends ../index.pug
+
+block estilos
+    link(rel="stylesheet", href="/estilos/tablas.css")
+
+block scripts 
+    script(src="/scripts/listarSolicitudesSublotes.js", type="module", defer) 
+
+block contenido
+    h1.text-center.mt-2 Listado de Solicitudes de Sublotes de vacunas
+    .container.shadow-sm.border.rounded-4.mt-5.bg-primary-subtle 
+        .row.my-2 
+            .col-12.col-md-6.offset-md-3.offset-lg-0.col-lg-3 
+                label.form-label.fw-bold(for="orden") Ordenar por 
+                select#orden.form-select(name="orden") 
+                    option(value="", selected) Ninguno
+                    option(value="tipo-vacuna") Vacuna   
+                    option(value="cantidad") Cantidad   
+                    option(value="fecha") Fecha
+                    option(value="provincia") Provincia
+            .col-12.col-md-6.offset-md-3.offset-lg-0.col-lg-3 
+                label.form-label.fw-bold(for="tipo-orden") Tipo de orden
+                select#tipo-orden.form-select(name="tipoOrden")
+                    option(value="ASC", selected) Ascendente 
+                    option(value="DESC") Descendente
+            .col-12.col-md-6.offset-md-3.offset-lg-0.col-lg-3 
+                label.form-label.fw-bold(for="cantidad-resultados") Cant. Resultados 
+                select#cantidad-resultados.form-select(name="CantidadResultados")
+                    option(value="5", selected) 5 
+                    option(value="10") 10 
+                    option(value="15") 15 
+                    option(value="20") 20 
+                    option(value="25") 25 
+                    option(value="50") 50 
+            .col-12.col-lg-3.d-flex.justify-content-center.align-items-end.mt-3.mt-lg-0
+                span.w-50.d-flex.justify-content-center
+                    button#consultar-btn.btn.btn-info(type="button") Colsultar
+
+        .table-responsive.my-4.rounded-3.fixed-height-table-container 
+            table.table.table-striped.table-hover.mb-0
+                thead.table-light
+                    tr 
+                        th.text-center Provincia
+                        th.text-center Vacuna
+                        th.text-center Cantidad
+                        th.text-center Fecha
+                        th.text-center Acción
+                tbody#cuerpo 
+                    each solicitud in solicitudes 
+                        tr 
+                            td(class="ps-3 align-middle text-center") #{solicitud.provincia}
+                            td(class="ps-3 align-middle text-center") #{solicitud.tipoVacuna}
+                            td(class="ps-3 align-middle text-center") #{solicitud.cantidad}
+                            td(class="ps-3 align-middle text-center") #{solicitud.fechaSolicitud}
+                            td(class="ps-3 align-middle text-center") 
+                                a(class="btn btn-primary p-1", href=`/sublotes/crear?sol=${solicitud.id}&tipoVac=${solicitud.tipoVacuna}&prov=${solicitud.provincia}&cant=${solicitud.cantidad}`) Enviar
+                    else 
+                        tr 
+                            td(class="align-middle text-center", colspan="4") #{error ? "HUBO UN PROBLEMA AL RECUPERAR LA SOLICITUDES" : "NO HAY SOLICITUDES PENDIENTES"}
+
+        include ../paginador.pug

@@ -26,11 +26,27 @@ class ProvinciaServicio {
     return this.#provincias;
   }
 
+  async getProvinciaPorNombre({ nombre, transaction }) {
+    if (!this.#provincias) {
+      await this.#traerProvincias(transaction);
+    }
+
+    return this.#provincias.find(p => p.nombre === nombre);
+  }
+
+  async getProvinciaPorID({ id, transaction }) {
+    if (!this.#provincias) {
+      await this.#traerProvincias(transaction);
+    }
+
+    return this.#provincias.find(p => p.id == id);
+  }
+
   async findProvincias(transaction) {
     if (transaction) {
-      return await Provincia.findAll({ transaction: transaction });
+      return await Provincia.findAll({ transaction: transaction, order: [["nombre", "ASC"]] });
     } else {
-      return await Provincia.findAll();
+      return await Provincia.findAll({ order: [["nombre", "ASC"]] });
     }
   }
 
