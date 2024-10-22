@@ -50,20 +50,20 @@ export function validarNuevoSubLote(req, res, next) {
 }
 
 export function validarDistribucionMiniLote(req, res, next) {
-	const { sublote, cantidad, centro } = req.body;
+	const { tipoVacuna, cantidad, centro, provincia } = req.body;
 
   try {
-		if (!sublote) {
-      throw new Error("Es necesario especificar el sublote origen del sublote");
+		if (!tipoVacuna) {
+      throw new Error("Falta la vacuna");
     }
 
     if (!centro) {
-      throw new Error("Es necesario especificar el centro de vacunación a la que se enviaran las vacunas");
+      throw new Error("Falta el centro de vacunación al que se enviaran las vacunas");
     }
 
-    // if (!cantidad) {
-    //   throw new Error("Es necesario especificar la cantidad de vacunas que se quieren");
-    // }
+    if (!provincia) {
+      throw new Error("Falta la provincia");
+    }
 
     validarCantidad(cantidad);
 
@@ -158,7 +158,7 @@ export function validarDescarteSubLote(req, res, next) {
 }
 
 export function validarDescarteDistribucionProvincial(req, res, next) {
-  const { distribucion, motivo, formaDescarte } = req.body;
+  const { distribucion, motivo, formaDescarte, codigo } = req.body;
 
 	try {
 		if (!distribucion) {
@@ -171,6 +171,10 @@ export function validarDescarteDistribucionProvincial(req, res, next) {
 
     if (!formaDescarte) {
       throw new Error("Falta la forma de descarte");
+    }
+
+    if (!codigo) {
+      throw new Error("Falta el código del empleado");
     }
 
 		next();
@@ -275,6 +279,26 @@ export function validarSolicitudSublote(req, res, next) {
 
 		if (!provincia) {
       throw new Error("Falta la provincia");
+    }
+
+    validarCantidad(cantidad);
+
+		next();
+	} catch (error) {
+		res.status(400).json({ ok: false, mensaje: error.message });
+	}
+}
+
+export function validarSolicitudMinilote(req, res, next) {
+	const { tipoVacuna, centro, cantidad } = req.body;
+
+	try {
+		if (!tipoVacuna) {
+			throw new Error("Falta el tipo de vacuna");
+		}
+
+		if (!centro) {
+      throw new Error("Falta el centro de vacunación");
     }
 
     validarCantidad(cantidad);

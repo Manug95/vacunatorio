@@ -44,7 +44,7 @@ export default class SubLoteControlador {
       //aca empieza lo actual automatico
       const { cantidadSublotes, cantidadVacRestantes } = await subLoteServicio.crearSubLoteAutomatico({ tipoVacuna, provincia, cantidad, deposito, transaction });
       const vacunasEnviadas = cantidad - cantidadVacRestantes;
-      const updateResult = await solicitudesServicio.actualizarCantidadVacunas(solicitud, vacunasEnviadas, transaction);
+      const updateResult = await solicitudesServicio.actualizarCantidadVacunasSolicitudSublote(solicitud, vacunasEnviadas, transaction);
 
       // compruebo que se haya realizado la actualizacion del sublote
       if (updateResult[1] === 0) throw new NoAffectedRowsError("No se actualizó la cantidad de vacunas del lote");
@@ -171,7 +171,7 @@ export default class SubLoteControlador {
         provincias: datos.provincias,
         paginadores: 1,
         error: datos.error,
-        nacional: false,
+        provincial: true,
         cantResultsPorPaginacion,
         cantResultsSelected: "10"
       }));

@@ -31,6 +31,14 @@ function validarLote(lote) {
 
 function validarFecha(fecha) {
   if (!fecha) return false;
+
+  let fechaSel = new Date(fecha);
+  if (!fechaSel) return false;
+  fechaSel = fechaSel.getTime();
+
+  const fechaAct = new Date().getTime();
+  if (fechaSel > fechaAct) return false;
+  
   return true;
 }
 
@@ -134,6 +142,36 @@ export function validarFormSolicitarSublote(values) {
   }
 
   if (!validarFormSelect(values.cantidad)) {
+    setInvalidInputStyle("cantidad");
+    isValid = isValid && false;
+  } else {
+    setValidInputStyle("cantidad");
+    isValid = isValid && true;
+  }
+
+  return isValid;
+}
+
+export function validarFormSolicitarMinilote(values) {
+  let isValid = true;
+
+  if (!validarFormSelect(values.tipoVacuna)) {
+    setInvalidInputStyle("vacuna");
+    isValid = isValid && false;
+  } else {
+    setValidInputStyle("vacuna");
+    isValid = isValid && true;
+  }
+
+  if (!validarFormSelect(values.centro)) {
+    setInvalidInputStyle("centro");
+    isValid = isValid && false;
+  } else {
+    setValidInputStyle("centro");
+    isValid = isValid && true;
+  }
+
+  if (!validarInputNumberPositivo(values.cantidad)) {
     setInvalidInputStyle("cantidad");
     isValid = isValid && false;
   } else {

@@ -128,7 +128,7 @@ class SubLoteServicio {
 
     const subloteActualizado = {};
 
-    if (cantidad) subloteActualizado.cantidad = cantidad;
+    if (cantidad !== undefined) subloteActualizado.cantidad = cantidad;
     if (fechaLlegada) subloteActualizado.fechaLlegada = fechaLlegada;
     if (fechaSalida) subloteActualizado.fechaSalida = fechaSalida;
     if (descarteId) subloteActualizado.descarteId = descarteId;
@@ -230,32 +230,61 @@ class SubLoteServicio {
     }
 
     // EN ESTE PUNTO TENGO UN ARREGLO CON LOS OBJETOS DE LOS SUBLOTES QUE SON ENCESRIO CREAR
-    // const t = await sequelize.transaction();
     try {
       const sublotesPromesas = sublotes.map(sl => SubLote.create(sl, { transaction }));
       const lotesUsadosPromesas = lotesUsados.map(lu => {
-        if (lu.cantidad === 0) {
+        // if (lu.cantidad === 0) {
           return loteServicio.actualizarLote({ id: lu.id, cantidad: lu.cantidad, transaction });
-        } else {
-          return loteServicio.actualizarCantidadVacunas(lu.id, lu.cantidad, transaction);
-        }
+        // } else {
+        //   return loteServicio.actualizarCantidadVacunas(lu.id, lu.cantidad, transaction);
+        // }
       });
 
       const values = await Promise.all([...sublotesPromesas, ...lotesUsadosPromesas]);
-
-      if (values.slice(3, 6).some(v => v[0] === 0)) throw new Error("");
-      // console.log(values);
-
-      // await t.commit();
+      if (values.slice(values.length/2 - 1, values.length).some(v => v[0] === 0)) throw new Error("");
+      
     } catch (error) {
       console.log(pc.red("Error al crear los subLotes"));
       console.error(error);
-      // await t.rollback();
       capturarErroresDeSequelize(error);
       throw new Error("Hubo un problema al realizar la operación");
     }
 
     return { cantidadVacRestantes: cantidad, cantidadSublotes: sublotes.length };
+  }
+
+  async traerSublotesDisponiblesParaCrearMinilotes({ tipoVacuna, provincia, transaction}) {
+    const queryOpt = {
+      attributes: { exclude: ['fechaSalida', 'fechaLlegada'] },
+      where: {
+        [Op.and]: [
+          { '$Lote.Vacuna.tipoVacunaId$': { [Op.eq]: tipoVacuna } },
+          { provinciaId: provincia },
+          { '$Lote.vencimiento$': { [Op.gt]: new Date() } },
+          { cantidad: { [Op.gt]: 0 } },
+          { descarteId: { [Op.eq]: null } }
+        ]
+      },
+      include: [
+        {
+          model: Lote,
+          attributes: ["id", "vencimiento", "vacunaId", "cantidad"],
+          required: true,
+          include: [
+            {
+              model: Vacuna,
+              attributes: ["id", "tipoVacunaId"],
+              required: true
+            }
+          ]
+        }
+      ],
+      order: [ [Lote, "vencimiento", "ASC"] ]
+    };
+
+    if (transaction) queryOpt.transaction = transaction;
+
+    return SubLote.findAll(queryOpt);
   }
 
   #calcularOrderEnTraerSublotesPorProvincia(order, orderType) {

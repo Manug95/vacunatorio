@@ -1,0 +1,7 @@
+.position-relative
+    label.form-label.fw-bold(for="centro") Seleccionar centro Vacunación
+    select#centro(name="centro", class="form-select cursor-pointer")
+        option(value="", selected, disabled) Seleccionar
+        each centro in centros 
+            option(value=centro.id) #{centro.nombre} 
+    .invalid-tooltip Este campo es requerido

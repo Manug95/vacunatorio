@@ -10,5 +10,13 @@ miniloteRouter.post("/redistribuir", validarRedistribucionMiniLote, MiniLoteCont
 
 miniloteRouter.post("/descartar", validarDescarteDistribucionProvincial, MiniLoteControlador.descartar);
 
+miniloteRouter.get("/crear", MiniLoteControlador.vistaFormCrearMinilote);
+
+miniloteRouter.get("/listado", MiniLoteControlador.vistaListadoDistribuciones);
+
+miniloteRouter.get("/descartar", MiniLoteControlador.vistaFormDescarteDistribucion);
+
+miniloteRouter.get("/listado/:centroId", MiniLoteControlador.listarDistribuciones);
+
 
 export default miniloteRouter;

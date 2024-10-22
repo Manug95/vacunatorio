@@ -1,10 +1,10 @@
 import { sequelize } from "../../sequelize.js";
 import { Op } from "sequelize";
-import { DistribucionProvincial } from "../modelos/relaciones.js";
+import { DistribucionProvincial, Lote, SubLote, MiniLote, Vacuna, TipoVacuna, Laboratorio } from "../modelos/relaciones.js";
 import miniloteServicio from "./miniloteServicio.js";
 import subLoteServicio from "./subloteServicio.js";
 import descarteServicio from "./descarteServicio.js";
-import { capturarErroresDeSequelize } from "../../utils.js";
+import Utils, { capturarErroresDeSequelize } from "../../utils.js";
 import { NoAffectedRowsError, DataOutOfRangeError } from "../modelos/Errores/errores.js";
 import pc from "picocolors";
 
@@ -100,6 +100,88 @@ class DistribucionProvincialServicio {
     return;
   }
 
+  async distribuirMiniLoteAutomatico({ tipoVacuna, provincia, cantidad, centro, transaction }) {
+    try {
+      
+      const sublotesRecuperados = [];
+      try {
+        const sublotes = await subLoteServicio.traerSublotesDisponiblesParaCrearMinilotes({ tipoVacuna, provincia, transaction });
+        sublotesRecuperados.push(...sublotes);
+      } catch (error) {
+        console.log(pc.red("Error al traer los sublotes disponibles"));
+        console.error(error);
+        throw new Error("Hubo un problema al realizar la operación");
+      }
+
+      if (sublotesRecuperados.length === 0) throw new Error("No hay sublotes de estas vacuans");
+
+      const minilotes = [];
+      const distribuciones = [];
+      const sublotesUsados = [];
+
+      for (const sublote of sublotesRecuperados) {
+        const minilote = { 
+          subloteId: sublote.id
+        };
+
+        const distribucion = {
+          redistribuidoPor: null,
+          centroId: centro
+        };
+
+        if (sublote.cantidad >= cantidad) {
+          distribucion.cantidad = cantidad;
+          sublote.cantidad -= cantidad;
+          cantidad = 0;
+        } else {
+          distribucion.cantidad = sublote.cantidad;
+          cantidad -= sublote.cantidad;
+          sublote.cantidad = 0;
+        }
+
+        minilotes.push(minilote);
+        distribuciones.push(distribucion);
+        sublotesUsados.push(sublote);
+
+        if (cantidad === 0) break;
+
+      }
+
+      const minilotesPromesas = minilotes.map(ml => miniloteServicio.crearMiniLote({ subloteId: ml.subloteId, transaction }));
+      const sublotesUsadosPromesas = sublotesUsados.map(slu => {
+        return subLoteServicio.actualizarSubLote({ id: slu.id, cantidad: slu.cantidad, transaction });
+      });
+
+      const values = await Promise.all([...minilotesPromesas, ...sublotesUsadosPromesas]);
+
+      if (values.slice(values.length/2 - 1, values.length).some(v => v[0] === 0)) throw new Error("");
+
+      const distribucionesACrear = distribuciones.map((d, index) => {
+        return {
+          ...d,
+          miniloteId: values[index].id
+        }
+      });
+      const distribucionesProvincialesPromesas = distribucionesACrear.map(d => this.crearDistribucion({...d, transaction}));
+ 
+      await Promise.all(distribucionesProvincialesPromesas);
+  
+      return { cantidadVacRestantes: cantidad, cantidadMinilotes: minilotes.length };
+
+    } catch (error) {
+      console.log(pc.red("Error al distribuir el minilote"));
+
+      capturarErroresDeSequelize(error);
+
+      if (error instanceof DataOutOfRangeError) {
+        throw new Error("No se puede crear un minilote con mas vacunas de las que tiene el sublote de origen");
+      }
+      
+      throw new Error("Hubo un problema al realizar la operación");
+    }
+    
+  }
+
   async redistribuirMiniLote({ miniloteId, cantidad, centroOrigen, centroDestino, distribucionId }) {
     this.comprobarDistribucionNoDescartada(distribucionId);
 
@@ -128,10 +210,84 @@ class DistribucionProvincialServicio {
     }
   }
 
-  async descartarDistribucion({ id, fecha, motivo, formaDescarte }) {
+  async listarDistribucionesPorCentroVacunacion(centroId, { offset, limit, order, orderType }) {
+    try {
+      const opciones = {
+        where: {
+          [Op.and]: [
+            { cantidad: { [Op.gt]: 0 } },
+            { descarteId: { [Op.eq]: null } },
+            { centroId }
+          ]
+        },
+        include: [
+          {
+            model: MiniLote,
+            required: true,
+            include: [
+              {
+                model: SubLote,
+                attributes: { exclude: ["fechaSalida", "fechaLlegada"] },
+                required: true,
+                include: [
+                  {
+                    model: Lote,
+                    required: true,
+                    attributes: { exclude: ["fechaFabricacion", "fechaCompra", "fechaAdquisicion"] },
+                    include: [
+                      {
+                        model: Vacuna,
+                        required: true,
+                        include: [
+                          {
+                            model: TipoVacuna,
+                            required: true
+                          },
+                          {
+                            model: Laboratorio,
+                            attributes: { exclude: ["paisId"] },
+                            required: true
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        attributes: { exclude: ["fechaSalida", "fechaLlegada", "redistribuidoPor"] }
+      }
+  
+      if (offset) opciones.offset = +offset;
+      if (limit) opciones.limit = +limit;
+      if (order) opciones.order = [this.#calcularOrderEnTraerMinilotesPorCentroVacunacion(order, orderType)];
+  
+      const { rows, count } = await DistribucionProvincial.findAndCountAll(opciones);
+  
+      const distribuciones = rows.map(dist => {
+        return {
+          id: dist.id,
+          tipoVacuna: dist.MiniLote.SubLote.Lote.Vacuna.TipoVacuna.tipo,
+          cantidad: dist.cantidad,
+          vencimiento: Utils.formatearAfechaArgentina(dist.MiniLote.SubLote.Lote.vencimiento),
+          nombreComercial: dist.MiniLote.SubLote.Lote.Vacuna.nombreComercial,
+          laboratorio: dist.MiniLote.SubLote.Lote.Vacuna.Laboratorio.nombre,
+        };
+      });
+    
+      return { distribuciones, cantidadDistribuciones: count };
+    } catch (e) {
+      console.error(e);
+      throw new Error("Error al traer el stock de lotes");
+    }
+  }
+
+  async descartarDistribucion({ id, fecha, motivo, formaDescarte, personalId }) {
     const t = await sequelize.transaction();
     try {
-      const descarte = await descarteServicio.crearDescarte({ fecha, motivo, formaDescarte, transaction: t });
+      const descarte = await descarteServicio.crearDescarte({ fecha, motivo, formaDescarte, personalId, transaction: t });
       const [ affectedCount ] = await this.actualizarDistribucion({ id, descarteId: descarte.id, transaction: t });
 
       // compruebo que se haya realizado la actualizacion del sublote
@@ -190,6 +346,32 @@ class DistribucionProvincialServicio {
         ] 
       } 
     });
+  }
+
+  #calcularOrderEnTraerMinilotesPorCentroVacunacion(order, orderType) {
+    let orderArray;
+
+    if (order === "tipo-vacuna") {
+      orderArray = [MiniLote, SubLote, Lote, Vacuna, TipoVacuna, "tipo", orderType];
+    }
+
+    if (order === "cantidad") {
+      orderArray = ["cantidad", orderType];
+    }
+
+    if (order === "vencimiento") {
+      orderArray = [MiniLote, SubLote, Lote, "vencimiento", orderType];
+    }
+
+    if (order === "nombre-comercial") {
+      orderArray = [MiniLote, SubLote, Lote, Vacuna, "nombreComercial", orderType];
+    }
+
+    if (order === "laboratorio") {
+      orderArray = [MiniLote, SubLote, Lote, Vacuna, Laboratorio, "nombre", orderType];
+    }
+
+    return orderArray;
   }
   
 }

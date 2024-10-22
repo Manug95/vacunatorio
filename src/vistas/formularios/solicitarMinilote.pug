@@ -1,0 +1,42 @@
+extends ../index.pug
+
+block scripts 
+    script(src="/scripts/solicitarMinilote.js", type="module", defer) 
+
+block contenido
+    .container-md.mt-3 
+        h1(class="text-center") Solicitar Sublotes de Vacunas
+        
+        form(id="solicitar-minilote-form" class="p-3 mx-auto border rounded-4 shadow-sm w-75 needs-validation mt-3")
+            .row.mb-md-4.mt-3 
+                .col-12.col-md-6.col-lg-4.offset-lg-2.mb-3.mb-md-0
+                    .position-relative
+                        label(for="vacuna" class="form-label fw-bold") Vacuna
+                        select#vacuna(name="vacuna", class="form-select", aria-label="vacuna que se necestia")
+                            option(value="", selected, disabled) Seleccionar vacuna 
+                            each vacuna in vacunas
+                                option(value=vacuna.TipoVacuna.id) #{vacuna.TipoVacuna.tipo}
+                            else 
+                                option(value="", selected, disabled) error al obtener las vacunas 
+                        .invalid-tooltip Este campo es requerido
+                .col-12.col-md-6.col-lg-4.mb-3.mb-md-0
+                    .position-relative
+                        label(for="cantidad" class="form-label fw-bold") Cantidad
+                        input#cantidad(type="number", name="cantidad", class="form-control", aria-label="cantida vacunas a pedir")
+                        .invalid-tooltip Este campo es requerido
+            .row.mb-4 
+                .col-12.col-md-6.col-lg-4.offset-lg-2.mb-3.mb-md-0
+                    .position-relative
+                        label(for="centro" class="form-label fw-bold") Pedida por
+                        select#centro(name="centro", class="form-select", aria-label="centro de vacunacion")
+                            option(value="", selected, disabled) Seleccionar centro vac.
+                            each centro in centros
+                                option(value=centro.id) #{centro.nombre} 
+                            else 
+                                option(value="", selected, disabled) error al obtener los centros. 
+                        .invalid-tooltip Este campo es requerido
+            .row.mb-3.justify-content-center 
+                .col-2.d-flex.justify-content-center
+                    input(type="submit", value="Solicitar", class="btn btn-primary d-block mx-auto") 
+
+    include ../modalMensaje.pug

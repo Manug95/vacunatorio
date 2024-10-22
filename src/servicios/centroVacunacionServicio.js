@@ -25,6 +25,14 @@ class CentroVacunacionServicio {
       
     return this.#centros;
   }
+  
+  async getCentroPorID({ id, transaction }) {
+    if (!this.#centros) {
+      await this.#traerCentros(transaction);
+    }
+
+    return this.#centros.find(c => c.id == id);
+  }
 
   async findCentrosDeVacunacion(transaction) {
     if (transaction) {

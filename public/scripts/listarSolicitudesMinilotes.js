@@ -1,5 +1,5 @@
 import { getElementById } from "./frontUtils.js";
-import { renderizarTablaSolicitudesSublotes, crearFilaMensajeDeTablaSolicitudesCompra } from "./tablaStock.js";
+import { renderizarTablaSolicitudesMinilotes, crearFilaMensajeDeTablaSolicitudesCompra } from "./tablaStock.js";
 import Paginador from "./paginador.js";
 import { enviarGET } from "./httpRequests.js";
 
@@ -18,15 +18,15 @@ document.addEventListener("DOMContentLoaded", () => {
       const { solicitudes } = datos;
       
       if (solicitudes.length > 0) {
-        renderizarTablaSolicitudesSublotes(solicitudes);
+        renderizarTablaSolicitudesMinilotes(solicitudes);
         paginador.cantidadPaginadores = datos.paginadores;
       } else {
         paginador.resetCantidadPaginadores();
-        crearFilaMensajeDeTablaSolicitudesCompra("NO HAY SOLICITUDES DE SUBLOTES PENDIENTES");
+        crearFilaMensajeDeTablaSolicitudesCompra("NO HAY SOLICITUDES DE VACUNAS PENDIENTES");
       }
     } else {
       paginador.resetCantidadPaginadores();
-      crearFilaMensajeDeTablaSolicitudesCompra("NO SE PUDIERON CARGAR LAS SOLICITUDES DE SUBLOTES");
+      crearFilaMensajeDeTablaSolicitudesCompra("NO SE PUDIERON CARGAR LAS SOLICITUDES DE VACUNAS");
     }
 
     paginador.actualizarPaginador();
@@ -48,10 +48,10 @@ function eventoClicksDeLasPaginasDelPaginador(paginador) {
     const datos = await enviarPeticion({ offset, limit, order, orderType });
     
     if (datos) {
-      renderizarTablaSolicitudesSublotes(datos.solicitudes);
+      renderizarTablaSolicitudesMinilotes(datos.solicitudes);
     } else {
       paginador.resetCantidadPaginadores();
-      crearFilaMensajeDeTablaSolicitudesCompra("NO HAY SOLICITUDES DE SUBLOTES PENDIENTES");
+      crearFilaMensajeDeTablaSolicitudesCompra("NO HAY SOLICITUDES DE VACUNAS PENDIENTES");
     }
 
     paginador.actualizarPaginador();
@@ -59,7 +59,7 @@ function eventoClicksDeLasPaginasDelPaginador(paginador) {
 }
 
 async function enviarPeticion({ offset, limit, order, orderType }) {
-  let url = `/solicitudes/sublote`;
+  let url = `/solicitudes/minilote`;
 
   const queryParams = formarQueryParams({ offset, limit, order, orderType });
   if (queryParams) url += `?${queryParams}`;

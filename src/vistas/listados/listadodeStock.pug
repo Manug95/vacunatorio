@@ -6,8 +6,10 @@ block estilos
 block scripts 
     if (nacional)
         script(src="/scripts/listadoLotes.js", type="module", defer) 
-    else 
+    else if provincial 
         script(src="/scripts/listadoSubLotes.js", type="module", defer) 
+    else 
+        script(src="/scripts/listadoDistribuciones.js", type="module", defer) 
 
 block contenido
     h1#titulo.text-center.mt-2 Listado del stock disponible
@@ -17,8 +19,10 @@ block contenido
             .col-12.col-md-6.col-lg-4
                 if (nacional)
                     include ../formularios/selectDepositoNac.pug
-                else 
+                else if provincial
                     include ../formularios/selectProvincia.pug
+                else 
+                    include ../formularios/selectCentroVac.pug
             .col-12.col-md-6.col-lg-2 
                 label.form-label.fw-bold(for="orden") Ordenar por 
                 select#orden.form-select(name="orden") 
@@ -55,6 +59,6 @@ block contenido
                         th.text-center Acción
                 tbody#cuerpo 
                     tr 
-                        td.align-middle.text-center(colspan="6") SELECCIONE #{nacional ? "UN DEPOSITO" : "UNA PROVINCIA"}
+                        td.align-middle.text-center(colspan="6") SELECCIONE #{nacional ? "UN DEPOSITO" : provincial ? "UNA PROVINCIA" : "UN CENTRO" }
 
         include ../paginador.pug

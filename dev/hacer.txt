@@ -3,6 +3,13 @@
 *   enviar el codigo de estado HTTP que corresponda en cada tipo de error
 *   
 
+EXTRAS
+*   acomodar los activeLink del navbar
+*   intentar hacer un unico componente pug de los select
+*   intentar unifacar los forms de descarte en uno solo
+*   intentar unificar los listados de stock
+
+
 
 SUBLOTES
 *   vista del listado de los lotes para que el usuario elija los los que se usaran para crear los sublotes. en la vista que se puedan hacer diferentes filtros para los lotes

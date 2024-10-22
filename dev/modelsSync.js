@@ -18,6 +18,7 @@ import { Descarte } from "../src/modelos/Descarte.js";
 import { Usuario } from "../src/modelos/Usuario.js";
 import { Vacunacion } from "../src/modelos/Vacunacion.js";
 import { SolicitudSublote } from "../src/modelos/SolicitudSublote.js";
+import { SolicitudMinilote } from "../src/modelos/relaciones.js";
 import * as modelos from "../src/modelos/relaciones.js";
 
 export async function pruebaBD() {
@@ -55,7 +56,8 @@ async function pruebaSyncModelos() {
     // await Paciente.sync();
     // await Vacunacion.sync();
     // await Usuario.sync();
-    await SolicitudSublote.sync();
+    // await SolicitudSublote.sync();
+    await SolicitudMinilote.sync();
 
     console.log(pc.green("FIN SINCRONIZACION MODELOS"));
   } catch(err) {
@@ -88,7 +90,8 @@ async function pruebaSyncRelaciones() {
     // await modelos.DistribucionProvincial.sync({alter:true});
     // await modelos.Descarte.sync({alter:true});
     // await modelos.Usuario.sync({alter:true});
-    await modelos.SolicitudSublote.sync({alter:true});
+    // await modelos.SolicitudSublote.sync({alter:true});
+    await modelos.SolicitudMinilote.sync({alter:true});
 
     console.log(pc.green("FIN SINCRONIZACION RELACIONES"));
   } catch(err) {

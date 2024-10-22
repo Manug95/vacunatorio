@@ -4,10 +4,10 @@ block estilos
     link(rel="stylesheet", href="/estilos/tablas.css")
 
 block scripts 
-    script(src="/scripts/listarSolicitudesSublotes.js", type="module", defer) 
+    script(src="/scripts/listarSolicitudesMinilotes.js", type="module", defer) 
 
 block contenido
-    h1.text-center.mt-2 Listado de Solicitudes de Sublotes de vacunas
+    h1.text-center.mt-2 Listado de Solicitudes de Vacunas
     .container.shadow-sm.border.rounded-4.mt-5.bg-primary-subtle 
         .row.my-2 
             .col-12.col-md-6.offset-md-3.offset-lg-0.col-lg-3 
@@ -17,7 +17,7 @@ block contenido
                     option(value="tipo-vacuna") Vacuna   
                     option(value="cantidad") Cantidad   
                     option(value="fecha") Fecha
-                    option(value="provincia") Provincia
+                    option(value="centro") Centro vac.
             .col-12.col-md-6.offset-md-3.offset-lg-0.col-lg-3 
                 label.form-label.fw-bold(for="tipo-orden") Tipo de orden
                 select#tipo-orden.form-select(name="tipoOrden")
@@ -36,7 +36,7 @@ block contenido
             table.table.table-striped.table-hover.mb-0
                 thead.table-light
                     tr 
-                        th.text-center Provincia
+                        th.text-center Centro vacunación
                         th.text-center Vacuna
                         th.text-center Cantidad
                         th.text-center Fecha
@@ -44,14 +44,14 @@ block contenido
                 tbody#cuerpo 
                     each solicitud in solicitudes 
                         tr 
-                            td(class="ps-3 align-middle text-center") #{solicitud.provincia}
+                            td(class="ps-3 align-middle text-center") #{solicitud.centro}
                             td(class="ps-3 align-middle text-center") #{solicitud.tipoVacuna}
                             td(class="ps-3 align-middle text-center") #{solicitud.cantidad}
                             td(class="ps-3 align-middle text-center") #{solicitud.fechaSolicitud}
                             td(class="ps-3 align-middle text-center") 
-                                a(class="btn btn-primary p-1", href=`/sublotes/crear?sol=${solicitud.id}&tipoVac=${solicitud.tipoVacuna}&prov=${solicitud.provincia}&cant=${solicitud.cantidad}`) Enviar
+                                a(class="btn btn-primary p-1", href=`/minilotes/crear?sol=${solicitud.id}&tipoVac=${solicitud.tipoVacuna}&centro=${solicitud.centro}&cant=${solicitud.cantidad}`) Enviar
                     else 
                         tr 
-                            td(class="align-middle text-center", colspan="4") #{error ? "HUBO UN PROBLEMA AL RECUPERAR LA SOLICITUDES" : "NO HAY SOLICITUDES PENDIENTES"}
+                            td(class="align-middle text-center", colspan="5") #{error ? "HUBO UN PROBLEMA AL RECUPERAR LA SOLICITUDES" : "NO HAY SOLICITUDES PENDIENTES"}
 
         include ../paginador.pug

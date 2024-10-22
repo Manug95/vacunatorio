@@ -42,7 +42,7 @@ export function crearFilaMensajeDeTablaStock(mensaje, tabla = getElementById("cu
   tabla.appendChild(fila);
 }
 
-export function renderizarTablaSolicitudesCompra(datos, rutaCrearSublote) {
+export function renderizarTablaSolicitudesSublotes(datos, rutaCrearSublote) {
   const tabla = getElementById("cuerpo");
   tabla.innerHTML = "";
 
@@ -72,10 +72,40 @@ export function renderizarTablaSolicitudesCompra(datos, rutaCrearSublote) {
   
 }
 
+export function renderizarTablaSolicitudesMinilotes(datos) {
+  const tabla = getElementById("cuerpo");
+  tabla.innerHTML = "";
+
+  datos.forEach(s => {
+    const fila = createElement("tr", {});
+
+    Object.keys(s).forEach(key => {
+      if (key !== "id") {
+        fila.appendChild(createElement("td", { content: s[key].toString() }, "align-middle", "text-center", "text-break"));
+      }
+    });
+
+    fila.appendChild(
+      createElement(
+        "td", 
+        { 
+          content: createElement(
+            "a", 
+            { content: "Enviar", href: `/minilotes/crear?sol=${s.id}&tipoVac=${s.tipoVacuna}&centro=${s.centro}&cant=${s.cantidad}` }, 
+            "btn", "btn-primary", "p-1")
+        },
+        "ps-3", "align-middle", "text-center"
+      ));
+
+      tabla.appendChild(fila);
+  });
+  
+}
+
 export function crearFilaMensajeDeTablaSolicitudesCompra(mensaje, tabla = getElementById("cuerpo")) {
   tabla.innerHTML = "";
   const fila = createElement("tr", {});
-  const td = createElement("td", { content: mensaje, colSpan: "4" }, "align-middle", "text-center");
+  const td = createElement("td", { content: mensaje, colSpan: "5" }, "align-middle", "text-center");
   fila.appendChild(td);
   tabla.appendChild(fila);
 }

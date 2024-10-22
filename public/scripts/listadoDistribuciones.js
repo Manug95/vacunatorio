@@ -1,32 +1,39 @@
-import { getElementById } from "./frontUtils.js";
-import { renderizarTablaSolicitudesSublotes, crearFilaMensajeDeTablaSolicitudesCompra } from "./tablaStock.js";
+import { getElementById, removerClases } from "./frontUtils.js";
+import { renderizarTablaStock, crearFilaMensajeDeTablaStock } from "./tablaStock.js";
 import Paginador from "./paginador.js";
 import { enviarGET } from "./httpRequests.js";
+import { setInvalidInputStyle, validarFormSelect } from "./validaciones.js";
+
+const rutaDescarte = "/minilotes/descartar?dist=";
 
 document.addEventListener("DOMContentLoaded", () => {
   const paginador = new Paginador();
   paginador.setFuncionEnviarPeticionPaginador(eventoClicksDeLasPaginasDelPaginador(paginador.instanciaPaginador));
-  // paginador.actualizarPaginador();
 
   getElementById("consultar-btn").addEventListener("click", async () => {
+    const selectCentro = getElementById("centro");
+    
+    if (!validarSelectDelCentro(selectCentro)) return;
+    
+    const id = selectCentro.value;
     const { order, orderType } = obtenerOpcionesDeConsulta(paginador.instanciaPaginador);
     const limit = paginador.resultadosPorPagina;
 
-    const datos = await enviarPeticion({ offset: 0, limit, order, orderType });
-    
+    const datos = await enviarPeticion(id, { offset: 0, limit, order, orderType });
+    console.log(datos.distribuciones)
     if (datos) {
-      const { solicitudes } = datos;
+      const { distribuciones, centroSeleccionado } = datos;
       
-      if (solicitudes.length > 0) {
-        renderizarTablaSolicitudesSublotes(solicitudes);
+      if (distribuciones.length > 0) {
+        renderizarTablaStock(distribuciones, centroSeleccionado, rutaDescarte);
         paginador.cantidadPaginadores = datos.paginadores;
       } else {
         paginador.resetCantidadPaginadores();
-        crearFilaMensajeDeTablaSolicitudesCompra("NO HAY SOLICITUDES DE SUBLOTES PENDIENTES");
+        crearFilaMensajeDeTablaStock("NO HAY STOCK EN ESTE CENTRO DE VACUNACION");
       }
     } else {
       paginador.resetCantidadPaginadores();
-      crearFilaMensajeDeTablaSolicitudesCompra("NO SE PUDIERON CARGAR LAS SOLICITUDES DE SUBLOTES");
+      crearFilaMensajeDeTablaStock("NO SE PUDO CARGAR EL STOCK DEL CENTRO DE VACUNACION");
     }
 
     paginador.actualizarPaginador();
@@ -36,30 +43,31 @@ document.addEventListener("DOMContentLoaded", () => {
 
   paginadorElement.firstElementChild.addEventListener("click", paginador.setNavegacion("izq"));
   paginadorElement.lastElementChild.addEventListener("click", paginador.setNavegacion("der"));
-
 });
 
 function eventoClicksDeLasPaginasDelPaginador(paginador) {
   return async () => {
+    const idCentroSeleccionado = getElementById("centro").value;
+
     const offset = (paginador.paginaActual - 1) * paginador.resultadosPorPagina;
     const limit = paginador.resultadosPorPagina;
     const { order, orderType } = obtenerOpcionesDeConsulta(paginador.instanciaPaginador);
 
-    const datos = await enviarPeticion({ offset, limit, order, orderType });
+    const datos = await enviarPeticion(idCentroSeleccionado, { offset, limit, order, orderType });
     
     if (datos) {
-      renderizarTablaSolicitudesSublotes(datos.solicitudes);
+      renderizarTablaStock(datos.distribuciones, datos.centroSeleccionado, rutaDescarte);
     } else {
       paginador.resetCantidadPaginadores();
-      crearFilaMensajeDeTablaSolicitudesCompra("NO HAY SOLICITUDES DE SUBLOTES PENDIENTES");
+      crearFilaMensajeDeTablaStock("NO SE PUDO CARGAR EL STOCK DEL CENTRO DE VACUNACION");
     }
 
     paginador.actualizarPaginador();
   }
 }
 
-async function enviarPeticion({ offset, limit, order, orderType }) {
-  let url = `/solicitudes/sublote`;
+async function enviarPeticion(id, { offset, limit, order, orderType }) {
+  let url = `/minilotes/listado/${id}`;
 
   const queryParams = formarQueryParams({ offset, limit, order, orderType });
   if (queryParams) url += `?${queryParams}`;
@@ -68,16 +76,16 @@ async function enviarPeticion({ offset, limit, order, orderType }) {
 }
 
 function formarQueryParams({ offset, limit, order, orderType }) {
-  const queryString = [];
+  const op = [];
 
   if (offset || limit || order || orderType) {
-    if (offset && offset >= 0) queryString.push(`offset=${offset}`);
-    if (limit) queryString.push(`limit=${limit}`);
-    if (order) queryString.push(`order=${order}`);
-    if (orderType) queryString.push(`orderType=${orderType}`);
+    if (offset && offset >= 0) op.push(`offset=${offset}`);
+    if (limit) op.push(`limit=${limit}`);
+    if (order) op.push(`order=${order}`);
+    if (orderType) op.push(`orderType=${orderType}`);
   }
 
-  return queryString.join("&");
+  return op.join("&");
 }
 
 function obtenerOpcionesDeConsulta(paginador) {
@@ -91,4 +99,17 @@ function obtenerOpcionesDeConsulta(paginador) {
   if (cantResults !== "") paginador.resultadosPorPagina = +cantResults;
 
   return { order, orderType };
+}
+
+function validarSelectDelCentro(select) {
+  let isValid = true;
+
+  if (!validarFormSelect(select.value)) {
+    setInvalidInputStyle("centro");
+    isValid = isValid && false;
+  } else {
+    removerClases(select, "is-invalid");
+  }
+
+  return isValid;
 }
