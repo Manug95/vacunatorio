@@ -18,5 +18,7 @@ miniloteRouter.get("/descartar", MiniLoteControlador.vistaFormDescarteDistribuci
 
 miniloteRouter.get("/listado/:centroId", MiniLoteControlador.listarDistribuciones);
 
+miniloteRouter.get("/redistribuir", MiniLoteControlador.vistaFormRedistribuirMinilote);
+
 
 export default miniloteRouter;

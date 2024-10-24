@@ -1,6 +1,6 @@
 import { getElementById, createElement, agregarClases } from "./frontUtils.js";
 
-export function renderizarTablaStock(datos, depositoSeleccionado, rutaDescarte) {
+export function renderizarTablaStock(datos, depositoSeleccionado, rutaDescarte, redistribuible) {
   getElementById("titulo").textContent = "Stock disponible en " + depositoSeleccionado;
   const tabla = getElementById("cuerpo");
   tabla.innerHTML = "";
@@ -14,15 +14,24 @@ export function renderizarTablaStock(datos, depositoSeleccionado, rutaDescarte) 
       }
     });
 
-    fila.appendChild(
-      createElement(
-        "td", 
-        { 
-          content: createElement("a", { content: "Descartar", href: rutaDescarte+d.id }, "btn", "btn-warning")
-        }, 
-        "ps-3", "align-middle", "text-center"
-      )
-    );
+    const tdAccion = createElement("td", { colSpan: redistribuible ? "2" : "1" }, "ps-3", "align-middle", "text-center");
+    if (redistribuible) {
+      const enlaceRedistribuir = createElement("a", { content: "Redistribuir", href: `/minilotes/redistribuir?dist=${d.id}` }, "me-2","btn", "btn-primary");
+      tdAccion.appendChild(enlaceRedistribuir);
+    }
+    const enlaceDescartar = createElement("a", { content: "Descartar", href: rutaDescarte+d.id }, "btn", "btn-warning");
+    tdAccion.appendChild(enlaceDescartar);
+    fila.appendChild(tdAccion);
+
+    // fila.appendChild(
+    //   createElement(
+    //     "td", 
+    //     { 
+    //       content: createElement("a", { content: "Descartar", href: rutaDescarte+d.id }, "btn", "btn-warning")
+    //     }, 
+    //     "ps-3", "align-middle", "text-center"
+    //   )
+    // );
 
     const f = new Date(d.vencimiento.split("-").reverse().join("-"));
     if (f.getTime() < Date.now()) {
@@ -34,10 +43,10 @@ export function renderizarTablaStock(datos, depositoSeleccionado, rutaDescarte) 
   
 }
 
-export function crearFilaMensajeDeTablaStock(mensaje, tabla = getElementById("cuerpo")) {
+export function crearFilaMensajeDeTablaStock(mensaje, tabla = getElementById("cuerpo"), redistribuible = false) {
   tabla.innerHTML = "";
   const fila = createElement("tr", {});
-  const td = createElement("td", { content: mensaje, colSpan: "6" }, "align-middle", "text-center");
+  const td = createElement("td", { content: mensaje, colSpan: redistribuible ? "7" : "6" }, "align-middle", "text-center");
   fila.appendChild(td);
   tabla.appendChild(fila);
 }

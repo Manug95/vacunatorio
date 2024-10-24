@@ -4,7 +4,6 @@
 *   
 
 EXTRAS
-*   acomodar los activeLink del navbar
 *   intentar hacer un unico componente pug de los select
 *   intentar unifacar los forms de descarte en uno solo
 *   intentar unificar los listados de stock

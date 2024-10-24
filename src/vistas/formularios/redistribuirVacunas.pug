@@ -1,0 +1,33 @@
+extends ../index.pug
+
+block scripts 
+    script(src="/scripts/redistribuirVacunas.js", type="module", defer) 
+
+block contenido
+    .container-md.mt-3 
+        h1(class="text-center") Redistribuir Vacunas
+        
+        form(id="redistribucion-form" class="p-3 mx-auto border rounded-4 shadow-sm w-75 needs-validation mt-3")
+            input#distribucion(type="hidden", name="distribucion", value=dist)
+            .row.mb-md-4.mt-3 
+                .col-12.col-md-6.col-lg-4.offset-lg-2.mb-3.mb-md-0
+                    .position-relative
+                        .position-relative
+                        label(for="cantidad" class="form-label fw-bold") Cantidad
+                        input#cantidad(type="number", name="cantidad", class="form-control", aria-label="codigo de vacunas", value=cant?cant:"") 
+                        .invalid-tooltip Este campo es requerido
+                    .position-relative
+                .col-12.col-md-6.col-lg-4.mb-3.mb-md-0
+                        label(for="destino" class="form-label fw-bold") Centro vac. destino
+                        select#destino(name="destino", class="form-select", aria-label="centro de vacunacion destino")
+                            option(value="", selected=!centroSel, disabled) Seleccionar centro 
+                            each centro in centros
+                                option(value=centro.id, selected=(centro.nombre===centroSel)) #{centro.nombre} 
+                            else 
+                                option(value="", selected, disabled) error al obtener los centros
+                        .invalid-tooltip Este campo es requerido
+            .row.mb-3.justify-content-center 
+                .col-2.d-flex.justify-content-center
+                    input(type="submit", value="Enviar", class="btn btn-primary d-block mx-auto") 
+
+    include ../modalMensaje.pug

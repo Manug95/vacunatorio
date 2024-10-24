@@ -78,3 +78,9 @@ scripts de las vistas
 rutas de estas acciones
 middlewares validadores de las peticiones post
 Modelo SolicitudMinilote
+
+13° Commit
+Redistribuir vacunas
+
+vista controlador y router para Form redistribuir vacunas
+enlace para redistribuir en el listado de vacunas por centro de vacunacion

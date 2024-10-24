@@ -52,10 +52,16 @@ export default class MiniLoteControlador {
   static async redistribuir(req, res) {
     let status = 201;
     const respuesta = { ok: true };
-    const { distribucion, minilote, cantidad, centroOrigen, centroDestino } = req.body;
+    const { distribucion, cantidad, centroDestino } = req.body;
 
     try {
-      await distribucionProvincialServicio.redistribuirMiniLote({ miniloteId: minilote, cantidad, centroOrigen, centroDestino, distribucionId: distribucion });
+      const dist = await distribucionProvincialServicio.getDistribucionPorId({ id: distribucion });
+
+      if (!dist) throw new Error("Vacunas inexistentes");
+      if (dist.descarteId) throw new Error("No es posible redistribuir vacunas descartadas");
+      if (dist.centroId == centroDestino) throw new Error("No es posible redistribuir. El centro origen y el centro destino son el mismo");
+
+      await distribucionProvincialServicio.redistribuirMiniLote({ miniloteId: dist.miniloteId, cantidad, centroOrigen: dist.centroId, centroDestino, distribucionId: distribucion });
     }
     catch (error) {
       
@@ -68,7 +74,6 @@ export default class MiniLoteControlador {
       res.status(status).json(respuesta);
     }
 
-    return;
   }
 
   static async descartar(req, res) {
@@ -146,7 +151,7 @@ export default class MiniLoteControlador {
     } finally {
       res.send(pug.renderFile("src/vistas/formularios/crearMinilote.pug", {
         pretty: true,
-        activeLink: "crear-mini",
+        activeLink: { "crearMini": "active-link" },
         cant,
         centroSel: centro,
         tipoVac,
@@ -171,7 +176,7 @@ export default class MiniLoteControlador {
     finally {
       res.send(pug.renderFile("src/vistas/listados/listadodeStock.pug", {
         pretty: true,
-        activeLink: "listado-minilotes",
+        activeLink: { "listado": "active-link" },
         centros: datos.centros,
         paginadores: 1,
         error: datos.error,
@@ -195,12 +200,28 @@ export default class MiniLoteControlador {
     finally {
       res.send(pug.renderFile("src/vistas/formularios/descartarDistribucion.pug", {
         pretty: true,
-        activeLink: "descartar-lote",
         distribucion: dist ?? "",
         paginadores: 1,
         error: datos.error,
         nacional: true,
         formasDescarte
+      }));
+    }
+  }
+
+  static async vistaFormRedistribuirMinilote(req, res) {
+    const resultadosConsultas = {};
+    const { dist } = req.query;
+
+    try {
+      resultadosConsultas.centros = await centroVacunacionServicio.getCentrosDeVacunaciones();
+    } catch(e) {
+      console.error(e);
+    } finally {
+      res.send(pug.renderFile("src/vistas/formularios/redistribuirVacunas.pug", {
+        pretty: true,
+        centros: resultadosConsultas.centros ?? [],
+        dist: dist ?? ""
       }));
     }
   }

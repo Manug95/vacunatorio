@@ -142,7 +142,7 @@ export default class SubLoteControlador {
     } finally {
       res.send(pug.renderFile("src/vistas/formularios/crearSubLote.pug", {
         pretty: true,
-        activeLink: "crear-sub",
+        activeLink: { "crearSub": "active-link" },
         cant,
         provSel: prov,
         tipoVac,
@@ -167,7 +167,7 @@ export default class SubLoteControlador {
     finally {
       res.send(pug.renderFile("src/vistas/listados/listadodeStock.pug", {
         pretty: true,
-        activeLink: "listado-sublotes",
+        activeLink: { "listado": "active-link" },
         provincias: datos.provincias,
         paginadores: 1,
         error: datos.error,

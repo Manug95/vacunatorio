@@ -74,16 +74,9 @@ export function validarDistribucionMiniLote(req, res, next) {
 }
 
 export function validarRedistribucionMiniLote(req, res, next) {
-  const { distribucion, minilote, cantidad, centroOrigen, centroDestino } = req.body;
+  const { distribucion, cantidad, centroDestino } = req.body;
 
 	try {
-		if (!minilote) {
-			throw new Error("Es necesario especificar el sublote origen del sublote");
-		}
-
-		if (!centroOrigen) {
-			throw new Error("Es necesario especificar el centro de vacunación origen desde la que se enviaran las vacunas");
-		}
 
 		if (!centroDestino) {
 			throw new Error("Es necesario especificar el centro de vacunación destino al que se enviaran las vacunas");
@@ -92,10 +85,6 @@ export function validarRedistribucionMiniLote(req, res, next) {
 		if (!distribucion) {
 			throw new Error("Es necesario especificar la id de la distribucion provincial");
 		}
-
-		// if (!cantidad) {
-		//   throw new Error("Es necesario especificar la cantidad de vacunas que se quieren");
-		// }
 
 		validarCantidad(cantidad);
 

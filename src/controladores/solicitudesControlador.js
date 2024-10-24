@@ -113,7 +113,7 @@ export default class SolicitudesControlador {
     } finally {
       res.send(pug.renderFile("src/vistas/formularios/solicitarSubLote.pug", {
         pretty: true,
-        activeLink: "sol-nac",
+        activeLink: { "solSublote": "active-link" },
         provincias: resultadosConsultas.provincias ?? [],
         vacunas: resultadosConsultas.vacunas ?? []
       }));
@@ -138,7 +138,7 @@ export default class SolicitudesControlador {
     } finally {
       res.send(pug.renderFile("src/vistas/formularios/solicitarMinilote.pug", {
         pretty: true,
-        activeLink: "sol-prov",
+        activeLink: { "solMinilote": "active-link" },
         centros: resultadosConsultas.centros ?? [],
         vacunas: resultadosConsultas.vacunas ?? []
       }));
@@ -163,7 +163,7 @@ export default class SolicitudesControlador {
     } finally {
       res.send(pug.renderFile("src/vistas/listados/listadoSolicitudesSublote.pug", {
         pretty: true,
-        activeLink: "listado-sol",
+        activeLink: { "listado": "active-link" },
         solicitudes: resultadosConsultas.solicitudes,
         paginadores: Math.floor(resultadosConsultas.cantidadSolicitudes / 10 + 1) ?? 1,
         cantResultsPorPaginacion,
@@ -191,7 +191,7 @@ export default class SolicitudesControlador {
     } finally {
       res.send(pug.renderFile("src/vistas/listados/listadoSolicitudesMinilote.pug", {
         pretty: true,
-        activeLink: "listado-sol",
+        activeLink: { "listado": "active-link" },
         solicitudes: resultadosConsultas.solicitudes,
         paginadores: Math.floor(resultadosConsultas.cantidadSolicitudes / 10 + 1) ?? 1,
         cantResultsPorPaginacion,

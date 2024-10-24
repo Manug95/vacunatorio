@@ -104,7 +104,7 @@ export default class LoteControlador {
     } finally {
       res.send(pug.renderFile("src/vistas/formularios/comprarLote.pug", {
         pretty: true,
-        activeLink: "comprar",
+        activeLink: { "comprar": "active-link" },
         depositos: resultadosConsultas.depositosNac ?? [],
         vacunas: resultadosConsultas.vacunas ?? [],
         vacunaSolicitada,
@@ -127,7 +127,7 @@ export default class LoteControlador {
     finally {
       res.send(pug.renderFile("src/vistas/listados/listadodeStock.pug", {
         pretty: true,
-        activeLink: "listado-sublotes",
+        activeLink: { "listado": "active-link" },
         depositosNac: datos.depositosNac,
         paginadores: 1,
         error: datos.error,

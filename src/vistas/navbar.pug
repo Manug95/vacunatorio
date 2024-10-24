@@ -5,19 +5,19 @@ nav(class="navbar navbar-expand-lg bg-body-secondary")
         .collapse.navbar-collapse(id="navbarToggler")
             ul(class="navbar-nav me-auto mb-2 mb-lg-0")
                 li(class="nav-item")
-                    a(class="nav-link", class=activeLink==="home"?"active-link":"", href="/", aria-current="page") Home
+                    a(class="nav-link", class=activeLink["home"], href="/", aria-current="page") Home
                 li(class="nav-item")
-                    a(class="nav-link", class=activeLink==="sol-nac"?"active-link":"", href="/solicitudes/sublote-form") Solicitar Sublotes
+                    a(class="nav-link", class=activeLink["solSublote"], href="/solicitudes/sublote-form") Solicitar Sublotes
                 li(class="nav-item")
-                    a(class="nav-link", class=activeLink==="sol-prov"?"active-link":"", href="/solicitudes/vacuna-form") Solicitar Vacunas
+                    a(class="nav-link", class=activeLink["solMinilote"], href="/solicitudes/vacuna-form") Solicitar Vacunas
                 li(class="nav-item")
-                    a(class="nav-link", class=activeLink==="comprar"?"active-link":"", href="/lotes/comprar") Comprar 
+                    a(class="nav-link", class=activeLink["comprar"], href="/lotes/comprar") Comprar 
                 li(class="nav-item")
-                    a(class="nav-link", class=activeLink==="crear-sub"?"active-link":"", href="/sublotes/crear") Crear Sublote 
+                    a(class="nav-link", class=activeLink["crearSub"], href="/sublotes/crear") Crear Sublote 
                 li(class="nav-item")
-                    a(class="nav-link", class=activeLink==="crear-mini"?"active-link":"", href="/minilotes/crear") Crear Minilote 
+                    a(class="nav-link", class=activeLink["crearMini"], href="/minilotes/crear") Crear Minilote 
                 li(class="nav-item dropdown")
-                    a(class="nav-link dropdown-toggle", href="#", role="button", data-bs-toggle="dropdown", aria-expanded="false", class=activeLink.includes("listado")?"active-link":"") Listados
+                    a(class="nav-link dropdown-toggle", href="#", role="button", data-bs-toggle="dropdown", aria-expanded="false", class=activeLink["listado"]) Listados
                     ul(class="dropdown-menu")
                         li
                             a(class="dropdown-item" href="/solicitudes/sublote-listado") Solicitudes de Sublotes

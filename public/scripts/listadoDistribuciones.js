@@ -20,20 +20,20 @@ document.addEventListener("DOMContentLoaded", () => {
     const limit = paginador.resultadosPorPagina;
 
     const datos = await enviarPeticion(id, { offset: 0, limit, order, orderType });
-    console.log(datos.distribuciones)
+
     if (datos) {
       const { distribuciones, centroSeleccionado } = datos;
       
       if (distribuciones.length > 0) {
-        renderizarTablaStock(distribuciones, centroSeleccionado, rutaDescarte);
+        renderizarTablaStock(distribuciones, centroSeleccionado, rutaDescarte, true);
         paginador.cantidadPaginadores = datos.paginadores;
       } else {
         paginador.resetCantidadPaginadores();
-        crearFilaMensajeDeTablaStock("NO HAY STOCK EN ESTE CENTRO DE VACUNACION");
+        crearFilaMensajeDeTablaStock("NO HAY STOCK EN ESTE CENTRO DE VACUNACION", undefined, true);
       }
     } else {
       paginador.resetCantidadPaginadores();
-      crearFilaMensajeDeTablaStock("NO SE PUDO CARGAR EL STOCK DEL CENTRO DE VACUNACION");
+      crearFilaMensajeDeTablaStock("NO SE PUDO CARGAR EL STOCK DEL CENTRO DE VACUNACION", undefined, true);
     }
 
     paginador.actualizarPaginador();
@@ -56,10 +56,10 @@ function eventoClicksDeLasPaginasDelPaginador(paginador) {
     const datos = await enviarPeticion(idCentroSeleccionado, { offset, limit, order, orderType });
     
     if (datos) {
-      renderizarTablaStock(datos.distribuciones, datos.centroSeleccionado, rutaDescarte);
+      renderizarTablaStock(datos.distribuciones, datos.centroSeleccionado, rutaDescarte, true);
     } else {
       paginador.resetCantidadPaginadores();
-      crearFilaMensajeDeTablaStock("NO SE PUDO CARGAR EL STOCK DEL CENTRO DE VACUNACION");
+      crearFilaMensajeDeTablaStock("NO SE PUDO CARGAR EL STOCK DEL CENTRO DE VACUNACION", undefined, true);
     }
 
     paginador.actualizarPaginador();

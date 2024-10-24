@@ -183,7 +183,7 @@ class DistribucionProvincialServicio {
   }
 
   async redistribuirMiniLote({ miniloteId, cantidad, centroOrigen, centroDestino, distribucionId }) {
-    this.comprobarDistribucionNoDescartada(distribucionId);
+    // await this.comprobarDistribucionNoDescartada(distribucionId);
 
     const transaction = await sequelize.transaction();
     try {
