@@ -1,0 +1,71 @@
+extends ../index.pug
+
+block scripts 
+    script(src="/scripts/registrarPaciente.js", type="module", defer) 
+
+block contenido
+    .container-md.mt-3 
+        h1(class="text-center") Registrar Paciente
+        
+        form(id="registrar-paciente-form" class="p-3 mx-auto border rounded-4 shadow-sm w-75 needs-validation mt-3")
+            .row.mb-md-4.mt-3 
+                .col-12.col-md-6.col-lg-4.offset-lg-2.mb-3.mb-md-0
+                    .position-relative
+                        label(for="nombres" class="form-label fw-bold") Nombres
+                        input#nombres(type="text", name="nombres", class="form-control", aria-label="nombres del paciente")
+                        .invalid-tooltip Este campo es requerido o está incorrecto
+                .col-12.col-md-6.col-lg-4.mb-3.mb-md-0
+                    .position-relative
+                        label(for="apellidos" class="form-label fw-bold") Apellidos
+                        input#apellidos(type="text", name="apellidos", class="form-control", aria-label="apellidos del paciente") 
+                        .invalid-tooltip Este campo es requerido o está incorrecto
+            .row.mb-4 
+                .col-12.col-md-6.col-lg-4.offset-lg-2.mb-3.mb-md-0
+                    .position-relative
+                        label(for="fechaNac", class="form-label fw-bold") Fecha de nacimiento
+                        input#fechaNac(type="date", name="fechaNac", class="form-control", aria-label="fecha de nacimiento del paciente")
+                        .invalid-tooltip Este campo es requerido o está incorrecto
+                .col-12.col-md-6.col-lg-4.mb-3.mb-md-0
+                    .position-relative
+                        label(for="dni" class="form-label fw-bold") DNI
+                        input#dni(type="text", name="dni", class="form-control", aria-label="dni del paciente")
+                        .invalid-tooltip Este campo es requerido o está incorrecto
+            .row.mb-4 
+                .col-12.col-md-6.col-lg-4.offset-lg-2.mb-3.mb-md-0
+                    .position-relative
+                        label(for="email", class="form-label fw-bold") E-mail
+                        input#email(type="text", name="email", class="form-control", aria-label="email del paciente")
+                        .invalid-tooltip Este campo es requerido o está incorrecto
+                .col-12.col-md-6.col-lg-4.mb-3.mb-md-0
+                    .position-relative
+                        label(for="telefono" class="form-label fw-bold") Teléfono
+                        input#telefono(type="text", name="telefono", class="form-control", aria-label="telefono del paciente")
+                        .invalid-tooltip Este campo es requerido o está incorrecto
+            .row.mb-4 
+                .col-12.col-md-6.col-lg-4.offset-lg-2.mb-3.mb-md-0
+                    .position-relative
+                        label(for="genero", class="form-label fw-bold") Genero
+                        select#genero(name="genero", class="form-select", aria-label="genero del paciente")
+                            option(value="", selected, disabled) Seleccionar
+                            option(value="Femenino") Femenino
+                            option(value="Masculino") Masculino 
+                        .invalid-tooltip Este campo es requerido
+            .row.mb-4 
+                .col-12.col-md-6.col-lg-4.offset-lg-2.mb-3.mb-md-0
+                    .position-relative
+                        label(for="localidad" class="form-label fw-bold") Localidad
+                        input#localidad(type="text", name="localidad", class="form-control", aria-label="localidad del paciente")
+                        .invalid-tooltip Este campo es requerido o está incorrecto
+                .col-12.col-md-6.col-lg-4.mb-3.mb-md-0
+                    .position-relative
+                        label(for="provincia", class="form-label fw-bold") Provincia
+                        select#provincia(name="provincia", class="form-select", aria-label="provincia")
+                            option(value="", selected, disabled) Seleccionar 
+                            each provincia in provincias 
+                                option(value=provincia.id) #{provincia.nombre} 
+                        .invalid-tooltip Este campo es requerido
+            .row.mb-3.justify-content-center 
+                .col-2.d-flex.justify-content-center.mt-1
+                    input(type="submit", value="Registrar", class="btn btn-primary d-block mx-auto") 
+
+    include ../modalMensaje.pug

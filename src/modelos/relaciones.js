@@ -116,6 +116,10 @@ SolicitudMinilote.belongsTo(TipoVacuna, { foreignKey: "tipoVacunaId" });
 CentroVacunacion.hasMany(SolicitudMinilote, { foreignKey: "centroId" });
 SolicitudMinilote.belongsTo(CentroVacunacion, { foreignKey: "centroId" });
 
+//Paciente-Localidad
+Localidad.hasMany(Paciente, { foreignKey: "localidadId" });
+Paciente.belongsTo(Localidad, { foreignKey: "localidadId" });
+
 
 export {
   Pais,

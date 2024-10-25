@@ -8,7 +8,7 @@ import solicitudesServicio from "../servicios/solicitudServicio.js";
 import depositoNacionalServicio from "../servicios/depositoNacionalServicio.js";
 import personalServicio from "../servicios/personalServicio.js";
 import { NoAffectedRowsError } from "../modelos/Errores/errores.js";
-import { formasDescarte, cantResultsPorPaginacion } from "../../utils.js";
+import { formasDescarte, motivosDescarte, cantResultsPorPaginacion } from "../../utils.js";
 
 export default class SubLoteControlador {
   
@@ -198,7 +198,8 @@ export default class SubLoteControlador {
         paginadores: 1,
         error: datos.error,
         nacional: true,
-        formasDescarte
+        formasDescarte,
+        motivosDescarte
       }));
     }
 

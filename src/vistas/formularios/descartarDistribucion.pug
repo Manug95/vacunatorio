@@ -37,7 +37,10 @@ block contenido
                 .col-12.col-lg-8.offset-lg-2.mb-3.mb-md-0
                     .position-relative
                         label(for="motivo" class="form-label fw-bold") Motivo
-                        textarea#motivo(name="motivo", rows="3", class="form-control", maxlength="100", aria-label="motivo del descarte")
+                        select#motivo(name="motivo", class="form-select", aria-label="motivo del descarte")
+                            option(value="", selected, disabled) Seleccionar 
+                            each motivo in motivosDescarte
+                                option(value=motivo) #{motivo}
                         .invalid-tooltip Este campo es requerido
             .row.mb-3.justify-content-center 
                 .col-2.d-flex.justify-content-center

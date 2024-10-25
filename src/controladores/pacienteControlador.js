@@ -1,15 +1,26 @@
+import pug from "pug";
+import { sequelize } from "../../sequelize.js";
 import pacienteServicio from "../servicios/pacienteServicio.js";
+import provinciaServicio from "../servicios/provinciaServicio.js";
+import localidadServicio from "../servicios/localidadServicio.js";
 
 export default class PacienteControlador {
 	static async crear(req, res) {
 		let statusCode = 201;
 		const respuesta = { ok: true };
-		const { dni, nombres, apellidos, email, telefono, fechaNac, genero } = req.body;
+		const { dni, nombres, apellidos, email, telefono, fechaNac, genero, localidad, provincia } = req.body;
 
+		const transaction = await sequelize.transaction();
 		try {
-			await pacienteServicio.crearPaciente({ dni, nombres, apellidos, email, telefono, fechaNac, genero });
+			let loc = await localidadServicio.getLocalidadPorNombreYProvincia({ localidad, provinciaId: provincia });
+			if (!loc) {
+				loc = await localidadServicio.crearLocalidad({ nombre: localidad, provinciaId: provincia, transaction });
+			}
+			await pacienteServicio.crearPaciente({ dni, nombres, apellidos, email, telefono, fechaNac, genero, localidad: loc.id, transaction });
+			await transaction.commit();
 		}
 		catch (error) {
+			await transaction.rollback();
 
 			statusCode = 400;
 			respuesta.ok = false;
@@ -64,4 +75,20 @@ export default class PacienteControlador {
 			res.status(statusCode).json(respuesta);
 		}
 	}
+
+	static async vistaFormRegistrarPaciente(req, res) {
+		let provincias;
+
+    try {
+      provincias = await provinciaServicio.getProvincias();
+    } catch(e) {
+      console.error(e);
+    } finally {
+      res.send(pug.renderFile("src/vistas/formularios/registrarPaciente.pug", {
+        pretty: true,
+        provincias: provincias ?? [],
+        activeLink: { "registrarPaciente": "active-link" }
+      }));
+    }
+  }
 }

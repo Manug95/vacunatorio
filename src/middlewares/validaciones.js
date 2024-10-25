@@ -195,7 +195,7 @@ export function validarNuevoPersonal(req, res, next) {
 }
 
 export function validarNuevoPaciente(req, res, next) {
-	const { dni, nombres, apellidos, email, telefono, fechaNac, genero } = req.body;
+	const { dni, nombres, apellidos, email, telefono, fechaNac, genero, localidad, provincia } = req.body;
 
 	try {
 		if (!nombres) {
@@ -224,6 +224,14 @@ export function validarNuevoPaciente(req, res, next) {
 
     if (!genero) {
       throw new Error("Falta el genero");
+    }
+
+    if (!localidad) {
+      throw new Error("Falta la localidad");
+    }
+
+    if (!provincia) {
+      throw new Error("Falta provincia");
     }
 
 		next();

@@ -6,5 +6,7 @@ const pacienteRouter = Router();
 
 pacienteRouter.post("/", validarNuevoPaciente, PacienteControlador.crear);
 
+pacienteRouter.get("/registrar", PacienteControlador.vistaFormRegistrarPaciente);
+
 
 export default pacienteRouter;

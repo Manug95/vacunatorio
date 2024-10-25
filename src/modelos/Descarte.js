@@ -23,16 +23,33 @@ Descarte.init({
       }
     }
   },
+  // motivo: {
+  //   type: DataTypes.STRING(100),
+  //   allowNull: false,
+  //   validate: {
+  //     notNull: {
+  //       msg: "El motivo del descarte es requerido"
+  //     },
+  //     len: {
+  //       args: [1,100],
+  //       msg: "La descripción del motivo del descarte debe tener entre 1 y 100 caracteres"
+  //     }
+  //   }
+  // },
   motivo: {
-    type: DataTypes.STRING(100),
+    type: DataTypes.ENUM(),
+    values: ["VENCIMIENTO", "ROTURA", "PERDIDA DE FRIO"],
     allowNull: false,
     validate: {
       notNull: {
         msg: "El motivo del descarte es requerido"
       },
-      len: {
-        args: [1,100],
-        msg: "La descripción del motivo del descarte debe tener entre 1 y 100 caracteres"
+      notEmpty: {
+        msg: "El motivo del descarte es requerido"
+      },
+      isIn: {
+        args: [["VENCIMIENTO", "ROTURA", "PERDIDA DE FRIO"]],
+        msg: "El dato ingresado no corresponde a un motivo de descarte válido"
       }
     }
   },

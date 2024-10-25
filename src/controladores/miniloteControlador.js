@@ -1,6 +1,6 @@
 import { sequelize } from "../../sequelize.js";
 import pug from "pug";
-import { cantResultsPorPaginacion, formasDescarte } from "../../utils.js";
+import { cantResultsPorPaginacion, formasDescarte, motivosDescarte } from "../../utils.js";
 import distribucionProvincialServicio from "../servicios/distribucionProvincialServicio.js";
 import centroVacunacionServicio from "../servicios/centroVacunacionServicio.js";
 import vacunaServicio from "../servicios/vacunaServicio.js";
@@ -204,7 +204,8 @@ export default class MiniLoteControlador {
         paginadores: 1,
         error: datos.error,
         nacional: true,
-        formasDescarte
+        formasDescarte,
+        motivosDescarte
       }));
     }
   }

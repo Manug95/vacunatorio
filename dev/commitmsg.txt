@@ -84,3 +84,11 @@ Redistribuir vacunas
 
 vista controlador y router para Form redistribuir vacunas
 enlace para redistribuir en el listado de vacunas por centro de vacunacion
+
+14° Commit
+Registrar pacientes
+
+vista y script del form para registrar paciente
+localidades servicio creada
+relacion muchos a uno entre paciente y localidades
+el motivo de los descartes ahora son valores predefinido en un enum

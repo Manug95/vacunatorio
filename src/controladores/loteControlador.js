@@ -3,7 +3,7 @@ import depositoNacionalServicio from "../servicios/depositoNacionalServicio.js";
 import vacunaServicio from "../servicios/vacunaServicio.js";
 import personalServicio from "../servicios/personalServicio.js";
 import pug from "pug";
-import { cantidadesCompraLote, formasDescarte, cantResultsPorPaginacion } from "../../utils.js";
+import { cantidadesCompraLote, formasDescarte, motivosDescarte, cantResultsPorPaginacion } from "../../utils.js";
 
 export default class LoteControlador {
   static async crear(req, res){
@@ -159,7 +159,8 @@ export default class LoteControlador {
         paginadores: 1,
         error: datos.error,
         nacional: true,
-        formasDescarte
+        formasDescarte,
+        motivosDescarte
       }));
     }
 

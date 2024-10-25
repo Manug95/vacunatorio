@@ -29,7 +29,7 @@ function validarLote(lote) {
   return validarUUIDv4(lote);
 }
 
-function validarFecha(fecha) {
+export function validarFecha(fecha) {
   if (!fecha) return false;
 
   let fechaSel = new Date(fecha);
@@ -70,10 +70,11 @@ export function validarInputNumberPositivo(value) {
 }
 
 function validarMotivo(motivo) {
-  if (!motivo) return false;
-  if (motivo.length > 100) return false;
+  // if (!motivo) return false;
+  // if (motivo.length > 100) return false;
 
-  return true;
+  // return true;
+  return validarFormSelect(motivo);
 }
 
 export function validarFormularioDescarte(values) {

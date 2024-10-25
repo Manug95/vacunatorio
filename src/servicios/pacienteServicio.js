@@ -13,7 +13,7 @@ class PacienteServicio {
 		instanciaServicio = this;
 	}
 
-	async crearPaciente({ dni, nombres, apellidos, email, telefono, fechaNac, genero, transaction }) {
+	async crearPaciente({ dni, nombres, apellidos, email, telefono, fechaNac, genero, localidad, transaction }) {
 		const nuevoPaciente = {
 			dni,
 			nombres,
@@ -21,7 +21,8 @@ class PacienteServicio {
 			email,
 			telefono,
 			fechaNac,
-			genero
+			genero,
+			localidadId: localidad
 		};
 
 		try {
