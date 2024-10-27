@@ -6,5 +6,7 @@ const vacunacionRouter = Router();
 
 vacunacionRouter.post("/", validarVacunacion, VacunacionControlador.crear);
 
+vacunacionRouter.get("/", VacunacionControlador.vistaFormVacunacion);
+
 
 export default vacunacionRouter;

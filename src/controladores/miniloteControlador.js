@@ -131,6 +131,25 @@ export default class MiniLoteControlador {
     }
   }
 
+  static async listarVacunasPorCentro(req, res) {
+    const { centro } = req.query;
+
+    let status = 200;
+    let vacunas = [];
+
+    try {
+      const result = await distribucionProvincialServicio.getDistribucionesPorCentroVacunacion({ centro });
+      vacunas = result.map(r => r.toJSON()).map(d => d.MiniLote.SubLote.Lote.Vacuna.TipoVacuna);
+    }
+    catch (error) {
+      status = 400;
+      console.log(error.message);
+    }
+    finally {
+      res.status(status).json(vacunas);
+    }
+  }
+
   static async vistaFormCrearMinilote(req, res) {
     const resultadosConsultas = {};
     const { sol, tipoVac, centro, cant } = req.query;

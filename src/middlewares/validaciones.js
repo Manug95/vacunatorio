@@ -241,23 +241,24 @@ export function validarNuevoPaciente(req, res, next) {
 }
 
 export function validarVacunacion(req, res, next) {
-	const { pacienteId, centroId, personalId, miniloteId } = req.body;
+	const { centro, enfermero, vacuna, dni } = req.body;
 
 	try {
-		if (!pacienteId) {
-			throw new Error("Falta el paciente");
-		}
 
-		if (!centroId) {
+		if (!centro) {
       throw new Error("Falta el centro de vacunación");
     }
 
-    if (!personalId) {
+    if (!enfermero) {
       throw new Error("Falta el/la enfermero/a");
     }
 
-    if (!miniloteId) {
-      throw new Error("Falta el minilote");
+    if (!dni) {
+      throw new Error("Falta el DNI");
+    }
+
+    if (!vacuna) {
+      throw new Error("Falta la vacuna");
     }
 
 		next();

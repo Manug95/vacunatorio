@@ -77,6 +77,15 @@ function validarMotivo(motivo) {
   return validarFormSelect(motivo);
 }
 
+export function validarDNI(dni) {
+  if (!dni) return false;
+
+  const regex = /^\d{8}$/;
+  if (!regex.test(dni)) return false;
+
+  return true;
+}
+
 export function validarFormularioDescarte(values) {
   let isValid = true;
 

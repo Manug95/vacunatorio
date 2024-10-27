@@ -92,3 +92,12 @@ vista y script del form para registrar paciente
 localidades servicio creada
 relacion muchos a uno entre paciente y localidades
 el motivo de los descartes ahora son valores predefinido en un enum
+
+15° Commit
+Registrar vacunaciones
+
+vista s script del form para registrar las vacunaciones
+listado de vacunas por centro de vacunacion
+listado de distribuciones provinciales por centro de vacunacion
+listado de distribuciones provinciales por centro de vacunacion y tipo de vacuna
+listado del personal con cargo enfermero

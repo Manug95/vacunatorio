@@ -62,6 +62,103 @@ class DistribucionProvincialServicio {
     }
   }
 
+  async getDistribucionesPorCentroVacunacion({ centro, transaction }) {
+    return DistribucionProvincial.findAll({
+      where: {
+        [Op.and]: [
+          { centroId: centro },
+          { cantidad: { [Op.gt]: 0 } },
+          { "$MiniLote.SubLote.Lote.vencimiento$": { [Op.gte]: new Date() } },
+          { descarteId: { [Op.is]: null } }
+        ]
+      },
+      include: [
+        {
+          model: MiniLote,
+          required: true,
+          include:[
+            {
+              model: SubLote,
+              required: true,
+              include: [
+                {
+                  model: Lote,
+                  required: true,
+                  include: [
+                    {
+                      model: Vacuna,
+                      required: true,
+                      include: [
+                        {
+                          model: TipoVacuna,
+                          required: true
+                        }
+                      ],
+                      attributes: ["tipoVacunaId"]
+                    }
+                  ],
+                  attributes: ["vacunaId"]
+                }
+              ],
+              attributes: ["loteId"]
+            }
+          ],
+          attributes: ["subloteId"]
+        }
+      ],
+      attributes: ["miniloteId"]
+    });
+  }
+
+  async getDistribucionPorTipoVacunaYCentroVacunacion({ tipoVacuna, centro, transaction }) {
+    return DistribucionProvincial.findAll({
+      where: {
+        [Op.and]: [
+          { centroId: centro },
+          { cantidad: { [Op.gt]: 0 } },
+          { "$MiniLote.SubLote.Lote.Vacuna.tipoVacunaId$": tipoVacuna },
+          { "$MiniLote.SubLote.Lote.vencimiento$": { [Op.gte]: new Date() } },
+          { descarteId: { [Op.is]: null } }
+        ]
+      },
+      include: [
+        {
+          model: MiniLote,
+          required: true,
+          include:[
+            {
+              model: SubLote,
+              required: true,
+              include: [
+                {
+                  model: Lote,
+                  required: true,
+                  include: [
+                    {
+                      model: Vacuna,
+                      required: true,
+                      include: [
+                        {
+                          model: TipoVacuna,
+                          required: true
+                        }
+                      ],
+                      attributes: { exclude: ["nombreComercial", "laboratorioId"]}
+                    }
+                  ],
+                  attributes: { exclude: ["fechaFabricacion", "fechaCompra", "fechaAdquisicion", "depositoId", "descarteId"]}
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      attributes: { exclude: ["fechaSalida", "fechaLlegada", "redistribuidoPor"]},
+      order: [[MiniLote, SubLote, Lote, "vencimiento", "ASC"]],
+      limit: 1
+    });
+  }
+
   async distribuirMiniLote({ subloteId, cantidad, centroId, transaction }) {
     const t = transaction ?? await sequelize.transaction();
     try {

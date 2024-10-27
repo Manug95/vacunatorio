@@ -1,0 +1,51 @@
+extends ../index.pug
+
+block scripts 
+    script(src="/scripts/vacunacion.js", type="module", defer) 
+
+block contenido
+    .container-md.mt-3 
+        h1(class="text-center") Registrar vacunación
+        
+        form#vacunacion-form(class="p-3 mx-auto border rounded-4 shadow-sm w-75 needs-validation mt-3")
+            .row.mb-md-4.mt-3 
+                .col-12.col-md-6.col-lg-4.offset-lg-2.mb-3.mb-md-0
+                    .position-relative
+                        label(for="centro" class="form-label fw-bold") Vacunado en
+                        select#centro(name="centro", class="form-select", aria-label="centro vacunacion destino")
+                            option(value="", selected, disabled) Seleccionar centro 
+                            each centro in centros
+                                option(value=centro.id) #{centro.nombre} 
+                            else 
+                                option(value="", selected, disabled) error al obtener los centros
+                        
+                        .invalid-tooltip Este campo es requerido
+                .col-12.col-md-6.col-lg-4.mb-3.mb-md-0
+                    .position-relative
+                        label(for="vacuna" class="form-label fw-bold") Vacuna
+                        select#vacuna(name="vacuna", class="form-select", aria-label="vacuna")
+                            option(value="", selected, disabled) Seleccionar vacuna 
+                            each vacuna in vacunas
+                                option(value=vacuna.id) #{vacuna.TipoVacuna.tipo}
+                            else 
+                                option(value="", disabled) No hay vacunas 
+                        .invalid-tooltip Este campo es requerido o es incorrecto
+            .row.mb-md-4
+                .col-12.col-md-6.col-lg-4.offset-lg-2.mb-3.mb-md-0
+                    .position-relative
+                        label(for="dni" class="form-label fw-bold") DNI
+                        input#dni(type="text", name="dni", class="form-control", aria-label="dni del paciente") 
+                        .invalid-tooltip Campo vacío o incorrecto
+                .col-12.col-md-6.col-lg-4.mb-3.mb-md-0
+                    .position-relative
+                        label(for="enfermero" class="form-label fw-bold") Enfermero/a
+                        select#enfermero(name="enfermero", class="form-select", aria-label="enfermero que realizo la vacunacion")
+                            option(value="", selected, disabled) Seleccionar 
+                            each enfermero in enfermeros
+                                option(value=enfermero.id) #{enfermero.apellidos}, #{enfermero.nombres}
+                        .invalid-tooltip Este campo es requerido
+            .row.mb-3.justify-content-center 
+                .col-2.d-flex.justify-content-center
+                    input(type="submit", value="Registrar", class="btn btn-primary d-block mx-auto") 
+
+    include ../modalMensaje.pug

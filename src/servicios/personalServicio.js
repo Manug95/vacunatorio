@@ -68,6 +68,14 @@ class PersonalServicio {
 		}
 	}
 
+	async getEnfermeros({ transaction }) {
+		if (transaction) {
+			return Personal.findAll({ where: { cargo: "ENFERMERO" }, transaction });
+		} else {
+			return Personal.findAll({ where: { cargo: "ENFERMERO" } });
+		}
+	}
+
 	async #crearCodigo() {
 		let codigo;
 

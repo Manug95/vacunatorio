@@ -1,6 +1,6 @@
 import { enviarPOST } from "./httpRequests.js";
 import { getElementById, getFormInputValue, mostrarMensaje } from "./frontUtils.js";
-import { setInvalidInputStyle, setValidInputStyle, validarFecha, validarFormSelect } from "./validaciones.js";
+import { setInvalidInputStyle, setValidInputStyle, validarFecha, validarFormSelect, validarDNI } from "./validaciones.js";
 
 document.addEventListener("DOMContentLoaded", (e) => {
   getElementById("registrar-paciente-form").addEventListener("submit", async (e) => {
@@ -64,15 +64,6 @@ function validarNombrePaciente(nombre) {
 
   if (nombre.length > 50) return false;
   // if (nombre.includes(/[0-9]/g)) return false;
-
-  return true;
-}
-
-function validarDNI(dni) {
-  if (!dni) return false;
-
-  const regex = /^\d{8}$/;
-  if (!regex.test(dni)) return false;
 
   return true;
 }

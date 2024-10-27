@@ -20,5 +20,7 @@ miniloteRouter.get("/listado/:centroId", MiniLoteControlador.listarDistribucione
 
 miniloteRouter.get("/redistribuir", MiniLoteControlador.vistaFormRedistribuirMinilote);
 
+miniloteRouter.get("/distribucion", MiniLoteControlador.listarVacunasPorCentro);
+
 
 export default miniloteRouter;
