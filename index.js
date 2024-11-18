@@ -1,5 +1,4 @@
 import { app } from "./app.js";
-import { sequelize } from "./sequelize.js";
 import { llenarBD } from "./dev/paLlenar.js";
 import { pruebaSync } from "./dev/modelsSync.js";
 import pc from "picocolors";
@@ -10,26 +9,11 @@ app.listen(PORT, () => {
   console.log(pc.green(`Servidor corriendo en http://localhost:${PORT}...`));
 
   // pruebaSync()
-  // .then(() => {
+  // .then(() => { console.log(pc.green("TODO OK")); })
+  // .catch((e) => { console.log(pc.red(e.message)); });
 
-    // console.log(pc.blue("COMIENZO DEL LLENADO DE LA BD"));
-    // llenarBD()
-    // .then(() => { 
-    //   console.log(pc.green("INSERCIONES EN LA BD REALIZADAS CON EXITO"));
-
-      // sequelize.query('ALTER TABLE vacunas ADD CONSTRAINT vacuna_unica UNIQUE (nombreComercial, laboratorioId, tipoVacunaId);')
-      // .then(()=>{ console.log(pc.green("CONSTRAINTS DE LA TABLA VACUNAS AGREGADAS CON EXITO")); })
-      // .catch(()=>{ console.log(pc.red("ERROR AL AGRAGAR LAS CONSTRAINTS DE LA TABLA VACUNAS")); });
-    // })
-    // .catch((e) => { 
-    //   console.log(pc.red(e.message));
-    //   console.error(e);
-    // });
-
-  // })
-  // .catch((e) => { 
-  //   console.log(pc.red(e.message));
-  //   console.error(e);
-  // });
+  // llenarBD()
+  // .then(() => { console.log(pc.green("TODO OK")); })
+  // .catch((e) => { console.log(pc.red(e.message)); });
 
 });

@@ -64,7 +64,7 @@ DistribucionProvincial.init({
 }, {
   sequelize,
   modelName: "DistribucionProvincial",
-  tableName: "distribucion-provincial",
+  tableName: "distribuciones_provinciales",
   timestamps: false,
   freezeTableName: true
 });

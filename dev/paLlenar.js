@@ -5,16 +5,17 @@ import loteServicio from "../src/servicios/loteServicio.js";
 
 export async function llenarBD() {
   try {
-    await llenarPaises();
-    await llenarProvincias();
-    await llenarLocalidades();
-    await llenarLaboratorios();
-    await llenarTiposVacunas();
-    await llenarVacunas();
-    await llenarLotes();
-    await llenarDepositoNacional();
-    await llenarCentrosVacunacion();
-    await llenarPersonal();
+    // await llenarPaises();
+    // await llenarProvincias();
+    // await llenarLocalidades();
+    // await llenarLaboratorios();
+    // await llenarTiposVacunas();
+    // await llenarVacunas();
+    // await llenarLotes();
+    // await llenarDepositoNacional();
+    // await llenarCentrosVacunacion();
+    // await llenarPersonal();
+    await llenarPacientes();
   } catch (err) {
     console.error(err);
     throw new Error("ERROR AL REALIZAR LAS INSERCIONES EN LA BD");
@@ -217,78 +218,115 @@ async function llenarPersonal() {
     {
       nombres: faker.person.firstName(),
       apellidos: faker.person.lastName(),
-      cargo: "ADMINISTRATIVO" 
+      cargo: "ADMINISTRATIVO",
+      codigo: "C-0001"
     },
     {
       nombres: faker.person.firstName(),
       apellidos: faker.person.lastName(),
-      cargo: "ADMINISTRATIVO" 
+      cargo: "ADMINISTRATIVO",
+      codigo: "C-0002"
     },
     {
       nombres: faker.person.firstName(),
       apellidos: faker.person.lastName(),
-      cargo: "ADMINISTRATIVO" 
+      cargo: "ADMINISTRATIVO",
+      codigo: "C-0003"
     },
     {
       nombres: faker.person.firstName(),
       apellidos: faker.person.lastName(),
-      cargo: "ADMINISTRATIVO" 
+      cargo: "ADMINISTRATIVO",
+      codigo: "C-0004"
     },
     {
       nombres: faker.person.firstName(),
       apellidos: faker.person.lastName(),
-      cargo: "ADMINISTRATIVO" 
+      cargo: "ADMINISTRATIVO",
+      codigo: "C-0005"
     },
     {
       nombres: faker.person.firstName(),
       apellidos: faker.person.lastName(),
-      cargo: "LOGISTICA" 
+      cargo: "LOGISTICA",
+      codigo: "C-0006"
     },
     {
       nombres: faker.person.firstName(),
       apellidos: faker.person.lastName(),
-      cargo: "LOGISTICA" 
+      cargo: "LOGISTICA",
+      codigo: "C-0007"
     },
     {
       nombres: faker.person.firstName(),
       apellidos: faker.person.lastName(),
-      cargo: "LOGISTICA" 
+      cargo: "LOGISTICA",
+      codigo: "C-0008"
     },
     {
       nombres: faker.person.firstName(),
       apellidos: faker.person.lastName(),
-      cargo: "LOGISTICA" 
+      cargo: "LOGISTICA",
+      codigo: "C-0009"
     },
     {
       nombres: faker.person.firstName(),
       apellidos: faker.person.lastName(),
-      cargo: "LOGISTICA" 
+      cargo: "LOGISTICA",
+      codigo: "C-0010"
     },
     {
       nombres: faker.person.firstName(),
       apellidos: faker.person.lastName(),
-      cargo: "ENFERMERO" 
+      cargo: "ENFERMERO",
+      codigo: "C-0011"
     },
     {
       nombres: faker.person.firstName(),
       apellidos: faker.person.lastName(),
-      cargo: "ENFERMERO" 
+      cargo: "ENFERMERO",
+      codigo: "C-0012" 
     },
     {
       nombres: faker.person.firstName(),
       apellidos: faker.person.lastName(),
-      cargo: "ENFERMERO" 
+      cargo: "ENFERMERO",
+      codigo: "C-0013"
     },
     {
       nombres: faker.person.firstName(),
       apellidos: faker.person.lastName(),
-      cargo: "ENFERMERO" 
+      cargo: "ENFERMERO",
+      codigo: "C-0014"
     },
     {
       nombres: faker.person.firstName(),
       apellidos: faker.person.lastName(),
-      cargo: "ENFERMERO" 
+      cargo: "ENFERMERO",
+      codigo: "C-0015"
     },
   ]);
 }
 
+async function llenarPacientes() {
+  const datos = [];
+
+  for (let i = 0; i < 20; i++) {
+    const sextype = faker.person.sexType();
+    const nombres = faker.person.firstName(sextype);
+    const apellidos = faker.person.lastName();
+
+    datos.push({
+      dni: faker.number.int({ min: 11111111, max: 99999999 }),
+      nombres,
+      apellidos,
+      email: `${nombres}_${apellidos}@gmail.com`,
+      telefono: faker.number.int({ min: 1111111111, max: 9999999999 }),
+      fechaNac: faker.date.birthdate(),
+      genero: sextype === "female" ? "Femenino" : "Masculino"
+    });
+
+  }
+
+  await modelos.Paciente.bulkCreate(datos);
+}

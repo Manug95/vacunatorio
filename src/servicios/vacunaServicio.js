@@ -55,11 +55,13 @@ class VacunaServicio {
       if (transaction) {
         this.#vacunas = await Vacuna.findAll({
           include: includeOpt,
+          order: [[TipoVacuna, "tipo", "ASC"]],
           transaction
         });
       } else {
         this.#vacunas = await Vacuna.findAll({
-          include: includeOpt
+          include: includeOpt,
+          order: [[TipoVacuna, "tipo", "ASC"]]
         });
       }
     } catch (error) {

@@ -11,3 +11,10 @@ export class DataOutOfRangeError extends Error {
       this.name = "OutOfRangeError";
     }
 }
+
+export class SinStockError extends Error {
+  constructor(message = "Error") {
+    super(message);
+    this.name = "SinStockError";
+  }
+}

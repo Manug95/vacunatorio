@@ -1,0 +1,87 @@
+## Cantidad de vacunas compradas a cada laboratorio por rango de fecha.
+
+SELECT labs.nombre AS laboratorio, l.fechaCompra AS fecha_compra, COUNT(*) AS cantidad_vacunas
+FROM lotes AS l
+INNER JOIN vacunas AS v ON l.vacunaId = v.id
+-- INNER JOIN tipos_vacunas AS tp ON v.tipoVacunaId = tp.id
+INNER JOIN laboratorios AS labs ON labs.id = v.laboratorioId
+GROUP BY laboratorio
+HAVING fecha_compra BETWEEN "2024-11-10" AND "2024-11-17"
+ORDER BY laboratorio ASC;
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+## Listado de lotes-proveedores por tipo de vacuna discriminando cuantas dosis se
+## encuentran almacenadas en nación, en distribución, almacenadas en provincia, en
+## centros de vacunación, aplicadas, descartadas y vencidas.
+
+v1
+## en esta consulta estoy perdiendo las vacunas que no estan en minilotes pero si estan en lotes
+## por ej, no hay minilotes de vacunas de tipo SABIN pero si hay lotes de SABIN
+## y esta consulta no me esta contando los lotes de SABIN
+
+SELECT l.nroLote AS lote_proveedor
+	, tp.tipo AS tipo_vacuna
+	, SUM(l.cantidad) AS en_nacion
+    , SUM(sl.cantidad) AS en_provincia
+    , SUM(dp.cantidad) AS en_centros_vacunac
+FROM lotes AS l
+INNER JOIN vacunas AS v ON l.vacunaId = v.id
+INNER JOIN tipos_vacunas AS tp ON v.tipoVacunaId = tp.id
+INNER JOIN sublotes AS sl ON sl.loteId = l.id
+INNER JOIN minilotes AS ml ON ml.subloteId = sl.id
+INNER JOIN distribuciones_provinciales AS dp ON dp.miniloteId = ml.id
+GROUP BY tipo_vacuna;
+
+v2
+SELECT l.nroLote AS lote_proveedor
+	, tp.tipo AS tipo_vacuna
+	, SUM(l.cantidad) AS en_nacion
+    , SUM(sl.cantidad) AS en_provincia
+    , SUM(dp.cantidad) AS en_centros_vacunac
+    -- , COUNT(vacs.id) AS aplicadas
+FROM lotes AS l
+INNER JOIN vacunas AS v ON l.vacunaId = v.id AND l.descarteId IS NULL
+INNER JOIN tipos_vacunas AS tp ON v.tipoVacunaId = tp.id
+INNER JOIN sublotes AS sl ON sl.loteId = l.id AND sl.descarteId IS NULL
+INNER JOIN minilotes AS ml ON ml.subloteId = sl.id
+INNER JOIN distribuciones_provinciales AS dp ON dp.miniloteId = ml.id AND dp.descarteId IS NULL
+-- INNER JOIN vacunaciones as vacs ON vacs.miniloteId = ml.id
+GROUP BY tipo_vacuna;
+
+v3
+SELECT tp.tipo AS tipo_vacuna, SUM(l.cantidad) AS en_nacion
+FROM lotes AS l
+INNER JOIN vacunas AS v ON l.vacunaId = v.id AND l.descarteId IS NULL
+INNER JOIN tipos_vacunas AS tp ON v.tipoVacunaId = tp.id
+GROUP BY tipo_vacuna;
+
+SELECT tp.tipo AS tipo_vacuna, SUM(sl.cantidad) AS en_provincia
+FROM lotes AS l
+INNER JOIN sublotes AS sl ON sl.loteId = l.id AND sl.descarteId IS NULL
+INNER JOIN vacunas AS v ON l.vacunaId = v.id AND l.descarteId IS NULL
+INNER JOIN tipos_vacunas AS tp ON v.tipoVacunaId = tp.id
+GROUP BY tipo_vacuna;
+
+SELECT tp.tipo AS tipo_vacuna, SUM(dp.cantidad) AS en_centros_vacunac
+FROM lotes AS l
+INNER JOIN sublotes AS sl ON sl.loteId = l.id AND sl.descarteId IS NULL
+INNER JOIN minilotes AS ml ON ml.subloteId = sl.id
+INNER JOIN distribuciones_provinciales AS dp ON dp.miniloteId = ml.id AND dp.descarteId IS NULL
+INNER JOIN vacunas AS v ON l.vacunaId = v.id AND l.descarteId IS NULL
+INNER JOIN tipos_vacunas AS tp ON v.tipoVacunaId = tp.id
+GROUP BY tipo_vacuna;
+
+SELECT tp.tipo AS tipo_vacuna, SUM(l.cantidad) AS cant_vacunas_descartadas
+FROM lotes AS l
+INNER JOIN descartes AS d ON l.descarteId = d.id AND d.motivo = "VENCIMIENTO"
+INNER JOIN vacunas AS v ON l.vacunaId = v.id AND l.descarteId IS NULL
+INNER JOIN tipos_vacunas AS tp ON v.tipoVacunaId = tp.id
+GROUP BY tipo_vacuna;
+
+SELECT tp.tipo AS tipo_vacuna, SUM(l.cantidad) AS cant_vacunas_descartadas
+FROM lotes AS l
+INNER JOIN descartes AS d ON l.descarteId = d.id AND d.motivo != "VENCIMIENTO"
+INNER JOIN vacunas AS v ON l.vacunaId = v.id AND l.descarteId IS NULL
+INNER JOIN tipos_vacunas AS tp ON v.tipoVacunaId = tp.id
+GROUP BY tipo_vacuna;

@@ -12,7 +12,7 @@ MiniLote.init({
 }, {
   sequelize,
   modelName: "MiniLote",
-  tableName: "mini-lote",
+  tableName: "minilotes",
   timestamps: false,
   freezeTableName: true
 });

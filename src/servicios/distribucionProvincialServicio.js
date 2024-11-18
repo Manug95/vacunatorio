@@ -5,7 +5,7 @@ import miniloteServicio from "./miniloteServicio.js";
 import subLoteServicio from "./subloteServicio.js";
 import descarteServicio from "./descarteServicio.js";
 import Utils, { capturarErroresDeSequelize } from "../../utils.js";
-import { NoAffectedRowsError, DataOutOfRangeError } from "../modelos/Errores/errores.js";
+import { NoAffectedRowsError, DataOutOfRangeError, SinStockError } from "../modelos/Errores/errores.js";
 import pc from "picocolors";
 
 let instanciaServicio;
@@ -210,7 +210,7 @@ class DistribucionProvincialServicio {
         throw new Error("Hubo un problema al realizar la operación");
       }
 
-      if (sublotesRecuperados.length === 0) throw new Error("No hay sublotes de estas vacuans");
+      if (sublotesRecuperados.length === 0) throw new SinStockError("No hay sublotes de estas vacuans");
 
       const minilotes = [];
       const distribuciones = [];
@@ -272,6 +272,10 @@ class DistribucionProvincialServicio {
 
       if (error instanceof DataOutOfRangeError) {
         throw new Error("No se puede crear un minilote con mas vacunas de las que tiene el sublote de origen");
+      }
+
+      if (error instanceof SinStockError) {
+        throw new Error(error.message);
       }
       
       throw new Error("Hubo un problema al realizar la operación");

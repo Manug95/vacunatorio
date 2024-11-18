@@ -42,7 +42,7 @@ SolicitudMinilote.init({
 }, {
   sequelize,
   modelName: "SolicitudMinilote",
-  tableName: "solicitudes-minilote",
+  tableName: "solicitudes_minilotes",
   timestamps: false,
   freezeTableName: true
 });

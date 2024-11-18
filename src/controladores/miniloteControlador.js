@@ -20,7 +20,7 @@ export default class MiniLoteControlador {
     try {
       // await distribucionProvincialServicio.distribuirMiniLote({ subloteId: sublote, cantidad, centroId: centro });
 
-      const { cantidadSublotes, cantidadVacRestantes } = await distribucionProvincialServicio.distribuirMiniLoteAutomatico({ tipoVacuna, provincia, cantidad, centro, transaction });
+      const { cantidadMinilotes, cantidadVacRestantes } = await distribucionProvincialServicio.distribuirMiniLoteAutomatico({ tipoVacuna, provincia, cantidad, centro, transaction });
       const vacunasEnviadas = cantidad - cantidadVacRestantes;
 
       if (solicitud) {
@@ -30,7 +30,7 @@ export default class MiniLoteControlador {
         if (updateResult[1] === 0) throw new NoAffectedRowsError("No se actualizó la cantidad de vacunas del sublote");
       }
 
-      respuesta.mensaje = `Se crearon ${cantidadSublotes} sublote(s)<br>Total de vacunas enviadas: ${vacunasEnviadas}<br>Vacunas sin enviar: ${cantidadVacRestantes}`;
+      respuesta.mensaje = `Se crearon ${cantidadMinilotes} minilote(s)<br>Total de vacunas enviadas: ${vacunasEnviadas}<br>Vacunas sin enviar: ${cantidadVacRestantes}`;
 
       await transaction.commit();
     }

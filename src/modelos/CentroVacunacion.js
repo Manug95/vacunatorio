@@ -29,7 +29,7 @@ CentroVacunacion.init({
 }, {
   sequelize,
   modelName: "CentroVacunacion",
-  tableName: "Centro-vacunacion",
+  tableName: "centros_vacunacion",
   timestamps: false,
   freezeTableName: true
 });

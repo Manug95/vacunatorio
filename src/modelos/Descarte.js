@@ -1,5 +1,6 @@
 import { DataTypes, Model }from "sequelize";
 import { sequelize } from "../../sequelize.js";
+import { motivosDescarte, formasDescarte } from "../../utils.js";
 
 class Descarte extends Model { }
 
@@ -23,22 +24,10 @@ Descarte.init({
       }
     }
   },
-  // motivo: {
-  //   type: DataTypes.STRING(100),
-  //   allowNull: false,
-  //   validate: {
-  //     notNull: {
-  //       msg: "El motivo del descarte es requerido"
-  //     },
-  //     len: {
-  //       args: [1,100],
-  //       msg: "La descripción del motivo del descarte debe tener entre 1 y 100 caracteres"
-  //     }
-  //   }
-  // },
   motivo: {
     type: DataTypes.ENUM(),
-    values: ["VENCIMIENTO", "ROTURA", "PERDIDA DE FRIO"],
+    // values: ["VENCIMIENTO", "ROTURA", "PERDIDA DE FRIO"],
+    values: motivosDescarte,
     allowNull: false,
     validate: {
       notNull: {
@@ -48,14 +37,16 @@ Descarte.init({
         msg: "El motivo del descarte es requerido"
       },
       isIn: {
-        args: [["VENCIMIENTO", "ROTURA", "PERDIDA DE FRIO"]],
+        // args: [["VENCIMIENTO", "ROTURA", "PERDIDA DE FRIO"]],
+        args: [motivosDescarte],
         msg: "El dato ingresado no corresponde a un motivo de descarte válido"
       }
     }
   },
   formaDescarte: {
     type: DataTypes.ENUM(),
-    values: ["INCINERACION", "OTRO"],
+    // values: ["INCINERACION", "OTRO"],
+    values: formasDescarte,
     allowNull: false,
     validate: {
       notNull: {
@@ -65,7 +56,8 @@ Descarte.init({
         msg: "La forma de descarte es requerida"
       },
       isIn: {
-        args: [["INCINERACION", "OTRO"]],
+        // args: [["INCINERACION", "OTRO"]],
+        args: [formasDescarte],
         msg: "El dato ingresado no corresponde a una forma de descarte válida"
       }
     }

@@ -21,7 +21,7 @@ DepositoNacional.init({
 }, {
   sequelize,
   modelName: "DepositoNacional",
-  tableName: "depositos-nacionales",
+  tableName: "depositos_nacionales",
   timestamps: false,
   freezeTableName: true
 });

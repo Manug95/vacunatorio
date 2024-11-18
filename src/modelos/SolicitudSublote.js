@@ -63,7 +63,7 @@ SolicitudSublote.init({
 }, {
   sequelize,
   modelName: "SolicitudSublote",
-  tableName: "solicitudes-sublotes",
+  tableName: "solicitudes_sublotes",
   timestamps: false,
   freezeTableName: true
 });
