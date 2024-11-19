@@ -1,5 +1,5 @@
 import { getElementById } from "./frontUtils.js";
-import { renderizarTablaSolicitudesMinilotes, crearFilaMensajeDeTablaSolicitudesCompra } from "./tablaStock.js";
+import { renderizarTablaSolicitudesMinilotes, crearFilaMensaje } from "./tablaStock.js";
 import Paginador from "./paginador.js";
 import { enviarGET } from "./httpRequests.js";
 
@@ -22,11 +22,11 @@ document.addEventListener("DOMContentLoaded", () => {
         paginador.cantidadPaginadores = datos.paginadores;
       } else {
         paginador.resetCantidadPaginadores();
-        crearFilaMensajeDeTablaSolicitudesCompra("NO HAY SOLICITUDES DE VACUNAS PENDIENTES");
+        crearFilaMensaje({ mensaje: "NO HAY SOLICITUDES DE VACUNAS PENDIENTES", idTabla: "cuerpo", cantColumnas: "5" });
       }
     } else {
       paginador.resetCantidadPaginadores();
-      crearFilaMensajeDeTablaSolicitudesCompra("NO SE PUDIERON CARGAR LAS SOLICITUDES DE VACUNAS");
+      crearFilaMensaje({ mensaje: "NO SE PUDIERON CARGAR LAS SOLICITUDES DE VACUNAS", idTabla: "cuerpo", cantColumnas: "5" });
     }
 
     paginador.actualizarPaginador();
@@ -51,7 +51,7 @@ function eventoClicksDeLasPaginasDelPaginador(paginador) {
       renderizarTablaSolicitudesMinilotes(datos.solicitudes);
     } else {
       paginador.resetCantidadPaginadores();
-      crearFilaMensajeDeTablaSolicitudesCompra("NO HAY SOLICITUDES DE VACUNAS PENDIENTES");
+      crearFilaMensaje({ mensaje: "NO HAY SOLICITUDES DE VACUNAS PENDIENTES", idTabla: "cuerpo", cantColumnas: "5" });
     }
 
     paginador.actualizarPaginador();

@@ -18,3 +18,10 @@ export class SinStockError extends Error {
     this.name = "SinStockError";
   }
 }
+
+export class MissingParamError extends Error {
+  constructor(message = "Error") {
+    super(message);
+    this.name = "MissingParamError";
+  }
+}

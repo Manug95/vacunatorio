@@ -108,3 +108,10 @@ Cambio de nombres en algunas tablas
 Las tablas que tenian un '-' en su nombre ahora tienen un '_'
 Order al traer los tipos de vacunas
 Nuevo Error SinStockError
+
+17° Commit
+Primera consulta requerida
+
+Controlador, router, servicio para las consultas obligatorias
+vista y script de la consulta
+nuevo error MissingParamError

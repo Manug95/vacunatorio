@@ -8,6 +8,7 @@ import personalRouter from "./src/rutas/personalRouter.js";
 import pacienteRouter from "./src/rutas/pacienteRouter.js";
 import vacunacionRouter from "./src/rutas/vacunacionRouter.js";
 import solicitudesRouter from "./src/rutas/solicitudesRouter.js";
+import consultasRouter from "./src/rutas/consultasRouter.js";
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.use("/personal", personalRouter);
 app.use("/pacientes", pacienteRouter);
 app.use("/vacunacion", vacunacionRouter);
 app.use("/solicitudes", solicitudesRouter);
+app.use("/consultas", consultasRouter);
 
 
 app.get("/", (req, res) => {

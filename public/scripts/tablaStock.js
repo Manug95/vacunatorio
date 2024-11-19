@@ -111,10 +111,35 @@ export function renderizarTablaSolicitudesMinilotes(datos) {
   
 }
 
-export function crearFilaMensajeDeTablaSolicitudesCompra(mensaje, tabla = getElementById("cuerpo")) {
+// export function crearFilaMensajeDeTablaSolicitudesCompra(mensaje, tabla = getElementById("cuerpo")) {
+//   tabla.innerHTML = "";
+//   const fila = createElement("tr", {});
+//   const td = createElement("td", { content: mensaje, colSpan: "5" }, "align-middle", "text-center");
+//   fila.appendChild(td);
+//   tabla.appendChild(fila);
+// }
+
+export function renderizarTablaCslt1(datos) {
+  const tabla = getElementById("cuerpo");
+  tabla.innerHTML = "";
+
+  datos.forEach(d => {
+    const fila = createElement("tr", {});
+
+    Object.keys(d).forEach(key => {
+      fila.appendChild(createElement("td", { content: d[key].toString() }, "align-middle", "text-center", "text-break"));
+    });
+
+    tabla.appendChild(fila);
+  });
+  
+}
+
+export function crearFilaMensaje({ mensaje, idTabla, cantColumnas }) {
+  const tabla = getElementById(idTabla);
   tabla.innerHTML = "";
   const fila = createElement("tr", {});
-  const td = createElement("td", { content: mensaje, colSpan: "5" }, "align-middle", "text-center");
+  const td = createElement("td", { content: mensaje, colSpan: cantColumnas }, "align-middle", "text-center");
   fila.appendChild(td);
   tabla.appendChild(fila);
 }

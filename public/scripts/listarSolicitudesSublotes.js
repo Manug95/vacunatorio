@@ -1,5 +1,5 @@
 import { getElementById } from "./frontUtils.js";
-import { renderizarTablaSolicitudesSublotes, crearFilaMensajeDeTablaSolicitudesCompra } from "./tablaStock.js";
+import { renderizarTablaSolicitudesSublotes, crearFilaMensaje } from "./tablaStock.js";
 import Paginador from "./paginador.js";
 import { enviarGET } from "./httpRequests.js";
 
@@ -22,11 +22,11 @@ document.addEventListener("DOMContentLoaded", () => {
         paginador.cantidadPaginadores = datos.paginadores;
       } else {
         paginador.resetCantidadPaginadores();
-        crearFilaMensajeDeTablaSolicitudesCompra("NO HAY SOLICITUDES DE SUBLOTES PENDIENTES");
+        crearFilaMensaje({ mensaje: "NO HAY SOLICITUDES DE SUBLOTES PENDIENTES", idTabla: "cuerpo", cantColumnas: "5" });
       }
     } else {
       paginador.resetCantidadPaginadores();
-      crearFilaMensajeDeTablaSolicitudesCompra("NO SE PUDIERON CARGAR LAS SOLICITUDES DE SUBLOTES");
+      crearFilaMensaje({ mensaje: "NO SE PUDIERON CARGAR LAS SOLICITUDES DE SUBLOTES", idTabla: "cuerpo", cantColumnas: "5" });
     }
 
     paginador.actualizarPaginador();
@@ -51,7 +51,7 @@ function eventoClicksDeLasPaginasDelPaginador(paginador) {
       renderizarTablaSolicitudesSublotes(datos.solicitudes);
     } else {
       paginador.resetCantidadPaginadores();
-      crearFilaMensajeDeTablaSolicitudesCompra("NO HAY SOLICITUDES DE SUBLOTES PENDIENTES");
+      crearFilaMensaje({ mensaje: "NO HAY SOLICITUDES DE SUBLOTES PENDIENTES", idTabla: "cuerpo", cantColumnas: "5" });
     }
 
     paginador.actualizarPaginador();
