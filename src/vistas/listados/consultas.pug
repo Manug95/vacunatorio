@@ -1,0 +1,60 @@
+extends ../index.pug
+
+block estilos
+    link(rel="stylesheet", href="/estilos/tablas.css")
+
+block scripts 
+    script(src="/scripts/consultas.js", type="module", defer) 
+
+block contenido
+    h1#titulo.text-center.mt-2 Consultas
+
+    .container 
+        .row.my-2 
+            .col-12.col-md-6.col-lg-4.d-flex.justify-content-center.justify-content-lg-start.align-items-center
+                .position-relative.w-75.ms-1
+                    label(for="select_consulta", class="form-label fw-bold") Seleccionar una consulta
+                    select#select_consulta(name="select_consulta", class="form-select cursor-pointer")
+                        option(value="", selected, disabled) Seleccionar
+                        option(value="cslt1") Consulta 1  
+                        option(value="cslt2") Consulta 2  
+                        option(value="cslt3") Consulta 3  
+                        option(value="cslt4") Consulta 4  
+                        option(value="cslt5") Consulta 5  
+                        option(value="cslt6") Consulta 6  
+                    .invalid-tooltip Este campo es requerido
+
+        .row 
+            .col 
+                ul 
+                    li 
+                        strong CONSULTA 1: 
+                        |Cantidad de vacunas compradas a cada laboratorio por rango de fecha.
+                    li 
+                        strong CONSULTA 2: 
+                        |Listado de lotes-proveedores por tipo de vacuna discriminando cuantas dosis se encuentran almacenadas en nación, en distribución, almacenadas en provincia, en centros de vacunación, aplicadas, descartadas y vencidas.
+                    li 
+                        strong CONSULTA 3: 
+                        |Listado de stock disponible para vacunar por tipo de vacuna por provincia (No se consideran vacunas que estén en depósito de nación ni en distribución).
+                    li 
+                        strong CONSULTA 4: 
+                        |Listado de personas por provincia, centro de vacunación y tipo de vacunas a las cuales se aplicó vacuna vencida.
+                    li 
+                        strong CONSULTA 5: 
+                        |Listado de cantidad de vacunas vencidas (que no hayan sido registradas como descartadas) sumarizados por lotes-proveedor, provincia y centro de vacunación.
+                    li 
+                        strong CONSULTA 6: 
+                        |Cantidad de personas vacunadas por tipo de vacuna por provincia y localidad.
+    #container-table.container.shadow-sm.border.rounded-4.mt-5.bg-primary-subtle 
+        include ../formularios/rangoDeFechasForm.pug         
+        .table-responsive.my-4.rounded-3.fixed-height-table-container 
+            table#tabla-consultas.table.table-striped.table-hover.mb-0
+                //- thead#table-head.table-light
+                //-     tr#table-row-head
+                //-         th.text-center Laboratorios
+                //-         th.text-center Cantidad Vacunas
+                //-         th.text-center Fecha de compra
+                //- tbody#cuerpo 
+                //-     tr 
+                //-         td.align-middle.text-center(colspan="3") SELECCIONE UNA CONSULTA
+    include ../modalMensaje.pug

@@ -115,3 +115,10 @@ Primera consulta requerida
 Controlador, router, servicio para las consultas obligatorias
 vista y script de la consulta
 nuevo error MissingParamError
+
+18° Commit
+Segunda consulta requerida
+
+SQL de la consulta
+vista y script de la consulta
+se unieron las vistas y los script de las consultas

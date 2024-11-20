@@ -1,22 +1,13 @@
-//- .position-relative
-//-     label(for="fechaInicial", class="form-label fw-bold") Fecha inicial
-//-     input#fechaInicial(type="date", name="fechaInicial", class="form-control", aria-label="fecha de inicio del rango")
-//-     .invalid-tooltip Este campo es requerido o está incorrecto
-//- .position-relative
-//-     label(for="fechaFin", class="form-label fw-bold") Fecha Fin
-//-     input#fechaFin(type="date", name="fechaFin", class="form-control", aria-label="fecha de final del rango")
-//-     .invalid-tooltip Este campo es requerido o está incorrecto
-
-.row.my-2 
+#form-rango-fechas.row.my-2.d-none
     .col-12.col-md-6.col-lg-4.d-flex.justify-content-center.justify-content-lg-start.align-items-center
         .position-relative.w-75.ms-1
             label(for="fechaInicial", class="form-label fw-bold") Fecha inicial
-            input#fechaInicial(type="date", name="fechaInicial", class="form-control", value="2024-11-15", aria-label="fecha de inicio del rango")
+            input#fechaInicial(type="date", name="fechaInicial", class="form-control", aria-label="fecha de inicio del rango")
             .invalid-tooltip Este campo es requerido o está incorrecto
     .col-12.col-md-6.col-lg-4.d-flex.justify-content-center.justify-content-lg-start.align-items-center
         .position-relative.w-75.ms-1
             label(for="fechaFin", class="form-label fw-bold") Fecha Fin
-            input#fechaFin(type="date", name="fechaFin", class="form-control", value="2024-11-18", aria-label="fecha de final del rango")
+            input#fechaFin(type="date", name="fechaFin", class="form-control", aria-label="fecha de final del rango")
             .invalid-tooltip Este campo es requerido o está incorrecto
     .col-12.col-lg-4.d-flex.justify-content-center.align-items-end.mt-3.mt-lg-0
         span.w-50.d-flex.justify-content-center

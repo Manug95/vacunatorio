@@ -152,7 +152,13 @@ function removerClases(el, ...clases) {
 }
 
 
-
+/**
+ * 
+ * @param {string} el nombre del elemento a crear
+ * @param {*} atributos objeto con los atributos para elemento nuevo
+ * @param  {...string} classes 
+ * @returns {HTMLElement}
+ */
 function createElement( el, { id, value, name, selected, disabled, content, type, href, src, colSpan }, ...classes ) {
   const elemento = document.createElement(el);
 

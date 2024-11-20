@@ -4,9 +4,11 @@ import ConsultasControlador from "../controladores/consultasControlador.js";
 
 const consultasRouter = Router();
 
+consultasRouter.get("/", ConsultasControlador.vistaConsultas);
+
 consultasRouter.get("/:consulta", ConsultasControlador.antenderConsulta);
 
-consultasRouter.get("/vista/consulta1", ConsultasControlador.vistaCantVacunasPorLaboratorioPorFecha);
+// consultasRouter.get("/vista/consulta1", ConsultasControlador.vistaCantVacunasPorLaboratorioPorFecha);
 
 
 export default consultasRouter;

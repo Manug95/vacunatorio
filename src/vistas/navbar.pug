@@ -20,6 +20,8 @@ nav(class="navbar navbar-expand-lg bg-body-secondary")
                     a(class="nav-link", class=activeLink["registrarPaciente"], href="/pacientes/registrar") Registrar Paciente 
                 li(class="nav-item")
                     a(class="nav-link", class=activeLink["vacunacion"], href="/vacunacion") Registrar Vacunación 
+                li(class="nav-item")
+                    a(class="nav-link", class=activeLink["consultas"], href="/consultas") Consultas 
                 li(class="nav-item dropdown")
                     a(class="nav-link dropdown-toggle", href="#", role="button", data-bs-toggle="dropdown", aria-expanded="false", class=activeLink["listado"]) Listados
                     ul(class="dropdown-menu")
@@ -29,8 +31,8 @@ nav(class="navbar navbar-expand-lg bg-body-secondary")
                             a(class="dropdown-item" href="/lotes/listado") Stocks nacionales
                             a(class="dropdown-item" href="/sublotes/listado") Stocks provinciales
                             a(class="dropdown-item" href="/minilotes/listado") Stocks centros Vac
-                li(class="nav-item dropdown")
-                    a(class="nav-link dropdown-toggle", href="#", role="button", data-bs-toggle="dropdown", aria-expanded="false", class=activeLink["consultas"]) Consultas
-                    ul(class="dropdown-menu")
-                        li
-                            a(class="dropdown-item" href="/consultas/vista/consulta1") Cantidad de vacunas por laboratorio por rango de fecha
+                //- li(class="nav-item dropdown")
+                //-     a(class="nav-link dropdown-toggle", href="#", role="button", data-bs-toggle="dropdown", aria-expanded="false", class=activeLink["consultas"]) Consultas
+                //-     ul(class="dropdown-menu")
+                //-         li
+                //-             a(class="dropdown-item" href="/consultas/vista/consulta1") Cantidad de vacunas por laboratorio por rango de fecha

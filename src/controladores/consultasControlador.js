@@ -2,7 +2,8 @@ import pug from "pug";
 import consultasServicio from "../servicios/consultasServicio.js";
 
 const CONSULTAS = {
-  cslt1: consultasServicio.cantVacunasPorLaboratorioPorFecha
+  cslt1: consultasServicio.cslt1,
+  cslt2: consultasServicio.cslt2
 };
 
 export default class ConsultasControlador {
@@ -28,11 +29,11 @@ export default class ConsultasControlador {
     
   }
 
-  static async vistaCantVacunasPorLaboratorioPorFecha(req, res) {
+  static async vistaConsultas(req, res) {
     let vista;
 
     try {
-      vista = pug.renderFile("src/vistas/vistaCantVacunasPorLaboratorioPorFecha.pug", {
+      vista = pug.renderFile("src/vistas/listados/consultas.pug", {
         pretty: true,
         activeLink: "consultas"
       });
@@ -44,5 +45,22 @@ export default class ConsultasControlador {
       res.send(vista ?? "<h1>Error</h1>");
     }
   }
+
+  // static async vistaCantVacunasPorLaboratorioPorFecha(req, res) {
+  //   let vista;
+
+  //   try {
+  //     vista = pug.renderFile("src/vistas/vistaCantVacunasPorLaboratorioPorFecha.pug", {
+  //       pretty: true,
+  //       activeLink: "consultas"
+  //     });
+  //   }
+  //   catch (error) {
+  //     console.log(error.message);
+  //   }
+  //   finally {
+  //     res.send(vista ?? "<h1>Error</h1>");
+  //   }
+  // }
 
 }
