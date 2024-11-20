@@ -122,3 +122,9 @@ Segunda consulta requerida
 SQL de la consulta
 vista y script de la consulta
 se unieron las vistas y los script de las consultas
+
+19° Commit
+Tercera consulta requerida
+
+SQL de la consulta
+vista y script de la consulta añadidos a las anteriores

@@ -97,6 +97,8 @@ function nombreColumna(clave) {
     case "laboratorio": return "LABORATORIO";
     case "cantidad_vacunas": return "CANTIDAD VACUNAS";
     case "fecha_compra": return "FECHA DE COMPRA";
+    case "provincia": return "PROVINCIA";
+    case "stock": return "STOCK";
   }
 }
 

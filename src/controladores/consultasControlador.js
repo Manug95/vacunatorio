@@ -3,7 +3,8 @@ import consultasServicio from "../servicios/consultasServicio.js";
 
 const CONSULTAS = {
   cslt1: consultasServicio.cslt1,
-  cslt2: consultasServicio.cslt2
+  cslt2: consultasServicio.cslt2,
+  cslt3: consultasServicio.cslt3
 };
 
 export default class ConsultasControlador {

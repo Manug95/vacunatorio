@@ -56,9 +56,33 @@ class ConsultasServicio {
     }
     
   }
+
+  async cslt3() {
+    try {
+      const query = `SELECT p.nombre AS provincia, tp.tipo AS tipo_vacuna, SUM(sl.cantidad) AS stock
+                     FROM sublotes AS sl
+                     INNER JOIN provincias AS p ON sl.provinciaId = p.id
+                     INNER JOIN lotes AS l ON sl.loteId = l.id
+                     INNER JOIN vacunas AS v ON l.vacunaId = v.id
+                     INNER JOIN tipos_vacunas AS tp ON v.tipoVacunaId = tp.id
+                     WHERE sl.descarteId IS NULL
+                     GROUP BY provincia, tipo_vacuna;`;
+
+      const results = await sequelize.query({ query, values: [] }, {
+        type: QueryTypes.SELECT
+      });
+
+      return results;
+
+    } catch (error) {
+			capturarErroresDeSequelize(error);
+			throw new Error("Hubo un problema al realizar la operación");
+    }
+    
+  }
 }
 
 const consultasServicio = Object.freeze(new ConsultasServicio());
-// console.log(await consultasServicio.cslt2());
+// console.log(await consultasServicio.cslt3());
 
 export default consultasServicio;

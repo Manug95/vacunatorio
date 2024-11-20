@@ -126,5 +126,15 @@ LEFT JOIN
      GROUP BY tipo_vacuna) AS va
 ON va.tipo_vacuna IN (n.tipo_vacuna, c.tipo_vacuna, p.tipo_vacuna, vd.tipo_vacuna, vv.tipo_vacuna);
 
-------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------
+## Listado de stock disponible para vacunar por tipo de vacuna por provincia (No se
+## consideran vacunas que estén en depósito de nación ni en distribución).
 
+SELECT p.nombre AS provincia, tp.tipo AS tipo_vacuna, SUM(sl.cantidad) AS stock_vacunas
+FROM sublotes AS sl
+INNER JOIN provincias AS p ON sl.provinciaId = p.id
+INNER JOIN lotes AS l ON sl.loteId = l.id
+INNER JOIN vacunas AS v ON l.vacunaId = v.id
+INNER JOIN tipos_vacunas AS tp ON v.tipoVacunaId = tp.id
+WHERE sl.descarteId IS NULL
+GROUP BY provincia, tipo_vacuna;
