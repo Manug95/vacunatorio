@@ -4,7 +4,10 @@ import consultasServicio from "../servicios/consultasServicio.js";
 const CONSULTAS = {
   cslt1: consultasServicio.cslt1,
   cslt2: consultasServicio.cslt2,
-  cslt3: consultasServicio.cslt3
+  cslt3: consultasServicio.cslt3,
+  cslt4: consultasServicio.cslt4,
+  cslt5: consultasServicio.cslt5,
+  cslt6: consultasServicio.cslt6
 };
 
 export default class ConsultasControlador {
@@ -15,8 +18,11 @@ export default class ConsultasControlador {
     const respuesta = {};
 
     try {
+
+      const { results, columnas } = await CONSULTAS[consulta](req.query);
       
-      respuesta.body = await CONSULTAS[consulta](req.query);
+      respuesta.registros = results;
+      respuesta.columnas = columnas;
       
     }
     catch (error) {

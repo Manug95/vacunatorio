@@ -16,10 +16,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const datos = await enviarPeticion({ consulta: consultaSeleccionada, fInicio: fInicio.value, fFin: fFin.value });
     
     if (datos) {
-      const { body } = datos;
+      const { registros, columnas } = datos;
       
-      if (body.length > 0) {
-        renderizarTabla(body);
+      if (registros.length > 0) {
+        renderizarTabla(columnas, registros);
       } else {
         mostrarMensaje(false, "NO HAY RESULTADOS");
       }
@@ -44,10 +44,10 @@ document.addEventListener("DOMContentLoaded", () => {
     // console.log(datos)
 
     if (datos) {//console.log("hola");
-      const { body } = datos;
+      const { registros, columnas } = datos;
       
-      if (body.length > 0) {
-        renderizarTabla(body);
+      if (registros.length > 0) {
+        renderizarTabla(columnas, registros);
       } else {
         mostrarMensaje(false, "NO HAY RESULTADOS");
       }
@@ -59,12 +59,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
-function renderizarTabla(datos) {
+function renderizarTabla(columnas, datos) {
   const tableHead = createElement("thead", { id: "table-head" }, "table-light");
   const trHead = createElement("tr", { id: "table-row-head" });
 
-  Object.keys(datos[0]).forEach(k => {
-    const th = createElement("th", { content: nombreColumna(k) }, "text-center");
+  columnas.forEach(c => {
+    const th = createElement("th", { content: c }, "text-center");
     trHead.appendChild(th);
   });
 
@@ -83,23 +83,6 @@ function renderizarTabla(datos) {
   });
   
   tabla.appendChild(tbody);
-}
-
-function nombreColumna(clave) {
-  switch(clave) {
-    case "tipo_vacuna": return "TIPO DE VACUNA";
-    case "en_nacion": return "EN NACIÓN";
-    case "en_provincia": return "EN PROVINCIA";
-    case "en_centros_vacunac": return "EN CENTROS";
-    case "aplicadas": return "APLICADAS";
-    case "descartadas": return "DESCARTADAS";
-    case "vencidas": return "VENCIDAS";
-    case "laboratorio": return "LABORATORIO";
-    case "cantidad_vacunas": return "CANTIDAD VACUNAS";
-    case "fecha_compra": return "FECHA DE COMPRA";
-    case "provincia": return "PROVINCIA";
-    case "stock": return "STOCK";
-  }
 }
 
 async function enviarPeticion({ consulta, fInicio, fFin }) {

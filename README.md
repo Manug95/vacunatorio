@@ -50,14 +50,14 @@ El sistema debe poder proveer la información necesaria para que el Ministerio d
 Nación pueda gestionar, distribuir y realizar las compras necesarias con la mejor eficiencia posible.
 
 Algunos de los reportes que serán necesarios contar son:  
-*  CSLT1: Cantidad de vacunas compradas a cada laboratorio por rango de fecha.  
-*  CSLT2: Listado de lotes-proveedores por tipo de vacuna discriminando cuantas dosis se
+*  Cantidad de vacunas compradas a cada laboratorio por rango de fecha.  
+*  Listado de lotes-proveedores por tipo de vacuna discriminando cuantas dosis se
    encuentran almacenadas en nación, en distribución, almacenadas en provincia, en
    centros de vacunación, aplicadas, descartadas y vencidas.  
-*  CSLT3: Listado de stock disponible para vacunar por tipo de vacuna por provincia (No se
+*  Listado de stock disponible para vacunar por tipo de vacuna por provincia (No se
    consideran vacunas que estén en depósito de nación ni en distribución).  
-*  CSLT4: Listado de personas por provincia, centro de vacunación y tipo de vacunas a las
+*  Listado de personas por provincia, centro de vacunación y tipo de vacunas a las
    cuales se aplicó vacuna vencida.  
-*  CSLT5: Listado de cantidad de vacunas vencidas (que no hayan sido registradas como
+*  Listado de cantidad de vacunas vencidas (que no hayan sido registradas como
    descartadas) sumarizados por lotes-proveedor, provincia y centro de vacunación.  
-*  CSLT6: Cantidad de personas vacunadas por tipo de vacuna por provincia y localidad.
+*  Cantidad de personas vacunadas por tipo de vacuna por provincia y localidad.

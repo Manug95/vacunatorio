@@ -128,3 +128,9 @@ Tercera consulta requerida
 
 SQL de la consulta
 vista y script de la consulta añadidos a las anteriores
+
+20° Commit
+4ta, 5ta y 6ta consulta
+
+SQLs de las consultas
+vista y script de la consulta añadidos a las anteriores
