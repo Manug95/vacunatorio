@@ -1,12 +1,60 @@
 ## Cantidad de vacunas compradas a cada laboratorio por rango de fecha.
 
-SELECT labs.nombre AS laboratorio, COUNT(*) AS cantidad_vacunas, l.fechaCompra AS fecha_compra
-FROM lotes AS l
-INNER JOIN vacunas AS v 
-    ON l.vacunaId = v.id
-INNER JOIN laboratorios AS labs 
-    ON labs.id = v.laboratorioId
-WHERE l.fechaCompra BETWEEN fecha_inicio AND fecha_fin
+SELECT c.laboratorio AS laboratorio, SUM(c.cant) AS cantidad -- , c.fecha_compra AS fecha_compra
+FROM(
+    SELECT labs.nombre AS laboratorio, l.cantidad cant-- , l.fechaCompra AS fecha_compra
+    FROM lotes AS l
+    INNER JOIN vacunas AS v 
+        ON l.vacunaId = v.id
+    INNER JOIN laboratorios AS labs 
+        ON labs.id = v.laboratorioId
+    WHERE l.fechaCompra BETWEEN "2024-11-10" AND "2024-11-20"
+
+    UNION ALL
+
+    SELECT labs.nombre AS laboratorio, sl.cantidad cant-- , l.fechaCompra AS fecha_compra
+    FROM sublotes AS sl
+    INNER JOIN lotes AS l
+        ON sl.loteId = l.id
+    INNER JOIN vacunas AS v 
+        ON l.vacunaId = v.id
+    INNER JOIN laboratorios AS labs 
+        ON labs.id = v.laboratorioId
+    WHERE l.fechaCompra BETWEEN "2024-11-10" AND "2024-11-20"
+
+    UNION ALL
+
+    SELECT labs.nombre AS laboratorio, dp.cantidad cant-- , l.fechaCompra AS fecha_compra
+    FROM distribuciones_provinciales AS dp
+    INNER JOIN minilotes AS ml
+        ON dp.miniloteId = ml.id
+    INNER JOIN sublotes AS sl
+        ON ml.subloteId = sl.id
+    INNER JOIN lotes AS l
+        ON sl.loteId = l.id
+    INNER JOIN vacunas AS v 
+        ON l.vacunaId = v.id
+    INNER JOIN laboratorios AS labs 
+        ON labs.id = v.laboratorioId
+    WHERE l.fechaCompra BETWEEN "2024-11-10" AND "2024-11-20"
+    
+    UNION ALL
+    
+    SELECT lab.nombre AS laboratorio, COUNT(vacs.id) AS cant
+    FROM vacunaciones AS vacs
+    INNER JOIN minilotes AS ml
+        ON vacs.miniloteId = ml.id
+    INNER JOIN sublotes AS sl
+        ON ml.subloteId = sl.id
+    INNER JOIN lotes AS l
+        ON sl.loteId = l.id
+    INNER JOIN vacunas AS v
+        ON l.vacunaId = v.id
+    INNER JOIN laboratorios AS lab
+        ON v.laboratorioId = lab.id
+    WHERE l.fechaCompra BETWEEN "2024-11-10" AND "2024-11-20"
+    GROUP BY laboratorio
+) AS c
 GROUP BY laboratorio
 ORDER BY laboratorio ASC;
 

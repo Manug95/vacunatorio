@@ -134,3 +134,8 @@ vista y script de la consulta añadidos a las anteriores
 
 SQLs de las consultas
 vista y script de la consulta añadidos a las anteriores
+
+21° Commit
+Primera consulta requerida arreglada
+
+el SQL de las consultas requeridas ahora son llamadas por prodecimientos
