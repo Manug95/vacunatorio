@@ -115,7 +115,9 @@ export default class SolicitudesControlador {
         pretty: true,
         activeLink: { "solSublote": "active-link" },
         provincias: resultadosConsultas.provincias ?? [],
-        vacunas: resultadosConsultas.vacunas ?? []
+        vacunas: resultadosConsultas.vacunas ?? [],
+        tabTitle: "solicitar sublote",
+        isLogged: req.userData.isLogged
       }));
     }
 
@@ -140,7 +142,9 @@ export default class SolicitudesControlador {
         pretty: true,
         activeLink: { "solMinilote": "active-link" },
         centros: resultadosConsultas.centros ?? [],
-        vacunas: resultadosConsultas.vacunas ?? []
+        vacunas: resultadosConsultas.vacunas ?? [],
+        tabTitle: "solicitar minilote",
+        isLogged: req.userData.isLogged
       }));
     }
 
@@ -168,7 +172,9 @@ export default class SolicitudesControlador {
         paginadores: Math.floor(resultadosConsultas.cantidadSolicitudes / 10 + 1) ?? 1,
         cantResultsPorPaginacion,
         cantResultsSelected: "10",
-        error: resultadosConsultas.error
+        error: resultadosConsultas.error,
+        tabTitle: "listado solicitudes sublotes",
+        isLogged: req.userData.isLogged
       }));
     }
 
@@ -196,7 +202,9 @@ export default class SolicitudesControlador {
         paginadores: Math.floor(resultadosConsultas.cantidadSolicitudes / 10 + 1) ?? 1,
         cantResultsPorPaginacion,
         cantResultsSelected: "10",
-        error: resultadosConsultas.error
+        error: resultadosConsultas.error,
+        tabTitle: "listado solicitudes minilotes",
+        isLogged: req.userData.isLogged
       }));
     }
 

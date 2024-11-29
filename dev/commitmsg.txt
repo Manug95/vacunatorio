@@ -139,3 +139,15 @@ vista y script de la consulta añadidos a las anteriores
 Primera consulta requerida arreglada
 
 el SQL de las consultas requeridas ahora son llamadas por prodecimientos
+
+22° Commit
+Autenticación y login
+
+instalacion de dependencias jsonwebtoken, cookie-parser y bcrypt
+controlador, servicio y router del login
+vistas y script del login
+middleware de la autenticación
+vistas de not found y unauthorized
+boton de log-out en la barra de navegación
+nuevo error PasswordError
+archivo .env

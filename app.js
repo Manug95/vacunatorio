@@ -1,5 +1,6 @@
 import express from "express";
 import pug from "pug";
+import cookieParser from "cookie-parser";
 
 import loteRouter from "./src/rutas/loteRouter.js";
 import subloteRouter from "./src/rutas/subloteRouter.js"
@@ -9,13 +10,19 @@ import pacienteRouter from "./src/rutas/pacienteRouter.js";
 import vacunacionRouter from "./src/rutas/vacunacionRouter.js";
 import solicitudesRouter from "./src/rutas/solicitudesRouter.js";
 import consultasRouter from "./src/rutas/consultasRouter.js";
+import usuarioRouter from "./src/rutas/usuarioRouter.js";
+
+import { autenticarUsuario } from "./src/middlewares/autenticaciones.js";
 
 const app = express();
-
 app.disable('x-powered-by');
+
 app.use(express.static("public"));
 app.use(express.json());
+app.use(cookieParser());
 
+app.use("/usuarios", usuarioRouter);
+app.use(autenticarUsuario);
 app.use("/lotes", loteRouter);
 app.use("/sublotes", subloteRouter);
 app.use("/minilotes", miniloteRouter);
@@ -35,24 +42,29 @@ app.get("/", (req, res) => {
     pretty: true,
     activeLink: { "home": "active-link" },
     estilos: "styles.css",
+    tabTitle: "Home",
+    isLogged: req.userData.isLogged
   }));
 });
 
-app.get("*", (req, res) => {
-  if (req.url.includes("favicon.ico")) {
-    res.end();
-  }
-});
-
-// app.get("/", (req, res) => {
+// app.get("/asd", (req, res) => {
 //   if (req.url.includes("favicon.ico")) {
 //     res.end();
 //   }
 
-//   res.send(pug.renderFile("src/vistas/index.pug", {
+//   res.send(pug.renderFile("src/vistas/login.pug", {
 //     pretty: true,
-//     activeLink: "home",
-//     estilos: "styles.css",
+//     activeLink: {  }
+//   }));
+// });
+
+// app.get("*", (req, res) => {
+//   if (req.url.includes("favicon.ico")) {
+//     res.end();
+//   }
+
+//   res.send(pug.renderFile("src/vistas/notFound.pug", {
+//     pretty: true,
 //   }));
 // });
 

@@ -87,7 +87,9 @@ export default class PacienteControlador {
       res.send(pug.renderFile("src/vistas/formularios/registrarPaciente.pug", {
         pretty: true,
         provincias: provincias ?? [],
-        activeLink: { "registrarPaciente": "active-link" }
+        activeLink: { "registrarPaciente": "active-link" },
+				tabTitle: "registrar paciente",
+				isLogged: req.userData.isLogged
       }));
     }
   }

@@ -31,8 +31,5 @@ nav(class="navbar navbar-expand-lg bg-body-secondary")
                             a(class="dropdown-item" href="/lotes/listado") Stocks nacionales
                             a(class="dropdown-item" href="/sublotes/listado") Stocks provinciales
                             a(class="dropdown-item" href="/minilotes/listado") Stocks centros Vac
-                //- li(class="nav-item dropdown")
-                //-     a(class="nav-link dropdown-toggle", href="#", role="button", data-bs-toggle="dropdown", aria-expanded="false", class=activeLink["consultas"]) Consultas
-                //-     ul(class="dropdown-menu")
-                //-         li
-                //-             a(class="dropdown-item" href="/consultas/vista/consulta1") Cantidad de vacunas por laboratorio por rango de fecha
+            form(action="/usuarios/logout" method="POST" class=!isLogged ? "d-none" : "")
+                button.btn.btn-outline-dark(type="submit") Salir

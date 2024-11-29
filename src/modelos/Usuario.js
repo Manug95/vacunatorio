@@ -10,28 +10,48 @@ Usuario.init({
     autoIncrement: true
   },
   username: {
-    type: DataTypes.STRING(50),
+    type: DataTypes.STRING(16),
     allowNull: false,
     validate: {
-      notEmpty: true,
-      len: [1, 50]
+      notEmpty: {
+        msg: "El nombre de usuario es requerido"
+      },
+      len: {
+        args: [3, 16],
+        msg: "El usuario debe tener entre 3 y 16 caracteres"
+      },
+      isString(value) {
+        if (typeof value !== "string") {
+          throw new Error('No es un string');
+        }
+      }
     }
   },
   password: {
     type: DataTypes.STRING(60),
     allowNull: false,
     validate: {
-      notEmpty: true,
-      len: [1, 60]
+      notEmpty: {
+        msg: "La contraseña es requerida"
+      },
+      len: {
+        args: [6, 60],
+        msg: "La contraseña debe tener entre 6 y 25 caracteres"
+      },
+      isString(value) {
+        if (typeof value !== "string") {
+          throw new Error('No es un string');
+        }
+      }
     }
   },
   rol: {
     type: DataTypes.ENUM,
-    values: ['A', 'B', 'C'],
+    values: ['ADMIN_NAC', 'LOGIST_NAC', 'ENFERMERO', 'ADMIN_PROV', 'LOGIST_PROV', 'ADMIN_CEN', 'LOGIST_CEN'],
     allowNull: false,
     validate: {
       notEmpty: true,
-      isIn: [['A', 'B', 'C']]
+      isIn: [['ADMIN_NAC', 'LOGIST_NAC', 'ENFERMERO', 'ADMIN_PROV', 'LOGIST_PROV', 'ADMIN_CEN', 'LOGIST_CEN']]
     }
   }
 }, {

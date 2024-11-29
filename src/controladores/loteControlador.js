@@ -108,7 +108,9 @@ export default class LoteControlador {
         depositos: resultadosConsultas.depositosNac ?? [],
         vacunas: resultadosConsultas.vacunas ?? [],
         vacunaSolicitada,
-        cantidadesCompraLote
+        cantidadesCompraLote,
+        tabTitle: "comprar lote",
+        isLogged: req.userData.isLogged
       }));
     }
 
@@ -133,7 +135,9 @@ export default class LoteControlador {
         error: datos.error,
         nacional: true,
         cantResultsPorPaginacion,
-        cantResultsSelected: "10"
+        cantResultsSelected: "10",
+        tabTitle: "stock lotes",
+        isLogged: req.userData.isLogged
       }));
     }
 
@@ -160,7 +164,9 @@ export default class LoteControlador {
         error: datos.error,
         nacional: true,
         formasDescarte,
-        motivosDescarte
+        motivosDescarte,
+        tabTitle: "descartar lote",
+        isLogged: req.userData.isLogged
       }));
     }
 

@@ -49,7 +49,9 @@ export default class VacunacionControlador {
         centros: centros ?? [],
         vacunas: vacunas ?? [],
         enfermeros: enfermeros ?? [],
-        activeLink: { "vacunacion": "active-link" }
+        activeLink: { "vacunacion": "active-link" },
+				tabTitle: "registrar vacunación",
+				isLogged: req.userData.isLogged
       }));
     }
 	}

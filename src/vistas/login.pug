@@ -1,0 +1,25 @@
+extends ./index.pug
+
+block scripts
+  script(src="/scripts/login.js", type="module", defer)
+
+block contenido 
+  .d-flex.justify-content-center.align-items-center.vh-100.bg-light
+    .card.shadow-sm(style="width: 25rem;")
+      .card-body
+        h2.card-title.text-center.mb-4 Login
+        form#login-form
+          .mb-3
+            .position-relative
+              label.form-label(for="username") Usuario
+              input#username.form-control(type="text" name="username" required placeholder="Ingrese su usuario")
+              .invalid-tooltip Campo incorrecto o incompleto
+          .mb-3
+            .position-relative
+              label.form-label(for="password") Contraseña
+              input#password.form-control(type="password" name="password" required placeholder="Ingrese su contraseña")
+              .invalid-tooltip Campo incorrecto o incompleto
+          .d-grid
+            button#btn-login.btn.btn-primary(type="button") Log In
+
+  include ./modalMensaje.pug

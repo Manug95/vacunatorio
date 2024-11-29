@@ -107,3 +107,14 @@ Content-Type: application/json
     "centroId": 2,
     "miniloteId": "7ef94f24-f61c-497d-ac79-d89e0bae80c1"
 }
+
+### crear usuario
+POST http://localhost:3000/usuarios/create
+Content-Type: application/json
+
+{
+    "username": "usuario11",
+    "password": "usuario11",
+    "rol": "LOGIST_CEN",
+    "personal": 23
+}

@@ -42,7 +42,9 @@ export default class ConsultasControlador {
     try {
       vista = pug.renderFile("src/vistas/listados/consultas.pug", {
         pretty: true,
-        activeLink: "consultas"
+        activeLink: "consultas",
+        tabTitle: "consultas",
+        isLogged: req.userData.isLogged
       });
     }
     catch (error) {
@@ -52,22 +54,5 @@ export default class ConsultasControlador {
       res.send(vista ?? "<h1>Error</h1>");
     }
   }
-
-  // static async vistaCantVacunasPorLaboratorioPorFecha(req, res) {
-  //   let vista;
-
-  //   try {
-  //     vista = pug.renderFile("src/vistas/vistaCantVacunasPorLaboratorioPorFecha.pug", {
-  //       pretty: true,
-  //       activeLink: "consultas"
-  //     });
-  //   }
-  //   catch (error) {
-  //     console.log(error.message);
-  //   }
-  //   finally {
-  //     res.send(vista ?? "<h1>Error</h1>");
-  //   }
-  // }
 
 }

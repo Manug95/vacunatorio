@@ -306,3 +306,47 @@ export function validarSolicitudMinilote(req, res, next) {
 		res.status(400).json({ ok: false, mensaje: error.message });
 	}
 }
+
+export function validarNuevoUsuario(req, res, next) {
+	const { username, password, rol, personal } = req.body;
+
+	try {
+		if (!username) {
+			throw new Error("Falta nombre de usuario");
+		}
+
+		if (!password) {
+      throw new Error("Falta la contraseña");
+    }
+
+		if (!rol) {
+      throw new Error("Falta el rol");
+    }
+
+		if (!personal) {
+      throw new Error("Falta el personal");
+    }
+
+		next();
+	} catch (error) {
+		res.status(400).json({ ok: false, mensaje: error.message });
+	}
+}
+
+export function validarUsuario(req, res, next) {
+	const { username, password } = req.body;
+
+	try {
+		if (!username) {
+			throw new Error("Falta nombre de usuario");
+		}
+
+		if (!password) {
+      throw new Error("Falta la contraseña");
+    }
+
+		next();
+	} catch (error) {
+		res.status(400).json({ ok: false, mensaje: error.message });
+	}
+}

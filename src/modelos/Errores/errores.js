@@ -25,3 +25,10 @@ export class MissingParamError extends Error {
     this.name = "MissingParamError";
   }
 }
+
+export class PasswordError extends Error {
+  constructor(message = "Error") {
+    super(message);
+    this.name = "PasswordError";
+  }
+}

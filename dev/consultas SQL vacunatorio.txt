@@ -1,6 +1,0 @@
-consulta para traer todos los lotes cuya vacunaId es 1, que no estan descartados
-SELECT l.*
-FROM ((lotes l
-INNER JOIN vacunas v ON l.vacunaId = v.id)
-LEFT JOIN Descartes d ON l.id = d.loteId)
-WHERE d.loteId IS NULL AND v.tipoVacunaId = 1;

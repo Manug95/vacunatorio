@@ -149,7 +149,9 @@ export default class SubLoteControlador {
         depositos: resultadosConsultas.depositos,
         provincias: resultadosConsultas.provincias,
         sol,
-        vacunas: resultadosConsultas.vacunas
+        vacunas: resultadosConsultas.vacunas,
+        tabTitle: "crear sublote",
+        isLogged: req.userData.isLogged
       }));
     }
   }
@@ -173,7 +175,9 @@ export default class SubLoteControlador {
         error: datos.error,
         provincial: true,
         cantResultsPorPaginacion,
-        cantResultsSelected: "10"
+        cantResultsSelected: "10",
+        tabTitle: "stock sublotes",
+        isLogged: req.userData.isLogged
       }));
     }
 
@@ -199,7 +203,9 @@ export default class SubLoteControlador {
         error: datos.error,
         nacional: true,
         formasDescarte,
-        motivosDescarte
+        motivosDescarte,
+        tabTitle: "descartar sublote",
+        isLogged: req.userData.isLogged
       }));
     }
 

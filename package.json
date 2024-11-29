@@ -4,9 +4,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js",
-    "prueba": "node --watch ./src/index.js"
+    "start": "node --env-file .env index.js",
+    "dev": "nodemon --env-file .env index.js",
+    "prueba": "node --env-file .env --watch ./src/index.js"
   },
   "engines": {
     "node": ">=20.10.0"
@@ -24,11 +24,14 @@
   "homepage": "https://github.com/Manug95/vacunatorio#readme",
   "description": "",
   "dependencies": {
-    "express": "^4.19.2",
-    "mysql2": "^3.11.0",
-    "picocolors": "^1.0.1",
-    "pug": "^3.0.3",
-    "sequelize": "^6.37.3"
+    "bcrypt": "5.1.1",
+    "cookie-parser": "1.4.7",
+    "express": "4.19.2",
+    "jsonwebtoken": "9.0.2",
+    "mysql2": "3.11.0",
+    "picocolors": "1.0.1",
+    "pug": "3.0.3",
+    "sequelize": "6.37.3"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.4.1",

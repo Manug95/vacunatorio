@@ -177,7 +177,9 @@ export default class MiniLoteControlador {
         centros: resultadosConsultas.centros,
         provincias: resultadosConsultas.provincias,
         sol,
-        vacunas: resultadosConsultas.vacunas
+        vacunas: resultadosConsultas.vacunas,
+        tabTitle: "crear minilote",
+        isLogged: req.userData.isLogged
       }));
     }
   }
@@ -200,7 +202,9 @@ export default class MiniLoteControlador {
         paginadores: 1,
         error: datos.error,
         cantResultsPorPaginacion,
-        cantResultsSelected: "10"
+        cantResultsSelected: "10",
+        tabTitle: "stock vacunas",
+        isLogged: req.userData.isLogged
       }));
     }
   }
@@ -224,7 +228,9 @@ export default class MiniLoteControlador {
         error: datos.error,
         nacional: true,
         formasDescarte,
-        motivosDescarte
+        motivosDescarte,
+        tabTitle: "descartar vacunas",
+        isLogged: req.userData.isLogged
       }));
     }
   }
@@ -241,7 +247,9 @@ export default class MiniLoteControlador {
       res.send(pug.renderFile("src/vistas/formularios/redistribuirVacunas.pug", {
         pretty: true,
         centros: resultadosConsultas.centros ?? [],
-        dist: dist ?? ""
+        dist: dist ?? "",
+        tabTitle: "redistribuir vacunas",
+        isLogged: req.userData.isLogged
       }));
     }
   }
