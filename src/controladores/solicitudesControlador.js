@@ -112,12 +112,12 @@ export default class SolicitudesControlador {
       console.error(e);
     } finally {
       res.send(pug.renderFile("src/vistas/formularios/solicitarSubLote.pug", {
-        pretty: true,
         activeLink: { "solSublote": "active-link" },
         provincias: resultadosConsultas.provincias ?? [],
         vacunas: resultadosConsultas.vacunas ?? [],
         tabTitle: "solicitar sublote",
-        isLogged: req.userData.isLogged
+        isLogged: req.userData.isLogged,
+        rol: req.userData.rol
       }));
     }
 
@@ -139,12 +139,12 @@ export default class SolicitudesControlador {
       console.error(e);
     } finally {
       res.send(pug.renderFile("src/vistas/formularios/solicitarMinilote.pug", {
-        pretty: true,
         activeLink: { "solMinilote": "active-link" },
         centros: resultadosConsultas.centros ?? [],
         vacunas: resultadosConsultas.vacunas ?? [],
         tabTitle: "solicitar minilote",
-        isLogged: req.userData.isLogged
+        isLogged: req.userData.isLogged,
+        rol: req.userData.rol
       }));
     }
 
@@ -166,7 +166,6 @@ export default class SolicitudesControlador {
       console.log(error.message);
     } finally {
       res.send(pug.renderFile("src/vistas/listados/listadoSolicitudesSublote.pug", {
-        pretty: true,
         activeLink: { "listado": "active-link" },
         solicitudes: resultadosConsultas.solicitudes,
         paginadores: Math.floor(resultadosConsultas.cantidadSolicitudes / 10 + 1) ?? 1,
@@ -174,7 +173,8 @@ export default class SolicitudesControlador {
         cantResultsSelected: "10",
         error: resultadosConsultas.error,
         tabTitle: "listado solicitudes sublotes",
-        isLogged: req.userData.isLogged
+        isLogged: req.userData.isLogged,
+        rol: req.userData.rol
       }));
     }
 
@@ -196,7 +196,6 @@ export default class SolicitudesControlador {
       console.log(error.message);
     } finally {
       res.send(pug.renderFile("src/vistas/listados/listadoSolicitudesMinilote.pug", {
-        pretty: true,
         activeLink: { "listado": "active-link" },
         solicitudes: resultadosConsultas.solicitudes,
         paginadores: Math.floor(resultadosConsultas.cantidadSolicitudes / 10 + 1) ?? 1,
@@ -204,7 +203,8 @@ export default class SolicitudesControlador {
         cantResultsSelected: "10",
         error: resultadosConsultas.error,
         tabTitle: "listado solicitudes minilotes",
-        isLogged: req.userData.isLogged
+        isLogged: req.userData.isLogged,
+        rol: req.userData.rol
       }));
     }
 

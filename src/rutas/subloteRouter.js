@@ -1,20 +1,21 @@
 import { Router } from "express";
 import SubLoteControlador from "../controladores/subloteControlador.js";
 import { validarNuevoSubLote, validarDescarteSubLote } from "../middlewares/validaciones.js";
+import { validarPermisos, validarPermisosRutasDinamicas } from "../middlewares/autorizaciones.js";
 
 const subloteRouter = Router();
 
-subloteRouter.post("/", validarNuevoSubLote, SubLoteControlador.crear);
+subloteRouter.post("/", validarPermisos, validarNuevoSubLote, SubLoteControlador.crear);
 
-subloteRouter.post("/descartar", validarDescarteSubLote, SubLoteControlador.descartar);
+subloteRouter.post("/descartar", validarPermisos, validarDescarteSubLote, SubLoteControlador.descartar);
 
-subloteRouter.get("/crear", SubLoteControlador.vistaFormCrearSublote);
+subloteRouter.get("/crear", validarPermisos, SubLoteControlador.vistaFormCrearSublote);
 
-subloteRouter.get("/listado", SubLoteControlador.vistaListadoSublotes);
+subloteRouter.get("/listado", validarPermisos, SubLoteControlador.vistaListadoSublotes);
 
-subloteRouter.get("/listado/:provinciaId", SubLoteControlador.listarSublotes);
+subloteRouter.get("/listado/:provinciaId", validarPermisosRutasDinamicas('ADMIN_PROV', 'LOGIST_PROV', 'MASTER'), SubLoteControlador.listarSublotes);
 
-subloteRouter.get("/descartar", SubLoteControlador.vistaFormDescartarSublote);
+subloteRouter.get("/descartar", validarPermisos, SubLoteControlador.vistaFormDescartarSublote);
 
 
 export default subloteRouter;

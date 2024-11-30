@@ -7,12 +7,17 @@ export function funcionEnviarPost(url) {
   }
 }
 
-const optionsGET = {}
+const optionsGET = {
+  headers: {
+    'Accept': 'application/json'
+  }
+}
 
 const optionsPOST = {
   method: "POST",
   headers: {
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    'Accept': 'application/json'
   }
 }
 
@@ -42,7 +47,8 @@ const optionsPATCH = {
  * @param {Object} headers Un objeto con las cabeceras de la peticion
  */
 export async function enviarGET(url, headers) {
-  if (headers) optionsGET.headers = headers;
+  // if (headers) optionsGET.headers = headers;
+  if (headers) Object.assign(optionsGET.headers, headers);
 
   let datosRespuesta = null;
 

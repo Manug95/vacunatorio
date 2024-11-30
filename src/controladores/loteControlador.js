@@ -103,14 +103,14 @@ export default class LoteControlador {
       console.error(e);
     } finally {
       res.send(pug.renderFile("src/vistas/formularios/comprarLote.pug", {
-        pretty: true,
         activeLink: { "comprar": "active-link" },
         depositos: resultadosConsultas.depositosNac ?? [],
         vacunas: resultadosConsultas.vacunas ?? [],
         vacunaSolicitada,
         cantidadesCompraLote,
         tabTitle: "comprar lote",
-        isLogged: req.userData.isLogged
+        isLogged: req.userData.isLogged,
+        rol: req.userData.rol
       }));
     }
 
@@ -128,7 +128,6 @@ export default class LoteControlador {
     }
     finally {
       res.send(pug.renderFile("src/vistas/listados/listadodeStock.pug", {
-        pretty: true,
         activeLink: { "listado": "active-link" },
         depositosNac: datos.depositosNac,
         paginadores: 1,
@@ -137,7 +136,8 @@ export default class LoteControlador {
         cantResultsPorPaginacion,
         cantResultsSelected: "10",
         tabTitle: "stock lotes",
-        isLogged: req.userData.isLogged
+        isLogged: req.userData.isLogged,
+        rol: req.userData.rol
       }));
     }
 
@@ -157,7 +157,6 @@ export default class LoteControlador {
     }
     finally {
       res.send(pug.renderFile("src/vistas/formularios/descartarLote.pug", {
-        pretty: true,
         activeLink: "descartar-lote",
         lote: lote ?? "",
         paginadores: 1,
@@ -166,7 +165,8 @@ export default class LoteControlador {
         formasDescarte,
         motivosDescarte,
         tabTitle: "descartar lote",
-        isLogged: req.userData.isLogged
+        isLogged: req.userData.isLogged,
+        rol: req.userData.rol
       }));
     }
 

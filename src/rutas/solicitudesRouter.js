@@ -1,24 +1,25 @@
 import { Router } from "express";
 import SolicitudesControlador from "../controladores/solicitudesControlador.js";
 import { validarSolicitudSublote, validarSolicitudMinilote } from "../middlewares/validaciones.js";
+import { validarPermisos } from "../middlewares/autorizaciones.js";
 
 const solicitudesRouter = Router();
 
-solicitudesRouter.post("/sublote", validarSolicitudSublote, SolicitudesControlador.crearSolicitudSublote);
+solicitudesRouter.post("/sublote", validarPermisos, validarSolicitudSublote, SolicitudesControlador.crearSolicitudSublote);
 
-solicitudesRouter.post("/minilote", validarSolicitudMinilote, SolicitudesControlador.crearSolicitudMinilote);
+solicitudesRouter.post("/minilote", validarPermisos, validarSolicitudMinilote, SolicitudesControlador.crearSolicitudMinilote);
 
-solicitudesRouter.get("/sublote-form", SolicitudesControlador.vistaFormularioSolicitarSublote);
+solicitudesRouter.get("/sublote-form", validarPermisos, SolicitudesControlador.vistaFormularioSolicitarSublote);
 
-solicitudesRouter.get("/sublote", SolicitudesControlador.listarSolicitudesSublote);
+solicitudesRouter.get("/sublote", validarPermisos, SolicitudesControlador.listarSolicitudesSublote);
 
-solicitudesRouter.get("/minilote", SolicitudesControlador.listarSolicitudesMinilote);
+solicitudesRouter.get("/minilote", validarPermisos, SolicitudesControlador.listarSolicitudesMinilote);
 
-solicitudesRouter.get("/sublote-listado", SolicitudesControlador.vistaListadoSolicitarSublote);
+solicitudesRouter.get("/sublote-listado", validarPermisos, SolicitudesControlador.vistaListadoSolicitarSublote);
 
-solicitudesRouter.get("/vacunas-listado", SolicitudesControlador.vistaListadoSolicitarMinilote);
+solicitudesRouter.get("/vacunas-listado", validarPermisos, SolicitudesControlador.vistaListadoSolicitarMinilote);
 
-solicitudesRouter.get("/vacuna-form", SolicitudesControlador.vistaFormularioSolicitarMinilote);
+solicitudesRouter.get("/vacuna-form", validarPermisos, SolicitudesControlador.vistaFormularioSolicitarMinilote);
 
 
 export default solicitudesRouter;

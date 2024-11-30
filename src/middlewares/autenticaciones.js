@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 
-const pathsPublicos = ["login", "authenticate"];
+const pathsPublicos = ["login"];
 const JWT_SECREY_KEY = process.env.JWT_SECREY_KEY ?? "clave secreta jwt";
 
 export function autenticarUsuario(req, res, next) {
@@ -8,7 +8,7 @@ export function autenticarUsuario(req, res, next) {
   
   const token = req.cookies.access_token;
   if (!token) {
-    return res.status(401).redirect("/usuarios/login");
+    return res.status(401).redirect("/login");
   }
 
   try {
@@ -17,6 +17,6 @@ export function autenticarUsuario(req, res, next) {
     req.userData.isLogged = true;
     next();
   } catch (error) {
-    return res.status(401).redirect("/usuarios/login");
+    return res.status(401).redirect("/login");
   }
 }

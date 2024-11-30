@@ -151,3 +151,12 @@ vistas de not found y unauthorized
 boton de log-out en la barra de navegación
 nuevo error PasswordError
 archivo .env
+
+23° Commit
+Autorizaciones de rutas
+
+middleware para verificar si un usuario tiene permisos correspondientes
+middlewares agregados a las rutas correspondientes
+cabecera Accept agregada a las solicitudes POST y GET AJAX
+eliminada la vista de unauthorized
+agregada la vista de forbidden

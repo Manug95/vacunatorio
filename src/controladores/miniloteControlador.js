@@ -169,7 +169,6 @@ export default class MiniLoteControlador {
       console.error(e);
     } finally {
       res.send(pug.renderFile("src/vistas/formularios/crearMinilote.pug", {
-        pretty: true,
         activeLink: { "crearMini": "active-link" },
         cant,
         centroSel: centro,
@@ -179,7 +178,8 @@ export default class MiniLoteControlador {
         sol,
         vacunas: resultadosConsultas.vacunas,
         tabTitle: "crear minilote",
-        isLogged: req.userData.isLogged
+        isLogged: req.userData.isLogged,
+        rol: req.userData.rol
       }));
     }
   }
@@ -196,7 +196,6 @@ export default class MiniLoteControlador {
     }
     finally {
       res.send(pug.renderFile("src/vistas/listados/listadodeStock.pug", {
-        pretty: true,
         activeLink: { "listado": "active-link" },
         centros: datos.centros,
         paginadores: 1,
@@ -204,7 +203,8 @@ export default class MiniLoteControlador {
         cantResultsPorPaginacion,
         cantResultsSelected: "10",
         tabTitle: "stock vacunas",
-        isLogged: req.userData.isLogged
+        isLogged: req.userData.isLogged,
+        rol: req.userData.rol
       }));
     }
   }
@@ -222,7 +222,6 @@ export default class MiniLoteControlador {
     }
     finally {
       res.send(pug.renderFile("src/vistas/formularios/descartarDistribucion.pug", {
-        pretty: true,
         distribucion: dist ?? "",
         paginadores: 1,
         error: datos.error,
@@ -230,7 +229,8 @@ export default class MiniLoteControlador {
         formasDescarte,
         motivosDescarte,
         tabTitle: "descartar vacunas",
-        isLogged: req.userData.isLogged
+        isLogged: req.userData.isLogged,
+        rol: req.userData.rol
       }));
     }
   }
@@ -245,11 +245,11 @@ export default class MiniLoteControlador {
       console.error(e);
     } finally {
       res.send(pug.renderFile("src/vistas/formularios/redistribuirVacunas.pug", {
-        pretty: true,
         centros: resultadosConsultas.centros ?? [],
         dist: dist ?? "",
         tabTitle: "redistribuir vacunas",
-        isLogged: req.userData.isLogged
+        isLogged: req.userData.isLogged,
+        rol: req.userData.rol
       }));
     }
   }

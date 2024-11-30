@@ -333,7 +333,7 @@ export function validarNuevoUsuario(req, res, next) {
 	}
 }
 
-export function validarUsuario(req, res, next) {
+export function validarLogin(req, res, next) {
 	const { username, password } = req.body;
 
 	try {

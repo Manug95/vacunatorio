@@ -21,7 +21,7 @@ async function login() {
     if (isValidUsername(username) && isValidPassword(password)) {
       // const res = await enviarPOST("/usuarios/authenticate", { username, password });
       // mostrarMensaje(res.ok, res.mensaje);
-      const response = await fetch("/usuarios/authenticate", {
+      const response = await fetch("/login", {
         body: JSON.stringify({ username, password }),
         method: "POST",
         headers: {

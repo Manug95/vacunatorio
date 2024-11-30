@@ -1,14 +1,12 @@
 import { Router } from "express";
 import ConsultasControlador from "../controladores/consultasControlador.js";
-// import { validarNuevoLote, validarDescarteLote } from "../middlewares/validaciones.js";
+import { validarPermisos, validarPermisosRutasDinamicas } from "../middlewares/autorizaciones.js";
 
 const consultasRouter = Router();
 
-consultasRouter.get("/", ConsultasControlador.vistaConsultas);
+consultasRouter.get("/", validarPermisos, ConsultasControlador.vistaConsultas);
 
-consultasRouter.get("/:consulta", ConsultasControlador.antenderConsulta);
-
-// consultasRouter.get("/vista/consulta1", ConsultasControlador.vistaCantVacunasPorLaboratorioPorFecha);
+consultasRouter.get("/:consulta", validarPermisosRutasDinamicas('ADMIN_NAC', 'ADMIN_PROV', 'ADMIN_CEN', 'MASTER'), ConsultasControlador.antenderConsulta);
 
 
 export default consultasRouter;

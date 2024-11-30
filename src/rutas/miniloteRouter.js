@@ -1,26 +1,27 @@
 import { Router } from "express";
 import MiniLoteControlador from "../controladores/miniloteControlador.js";
 import { validarRedistribucionMiniLote, validarDistribucionMiniLote, validarDescarteDistribucionProvincial } from "../middlewares/validaciones.js";
+import { validarPermisos, validarPermisosRutasDinamicas } from "../middlewares/autorizaciones.js";
 
 const miniloteRouter = Router();
 
-miniloteRouter.post("/", validarDistribucionMiniLote, MiniLoteControlador.distribuir);
+miniloteRouter.post("/", validarPermisos, validarDistribucionMiniLote, MiniLoteControlador.distribuir);
 
-miniloteRouter.post("/redistribuir", validarRedistribucionMiniLote, MiniLoteControlador.redistribuir);
+miniloteRouter.post("/redistribuir", validarPermisos, validarRedistribucionMiniLote, MiniLoteControlador.redistribuir);
 
-miniloteRouter.post("/descartar", validarDescarteDistribucionProvincial, MiniLoteControlador.descartar);
+miniloteRouter.post("/descartar", validarPermisos, validarDescarteDistribucionProvincial, MiniLoteControlador.descartar);
 
-miniloteRouter.get("/crear", MiniLoteControlador.vistaFormCrearMinilote);
+miniloteRouter.get("/crear", validarPermisos, MiniLoteControlador.vistaFormCrearMinilote);
 
-miniloteRouter.get("/listado", MiniLoteControlador.vistaListadoDistribuciones);
+miniloteRouter.get("/listado", validarPermisos, MiniLoteControlador.vistaListadoDistribuciones);
 
-miniloteRouter.get("/descartar", MiniLoteControlador.vistaFormDescarteDistribucion);
+miniloteRouter.get("/descartar", validarPermisos, MiniLoteControlador.vistaFormDescarteDistribucion);
 
-miniloteRouter.get("/listado/:centroId", MiniLoteControlador.listarDistribuciones);
+miniloteRouter.get("/listado/:centroId", validarPermisosRutasDinamicas('ADMIN_CEN', 'LOGIST_CEN', 'MASTER'), MiniLoteControlador.listarDistribuciones);
 
-miniloteRouter.get("/redistribuir", MiniLoteControlador.vistaFormRedistribuirMinilote);
+miniloteRouter.get("/redistribuir", validarPermisos, MiniLoteControlador.vistaFormRedistribuirMinilote);
 
-miniloteRouter.get("/distribucion", MiniLoteControlador.listarVacunasPorCentro);
+miniloteRouter.get("/distribucion", validarPermisos, MiniLoteControlador.listarVacunasPorCentro);
 
 
 export default miniloteRouter;

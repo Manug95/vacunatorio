@@ -6,30 +6,43 @@ nav(class="navbar navbar-expand-lg bg-body-secondary")
             ul(class="navbar-nav me-auto mb-2 mb-lg-0")
                 li(class="nav-item")
                     a(class="nav-link", class=activeLink["home"], href="/", aria-current="page") Home
-                li(class="nav-item")
-                    a(class="nav-link", class=activeLink["solSublote"], href="/solicitudes/sublote-form") Solicitar Sublotes
-                li(class="nav-item")
-                    a(class="nav-link", class=activeLink["solMinilote"], href="/solicitudes/vacuna-form") Solicitar Vacunas
-                li(class="nav-item")
-                    a(class="nav-link", class=activeLink["comprar"], href="/lotes/comprar") Comprar 
-                li(class="nav-item")
-                    a(class="nav-link", class=activeLink["crearSub"], href="/sublotes/crear") Crear Sublote 
-                li(class="nav-item")
-                    a(class="nav-link", class=activeLink["crearMini"], href="/minilotes/crear") Crear Minilote 
-                li(class="nav-item")
-                    a(class="nav-link", class=activeLink["registrarPaciente"], href="/pacientes/registrar") Registrar Paciente 
-                li(class="nav-item")
-                    a(class="nav-link", class=activeLink["vacunacion"], href="/vacunacion") Registrar Vacunación 
-                li(class="nav-item")
-                    a(class="nav-link", class=activeLink["consultas"], href="/consultas") Consultas 
+                if(rol==="MASTER"||rol==='ADMIN_NAC'||rol==='LOGIST_NAC')
+                    li(class="nav-item")
+                        a(class="nav-link", class=activeLink["solSublote"], href="/solicitudes/sublote-form") Solicitar Sublotes
+                if(rol==="MASTER"||rol==='ADMIN_PROV'||rol==='LOGIST_PROV')
+                    li(class="nav-item")
+                        a(class="nav-link", class=activeLink["solMinilote"], href="/solicitudes/vacuna-form") Solicitar Vacunas
+                if(rol==="MASTER"||rol==='ADMIN_NAC')
+                    li(class="nav-item")
+                        a(class="nav-link", class=activeLink["comprar"], href="/lotes/comprar") Comprar 
+                if(rol==="MASTER"||rol==='ADMIN_PROV')
+                    li(class="nav-item")
+                        a(class="nav-link", class=activeLink["crearSub"], href="/sublotes/crear") Crear Sublote 
+                if(rol==="MASTER"||rol==='ADMIN_CEN')
+                    li(class="nav-item")
+                        a(class="nav-link", class=activeLink["crearMini"], href="/minilotes/crear") Crear Minilote 
+                if(rol==="MASTER"||rol==='ADMIN_CEN')
+                    li(class="nav-item")
+                        a(class="nav-link", class=activeLink["registrarPaciente"], href="/pacientes/registrar") Registrar Paciente 
+                if(rol==="MASTER"||rol==='ADMIN_CEN'||rol==='ENFERMERO')
+                    li(class="nav-item")
+                        a(class="nav-link", class=activeLink["vacunacion"], href="/vacunacion") Registrar Vacunación
+                if(rol==="MASTER"||rol==='ADMIN_NAC'||rol==='ADMIN_PROV'||rol==='ADMIN_CEN') 
+                    li(class="nav-item")
+                        a(class="nav-link", class=activeLink["consultas"], href="/consultas") Consultas 
                 li(class="nav-item dropdown")
                     a(class="nav-link dropdown-toggle", href="#", role="button", data-bs-toggle="dropdown", aria-expanded="false", class=activeLink["listado"]) Listados
                     ul(class="dropdown-menu")
                         li
-                            a(class="dropdown-item" href="/solicitudes/sublote-listado") Solicitudes de Sublotes
-                            a(class="dropdown-item" href="/solicitudes/vacunas-listado") Solicitudes de Vacunas
-                            a(class="dropdown-item" href="/lotes/listado") Stocks nacionales
-                            a(class="dropdown-item" href="/sublotes/listado") Stocks provinciales
-                            a(class="dropdown-item" href="/minilotes/listado") Stocks centros Vac
+                            if(rol==="MASTER"||rol==='ADMIN_NAC'||rol==='LOGIST_NAC')
+                                a(class="dropdown-item" href="/solicitudes/sublote-listado") Solicitudes de Sublotes
+                            if(rol==="MASTER"||rol==='ADMIN_PROV'||rol==='LOGIST_PROV')
+                                a(class="dropdown-item" href="/solicitudes/vacunas-listado") Solicitudes de Vacunas
+                            if(rol==="MASTER"||rol==='ADMIN_NAC'||rol==='LOGIST_NAC')
+                                a(class="dropdown-item" href="/lotes/listado") Stocks nacionales
+                            if(rol==="MASTER"||rol==='ADMIN_PROV'||rol==='LOGIST_PROV')
+                                a(class="dropdown-item" href="/sublotes/listado") Stocks provinciales
+                            if(rol==="MASTER"||rol==='ADMIN_CEN'||rol==='LOGIST_CEN')
+                                a(class="dropdown-item" href="/minilotes/listado") Stocks centros Vac
             form(action="/usuarios/logout" method="POST" class=!isLogged ? "d-none" : "")
                 button.btn.btn-outline-dark(type="submit") Salir

@@ -41,10 +41,10 @@ export default class ConsultasControlador {
 
     try {
       vista = pug.renderFile("src/vistas/listados/consultas.pug", {
-        pretty: true,
         activeLink: "consultas",
         tabTitle: "consultas",
-        isLogged: req.userData.isLogged
+        isLogged: req.userData.isLogged,
+        rol: req.userData.rol
       });
     }
     catch (error) {

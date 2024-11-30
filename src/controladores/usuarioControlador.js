@@ -63,7 +63,6 @@ export default class UsuarioControlador {
 
   static async vistaLogin(req, res) {
     return res.send(pug.renderFile("src/vistas/login.pug", {
-      pretty: true,
       tabTitle: "login",
       activeLink: {}
     }));
@@ -71,10 +70,10 @@ export default class UsuarioControlador {
 
   static async vistaRegistro(req, res){
     return res.send(pug.renderFile("src/vistas/register.pug", {
-      pretty: true,
       tabTitle: "Registrar usuario",
       activeLink: {},
-      isLogged: req?.userData?.isLogged
+      isLogged: req?.userData?.isLogged,
+      rol: req.userData.rol
     }));
   }
 }

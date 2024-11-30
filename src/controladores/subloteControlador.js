@@ -141,7 +141,6 @@ export default class SubLoteControlador {
       console.error(e);
     } finally {
       res.send(pug.renderFile("src/vistas/formularios/crearSubLote.pug", {
-        pretty: true,
         activeLink: { "crearSub": "active-link" },
         cant,
         provSel: prov,
@@ -151,7 +150,8 @@ export default class SubLoteControlador {
         sol,
         vacunas: resultadosConsultas.vacunas,
         tabTitle: "crear sublote",
-        isLogged: req.userData.isLogged
+        isLogged: req.userData.isLogged,
+        rol: req.userData.rol
       }));
     }
   }
@@ -168,7 +168,6 @@ export default class SubLoteControlador {
     }
     finally {
       res.send(pug.renderFile("src/vistas/listados/listadodeStock.pug", {
-        pretty: true,
         activeLink: { "listado": "active-link" },
         provincias: datos.provincias,
         paginadores: 1,
@@ -177,7 +176,8 @@ export default class SubLoteControlador {
         cantResultsPorPaginacion,
         cantResultsSelected: "10",
         tabTitle: "stock sublotes",
-        isLogged: req.userData.isLogged
+        isLogged: req.userData.isLogged,
+        rol: req.userData.rol
       }));
     }
 
@@ -196,7 +196,6 @@ export default class SubLoteControlador {
     }
     finally {
       res.send(pug.renderFile("src/vistas/formularios/descartarSublote.pug", {
-        pretty: true,
         activeLink: "descartar-lote",
         sublote: sublote ?? "",
         paginadores: 1,
@@ -205,7 +204,8 @@ export default class SubLoteControlador {
         formasDescarte,
         motivosDescarte,
         tabTitle: "descartar sublote",
-        isLogged: req.userData.isLogged
+        isLogged: req.userData.isLogged,
+        rol: req.userData.rol
       }));
     }
 

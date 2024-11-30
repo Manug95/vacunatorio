@@ -45,13 +45,13 @@ export default class VacunacionControlador {
       console.error(e);
     } finally {
       res.send(pug.renderFile("src/vistas/formularios/vacunacion.pug", {
-        pretty: true,
         centros: centros ?? [],
         vacunas: vacunas ?? [],
         enfermeros: enfermeros ?? [],
         activeLink: { "vacunacion": "active-link" },
 				tabTitle: "registrar vacunación",
-				isLogged: req.userData.isLogged
+				isLogged: req.userData.isLogged,
+        rol: req.userData.rol
       }));
     }
 	}
