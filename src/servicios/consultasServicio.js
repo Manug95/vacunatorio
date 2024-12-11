@@ -32,7 +32,7 @@ class ConsultasServicio {
         columnas 
       };
 
-		} catch (error) {console.error(error);
+		} catch (error) {
 			capturarErroresDeSequelize(error);
       if (error instanceof MissingParamError) throw error;
 			throw new Error("Hubo un problema al realizar la operación");
@@ -105,15 +105,38 @@ class ConsultasServicio {
     
   }
 
-  async cslt5() {
+  // async cslt5() {
+  //   try {
+  //     const query = `CALL PR_CSLT5();`;
+
+  //     const [results, metadata] = await sequelize.query({ query, values: [] }, {
+  //       type: QueryTypes.SELECT
+  //     });
+
+  //     const columnas = ["LOTE-PROVEEDOR", "CANT. EN LOTE", "PROVINCIA", "CANT. EN PROVINCIA", "CENTRO", "CANT. EN CENTRO"];
+
+  //     return { 
+  //       results: Object.keys(results).map(k => results[k]), 
+  //       columnas 
+  //     };
+
+  //   } catch (error) {
+	// 		capturarErroresDeSequelize(error);
+	// 		throw new Error("Hubo un problema al realizar la operación");
+  //   }
+    
+  // }
+
+  async cslt5({ loc }) {
     try {
-      const query = `CALL PR_CSLT5();`;
+      const lugares = { deposito: "DEPOSITO", provincia: "PROVINCIA", centro: "CENTRO" };
+      const query = `CALL PR_CSLT5_POR_${loc.toUpperCase()}();`;
 
       const [results, metadata] = await sequelize.query({ query, values: [] }, {
         type: QueryTypes.SELECT
       });
 
-      const columnas = ["LOTE-PROVEEDOR", "CANT. EN LOTE", "PROVINCIA", "CANT. EN PROVINCIA", "CENTRO", "CANT. EN CENTRO"];
+      const columnas = ["LOTE-PROVEEDOR", loc.toUpperCase(), "CANTIDAD"];
 
       return { 
         results: Object.keys(results).map(k => results[k]), 

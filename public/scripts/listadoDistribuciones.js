@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
   paginador.setFuncionEnviarPeticionPaginador(eventoClicksDeLasPaginasDelPaginador(paginador.instanciaPaginador));
 
   getElementById("consultar-btn").addEventListener("click", async () => {
+    paginador.paginaActual = 1;
     const selectCentro = getElementById("centro");
     
     if (!validarSelectDelCentro(selectCentro)) return;

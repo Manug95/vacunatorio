@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
   paginador.setFuncionEnviarPeticionPaginador(eventoClicksDeLasPaginasDelPaginador(paginador.instanciaPaginador));
 
   getElementById("consultar-btn").addEventListener("click", async () => {
+    paginador.paginaActual = 1;
     const selectDeposito = getElementById("deposito-nac");
     
     if (!validarSelectDelDeposito(selectDeposito)) return;
@@ -105,7 +106,7 @@ function validarSelectDelDeposito(select) {
   let isValid = true;
 
   if (!validarFormSelect(select.value)) {
-    setInvalidInputStyle("deposito-Prov");
+    setInvalidInputStyle("deposito-nac");
     isValid = isValid && false;
   } else {
     removerClases(select, "is-invalid");

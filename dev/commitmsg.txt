@@ -160,3 +160,9 @@ middlewares agregados a las rutas correspondientes
 cabecera Accept agregada a las solicitudes POST y GET AJAX
 eliminada la vista de unauthorized
 agregada la vista de forbidden
+
+24° Commit
+Vista Home
+
+fix paginador
+borrado de algunos console.log

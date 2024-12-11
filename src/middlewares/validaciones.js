@@ -350,3 +350,19 @@ export function validarLogin(req, res, next) {
 		res.status(400).json({ ok: false, mensaje: error.message });
 	}
 }
+
+export function validarValoresCslt5(req, res, next) {
+	try {
+		if (req.originalUrl.includes("cslt5")) {
+			const { loc } = req.query;
+
+			if (loc !== "deposito" || loc !== "provincia" || loc !== "centro") {
+				throw new Error("Lugar incorrecto");
+			}
+		}
+
+		next();
+	} catch (error) {
+		res.status(400).json({ ok: false, mensaje: error.message });
+	}
+}

@@ -10,10 +10,9 @@ export default class UsuarioControlador {
     const respuesta = { ok: true };
   
     try {
-      // const nuevoUsuario = await usuarioServicio.crear(req.body);
+      const nuevoUsuario = await usuarioServicio.crear(req.body);
     }
     catch (error) {
-      console.log(error.message);
       respuesta.ok = false;
       respuesta.mensaje = error.message;
       status = 400;
@@ -25,14 +24,13 @@ export default class UsuarioControlador {
 
   static async login(req, res) {
     const respuesta = { ok: true };
-    let token;
 
     try {
       const usuario = await usuarioServicio.login(req.body);
 
-      token = jwt.sign(usuario, JWT_SECREY_KEY, { expiresIn: "8h"});
+      const token = jwt.sign(usuario, JWT_SECREY_KEY, { expiresIn: "8h"});
 
-      respuesta.mensaje = `Bienvenid@ ${usuario.username}!`;
+      respuesta.mensaje = `Bienvenid@ ${usuario.name}!`;
 
       return res
       .cookie("access_token", 
@@ -46,7 +44,6 @@ export default class UsuarioControlador {
       .json(respuesta);
     }
     catch (error) {
-      console.log(error.message);
       respuesta.ok = false;
       respuesta.mensaje = error.message;
 
@@ -57,7 +54,7 @@ export default class UsuarioControlador {
   static async logout(req, res) {
     return res
       .clearCookie("access_token")
-      .redirect("/usuarios/login")
+      .redirect("/login")
     ;
   }
 

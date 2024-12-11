@@ -1,6 +1,6 @@
 import { getElementById, removerClases, mostrarMensaje, createElement, mostrarElemento, ocultarElemento } from "./frontUtils.js";
 import { enviarGET } from "./httpRequests.js";
-import { setInvalidInputStyle, validarFecha } from "./validaciones.js";
+import { setInvalidInputStyle, validarFecha, validarFormSelect } from "./validaciones.js";
 
 const tabla = getElementById("tabla-consultas");
 
@@ -29,21 +29,52 @@ document.addEventListener("DOMContentLoaded", () => {
     
   });
 
+  getElementById("consultar-btn-cslt5").addEventListener("click", async () => {
+    tabla.innerHTML = "";
+    const lugar = getElementById("lugar");
+    const consultaSeleccionada = getElementById("select_consulta").value;
+    
+    if (!validarLugarCslt5(lugar)) return;
+
+    const datos = await enviarPeticion({ consulta: consultaSeleccionada, lugar: lugar.value });
+    
+    if (datos) {
+      const { registros, columnas } = datos;
+      
+      if (registros.length > 0) {
+        renderizarTabla(columnas, registros);
+      } else {
+        mostrarMensaje(false, "NO HAY RESULTADOS");
+      }
+    } else {
+      mostrarMensaje(false, "NO SE PUDO CARGAR LA CONSULTA");
+    }
+    
+  });
+
   getElementById("select_consulta").addEventListener("change", async (e) => {
     tabla.innerHTML = "";
     const consultaSeleccionada = e.target.value;
 
     if (consultaSeleccionada === "cslt1") {
       mostrarElemento("form-rango-fechas");
+      ocultarElemento("select-cslt5");
       return;
     } else {
       ocultarElemento("form-rango-fechas");
     }
 
-    const datos = await enviarPeticion({ consulta: consultaSeleccionada });
-    // console.log(datos)
+    if (consultaSeleccionada === "cslt5") {
+      mostrarElemento("select-cslt5");
+      ocultarElemento("form-rango-fechas");
+      return;
+    } else {
+      ocultarElemento("select-cslt5");
+    }
 
-    if (datos) {//console.log("hola");
+    const datos = await enviarPeticion({ consulta: consultaSeleccionada });
+
+    if (datos) {
       const { registros, columnas } = datos;
       
       if (registros.length > 0) {
@@ -85,9 +116,10 @@ function renderizarTabla(columnas, datos) {
   tabla.appendChild(tbody);
 }
 
-async function enviarPeticion({ consulta, fInicio, fFin }) {
+async function enviarPeticion({ consulta, fInicio, fFin, lugar }) {
   let url = `/consultas/${consulta}`;
   if (fFin && fInicio) url += `?fechaInicio=${fInicio}&fechaFin=${fFin}`;
+  if (lugar) url += `?loc=${lugar}`;
   return enviarGET(url);
 }
 
@@ -106,6 +138,19 @@ function validarLasFechas(fInicio, fFin) {
     isValid = isValid && false;
   } else {
     removerClases(fFin, "is-invalid");
+  }
+
+  return isValid;
+}
+
+function validarLugarCslt5(lugar) {
+  let isValid = true;
+
+  if (!validarFormSelect(lugar.value)) {
+    setInvalidInputStyle("lugar");
+    isValid = isValid && false;
+  } else {
+    removerClases(lugar, "is-invalid");
   }
 
   return isValid;

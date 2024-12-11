@@ -26,25 +26,26 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use((req, res, next) => {
-  if (req.originalUrl.includes("favicon.ico")) res.end();
+  if (req.originalUrl.includes("favicon.ico")) return res.end();
   next();
-});
-
-app.use((req, res, next) => { req.userData = { isLogged: true, rol: 'MASTER' }; next(); });
-app.get("/", (req, res) => {
-  res.send(pug.renderFile("src/vistas/index.pug", {
-    activeLink: { "home": "active-link" },
-    tabTitle: "Home",
-    isLogged: req.userData.isLogged,
-    rol: req.userData.rol
-    // estilos: "styles.css",
-  }));
 });
 
 app.get("/login", UsuarioControlador.vistaLogin);
 app.post("/login", validarLogin, UsuarioControlador.login);
 
-// app.use(autenticarUsuario);
+app.use(autenticarUsuario);
+
+// app.use((req, res, next) => { req.userData = { isLogged: true, rol: 'MASTER' }; next(); });
+app.get("/", (req, res) => {
+  const { isLogged, rol, name } = req.userData;
+  res.send(pug.renderFile("src/vistas/home.pug", {
+    activeLink: { "home": "active-link" },
+    tabTitle: "Home",
+    isLogged,
+    rol,
+    username: name
+  }));
+});
 
 app.use("/usuarios", usuarioRouter);
 app.use("/lotes", loteRouter);

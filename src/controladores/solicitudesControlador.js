@@ -63,7 +63,6 @@ export default class SolicitudesControlador {
     catch (error) {
       respuesta.error = true;
       status = 400;
-      console.log(error.message);
     }
     finally {
       res.status(status).json(respuesta);
@@ -88,7 +87,6 @@ export default class SolicitudesControlador {
     catch (error) {
       respuesta.error = true;
       status = 400;
-      console.log(error.message);
     }
     finally {
       res.status(status).json(respuesta);

@@ -24,6 +24,7 @@ export const formasDescarte = ["INCINERACION", "OTRO"];
 export const motivosDescarte = ["VENCIMIENTO", "ROTURA", "PERDIDA DE FRIO"];
 export const cantidadesCompraLote = ["500000", "1000000", "2000000", "3000000", "5000000"];
 export const cantResultsPorPaginacion = ["5", "10", "15", "20", "25", "50"];
+export const ROLES = ['ADMIN_NAC', 'LOGIST_NAC', 'ADMIN_PROV', 'LOGIST_PROV', 'ADMIN_CEN', 'LOGIST_CEN', 'MASTER', 'ENFERMERO'];
 
 export default class Utils {
   static formatearAfechaArgentina(fecha) {

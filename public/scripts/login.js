@@ -19,20 +19,25 @@ async function login() {
     const password = getElementById("password").value;
 
     if (isValidUsername(username) && isValidPassword(password)) {
-      // const res = await enviarPOST("/usuarios/authenticate", { username, password });
-      // mostrarMensaje(res.ok, res.mensaje);
-      const response = await fetch("/login", {
-        body: JSON.stringify({ username, password }),
-        method: "POST",
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
+      try {
+          // const res = await enviarPOST("/usuarios/authenticate", { username, password });
+        // mostrarMensaje(res.ok, res.mensaje);
+        const response = await fetch("/login", {
+          body: JSON.stringify({ username, password }),
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
 
-      if (response.ok) {
-        window.location.href = '/';
-      } else {
-        mostrarMensaje(response.ok, res?.mensaje);
+        if (response.ok) {
+          window.location.href = '/';
+        } else {
+          const res = await response.json();
+          mostrarMensaje(response.ok, res?.mensaje);
+        }
+      } catch (e) {
+        mostrarMensaje(false, "Error de conexión");
       }
     }
 

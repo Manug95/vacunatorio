@@ -17,6 +17,7 @@ html(lang="es")
         title #{tabTitle}
     body 
         header 
-            include navbar.pug 
+            if (isLogged)
+                include navbar.pug 
         main
             block contenido

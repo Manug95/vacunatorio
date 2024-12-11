@@ -6,40 +6,42 @@ block scripts
 block contenido
     .container-md.mt-3 
         h1(class="text-center") Comprar Vacunas
-        
-        form(id="comprar-lote-form" class="p-3 mx-auto border rounded-4 shadow-sm w-75 needs-validation mt-3")
-            .row.mb-md-4.mt-3 
-                .col-12.col-md-6.col-lg-4.offset-lg-2.mb-3.mb-md-0
-                    .position-relative
-                        label(for="vacuna" class="form-label fw-bold") Vacuna
-                        select#vacuna(name="vacuna", class="form-select", aria-label="vacuna")
-                            option(value="", selected=!vacunaSolicitada, disabled) Seleccionar vacuna 
-                            each vacuna in vacunas
-                                option(value=vacuna.id, selected=vacunaSolicitada) #{vacuna.TipoVacuna.tipo} (#{vacuna.Laboratorio.nombre})
-                            else 
-                                option(value="", selected, disabled) error al obtener las vacunas 
-                        .invalid-tooltip Este campo es requerido
-                .col-12.col-md-6.col-lg-4.mb-3.mb-md-0
-                    .position-relative
-                        label(for="cantidad" class="form-label fw-bold") Cantidad
-                        select#cantidad(name="cantidad", class="form-select", aria-label="cantida vacunas a comprar")
-                            option(value="", selected, disabled) Seleccionar la cantidad 
-                            each cant in cantidadesCompraLote
-                                option(value=cant) #{cant} 
-                        .invalid-tooltip Este campo es requerido
-            .row.mb-4 
-                .col-12.col-md-6.col-lg-4.offset-lg-2.mb-3.mb-md-0
-                    .position-relative
-                        label(for="deposito-nacional" class="form-label fw-bold") Almacenar en
-                        select#deposito-nacional(name="deposito", class="form-select", aria-label="deposito nacional")
-                            option(value="", selected, disabled) Seleccionar deposito 
-                            each deposito in depositos
-                                option(value=deposito.id) #{deposito.nombre} 
-                            else 
-                                option(value="", selected, disabled) error al obtener los depositos 
-                        .invalid-tooltip Este campo es requerido
-            .row.mb-3.justify-content-center 
-                .col-2.d-flex.justify-content-center
-                    input(type="submit", value="Comprar", class="btn btn-primary d-block mx-auto") 
+
+        .d-flex.justify-content-center.align-items-center.vh-50.w-100.mt-5
+            form(id="comprar-lote-form" class="p-3 mx-auto border rounded-4 shadow-sm needs-validation mt-3 mb-3")
+                .row.mt-3.mb-4 
+                    .col-12.mb-3.mb-md-0
+                        .position-relative
+                            label(for="vacuna" class="form-label fw-bold") Vacuna
+                            select#vacuna(name="vacuna", class="form-select", aria-label="vacuna")
+                                option(value="", selected=!vacunaSolicitada, disabled) Seleccionar vacuna 
+                                each vacuna in vacunas
+                                    option(value=vacuna.id, selected=vacunaSolicitada) #{vacuna.TipoVacuna.tipo} (#{vacuna.Laboratorio.nombre})
+                                else 
+                                    option(value="", selected, disabled) error al obtener las vacunas 
+                            .invalid-tooltip Este campo es requerido
+                .row.mb-4 
+                    .col-12.mb-3.mb-md-0
+                        .position-relative
+                            label(for="cantidad" class="form-label fw-bold") Cantidad
+                            select#cantidad(name="cantidad", class="form-select", aria-label="cantida vacunas a comprar")
+                                option(value="", selected, disabled) Seleccionar la cantidad 
+                                each cant in cantidadesCompraLote
+                                    option(value=cant) #{cant} 
+                            .invalid-tooltip Este campo es requerido
+                .row.mb-4 
+                    .col-12.mb-3.mb-md-0
+                        .position-relative
+                            label(for="deposito-nacional" class="form-label fw-bold") Almacenar en
+                            select#deposito-nacional(name="deposito", class="form-select", aria-label="deposito nacional")
+                                option(value="", selected, disabled) Seleccionar deposito 
+                                each deposito in depositos
+                                    option(value=deposito.id) #{deposito.nombre} 
+                                else 
+                                    option(value="", selected, disabled) error al obtener los depositos 
+                            .invalid-tooltip Este campo es requerido
+                .row.mb-3.justify-content-center 
+                    .col-2.d-flex.justify-content-center
+                        input(type="submit", value="Comprar", class="btn btn-primary d-block mx-auto") 
 
     include ../modalMensaje.pug

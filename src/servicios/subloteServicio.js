@@ -113,12 +113,12 @@ class SubLoteServicio {
           vencimiento: Utils.formatearAfechaArgentina(sl.Lote.vencimiento),
           nombreComercial: sl.Lote.Vacuna.nombreComercial,
           laboratorio: sl.Lote.Vacuna.Laboratorio.nombre,
+          nroLote: sl.Lote.nroLote
         };
       });
     
       return { sublotes, cantidadSublotes: count };
     } catch (e) {
-      console.error(e);
       throw new Error("Error al traer el stock de lotes");
     }
   }
@@ -178,7 +178,7 @@ class SubLoteServicio {
     try {
       sublote = await this.getSubLotePorId({ id });
     } catch (error) {
-      console.log(pc.red("Error al traer el sublote por ID"));
+      // console.log(pc.red("Error al traer el sublote por ID"));
     }
 
     if (!sublote) throw new Error("No existe el sublote");
@@ -193,8 +193,7 @@ class SubLoteServicio {
       const lotes = await loteServicio.traerLotesDisponiblesParaCrearSublotes({ tipoVacuna, deposito, transaction });
       lotesRecuperados.push(...lotes);
     } catch (error) {
-      console.log(pc.red("Error al traer los lotes disponibles"));
-      console.error(error);
+      // console.log(pc.red("Error al traer los lotes disponibles"));
       throw new Error("Hubo un problema al realizar la operación");
     }
 
@@ -244,8 +243,7 @@ class SubLoteServicio {
       if (values.slice(values.length/2 - 1, values.length).some(v => v[0] === 0)) throw new Error("");
       
     } catch (error) {
-      console.log(pc.red("Error al crear los subLotes"));
-      console.error(error);
+      // console.log(pc.red("Error al crear los subLotes"));
       capturarErroresDeSequelize(error);
       throw new Error("Hubo un problema al realizar la operación");
     }

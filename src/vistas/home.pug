@@ -1,0 +1,24 @@
+extends ./index.pug
+
+block contenido
+    .container.mt-5.text-center
+      .card.shadow-lg
+        .card-body
+          h1.text-primary.mb-3 Sistema de Registro y Trazabilidad de Vacunas
+          h2.text-primary.mb-3 Bienvenid@ #{username}
+          img.img-fluid.mb-4(src="https://via.placeholder.com/500x300?text=Sistema+de+Vacunación" alt="Sistema de Vacunación")
+          p.text-muted.mb-4
+            | El programa de vacunación del Ministerio de Salud de la Nación Argentina 
+            | se encarga de comprar y gestionar las millones de vacunas que el país 
+            | adquiere de diferentes laboratorios internacionales para cumplir con el 
+            | calendario de vacunación obligatorio.
+          h3.text-dark.mt-4 Funcionalidades Principales
+          ul.list-unstyled.text-start.mx-auto(style="max-width: 500px;")
+            li.mb-2 ✅ Registro y trazabilidad de dosis
+            li.mb-2 ✅ Gestión de inventarios y lotes
+            li.mb-2 ✅ Reportes y estadísticas en tiempo real
+          //- a.btn.btn-primary.mt-4(href="/dashboard") Continuar al Sistema
+          p.text-muted.mt-4 Si necesitas ayuda, contacta a nuestro soporte técnico:
+          a(href="mailto:soporte@ministerio.gob.ar" class="text-primary") soporte@ministerio.gob.ar
+    footer.text-center.mt-5.text-muted
+      p &copy; #{new Date().getFullYear()} Ministerio de Salud. Todos los derechos reservados.

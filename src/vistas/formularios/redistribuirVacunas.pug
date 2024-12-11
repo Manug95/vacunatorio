@@ -16,8 +16,8 @@ block contenido
                         label(for="cantidad" class="form-label fw-bold") Cantidad
                         input#cantidad(type="number", name="cantidad", class="form-control", aria-label="codigo de vacunas", value=cant?cant:"") 
                         .invalid-tooltip Este campo es requerido
-                    .position-relative
                 .col-12.col-md-6.col-lg-4.mb-3.mb-md-0
+                    .position-relative
                         label(for="destino" class="form-label fw-bold") Centro vac. destino
                         select#destino(name="destino", class="form-select", aria-label="centro de vacunacion destino")
                             option(value="", selected=!centroSel, disabled) Seleccionar centro 

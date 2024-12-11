@@ -92,7 +92,7 @@ class PersonalServicio {
 
 			codigo = "C-" + codigo;
 		} catch (error) {
-			console.log(pc.red("Error al crear el codigo del personal"));
+			// console.log(pc.red("Error al crear el codigo del personal"));
 			codigo = null;
 		}
 

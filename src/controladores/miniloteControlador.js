@@ -36,7 +36,6 @@ export default class MiniLoteControlador {
     }
     catch (error) {
       await transaction.rollback();
-      console.log(error);
       
       status = 400;
       respuesta.ok = false;
@@ -124,7 +123,6 @@ export default class MiniLoteControlador {
     catch (error) {
       respuesta.error = true;
       status = 400;
-      console.log(error.message);
     }
     finally {
       res.status(status).json(respuesta);
@@ -143,7 +141,6 @@ export default class MiniLoteControlador {
     }
     catch (error) {
       status = 400;
-      console.log(error.message);
     }
     finally {
       res.status(status).json(vacunas);
@@ -218,7 +215,6 @@ export default class MiniLoteControlador {
     }
     catch (error) {
       datos.error = true;
-      console.log(error.message);
     }
     finally {
       res.send(pug.renderFile("src/vistas/formularios/descartarDistribucion.pug", {

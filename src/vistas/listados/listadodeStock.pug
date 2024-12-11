@@ -56,9 +56,10 @@ block contenido
                         th.text-center F.Vencimiento
                         th.text-center Nombre Comercial
                         th.text-center Laboratorio
+                        th.text-center Lote
                         th.text-center(colspan=!nacional&&!provincial ? "2" : "1") Acción
                 tbody#cuerpo 
                     tr 
-                        td.align-middle.text-center(colspan=!nacional&&!provincial ? "7" : "6") SELECCIONE #{nacional ? "UN DEPOSITO" : provincial ? "UNA PROVINCIA" : "UN CENTRO" }
+                        td.align-middle.text-center(colspan=!nacional&&!provincial ? "8" : "7") SELECCIONE #{nacional ? "UN DEPOSITO" : provincial ? "UNA PROVINCIA" : "UN CENTRO" }
 
         include ../paginador.pug

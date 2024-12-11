@@ -25,7 +25,7 @@ class UsuarioServicio {
         personalId: personal 
       };
   
-      newUser.password = await bcrypt.hash(password, SALT);
+      newUser.password = await bcrypt.hash(password, +SALT);
 
       if (transaction) {
         return await Usuario.create(newUser, { transaction: transaction });
@@ -43,19 +43,21 @@ class UsuarioServicio {
   async login({ username, password }) {
     try {
       const user = await Usuario.findOne({where: { username} });
-      if (!user) throw new Error("El usuario no existe");
+      if (!user) throw new Error("usuario o contraseña es incorrecto(s)");
 
       const isValid = await bcrypt.compare(password, user.password);
-      if (!isValid) throw new Error("La contraseña es incorrecta");
+      if (!isValid) throw new Error("usuario o contraseña es incorrecto(s)");
+
+      const personal = await user.getPersonal();
 
       return {
         id: user.id,
         username: user.username,
-        rol: user.rol
+        rol: user.rol,
+        name: `${personal.dataValues.apellidos}, ${personal.dataValues.nombres}`
       };
     }
     catch (error) {
-      console.error(error);
       throw error;
     }
   }

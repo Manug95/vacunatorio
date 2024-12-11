@@ -168,7 +168,7 @@ class DistribucionProvincialServicio {
       try {
         miniloteCreado = await miniloteServicio.crearMiniLote({ subloteId, transaction: t });
       } catch (error) {
-        console.log(pc.red("Error al crear el minilote"));
+        // console.log(pc.red("Error al crear el minilote"));
         throw error;
       }
 
@@ -183,7 +183,7 @@ class DistribucionProvincialServicio {
       await t.commit();
     } catch (error) {
       await t.rollback();
-      console.log(pc.red("Error al distribuir el minilote"));
+      // console.log(pc.red("Error al distribuir el minilote"));
 
       capturarErroresDeSequelize(error);
 
@@ -205,8 +205,7 @@ class DistribucionProvincialServicio {
         const sublotes = await subLoteServicio.traerSublotesDisponiblesParaCrearMinilotes({ tipoVacuna, provincia, transaction });
         sublotesRecuperados.push(...sublotes);
       } catch (error) {
-        console.log(pc.red("Error al traer los sublotes disponibles"));
-        console.error(error);
+        // console.log(pc.red("Error al traer los sublotes disponibles"));
         throw new Error("Hubo un problema al realizar la operación");
       }
 
@@ -266,7 +265,7 @@ class DistribucionProvincialServicio {
       return { cantidadVacRestantes: cantidad, cantidadMinilotes: minilotes.length };
 
     } catch (error) {
-      console.log(pc.red("Error al distribuir el minilote"));
+      // console.log(pc.red("Error al distribuir el minilote"));
 
       capturarErroresDeSequelize(error);
 
@@ -300,7 +299,7 @@ class DistribucionProvincialServicio {
     } catch (error) {
       await transaction.rollback();
 
-      console.log(pc.red("Error al redistribuir el minilote"));
+      // console.log(pc.red("Error al redistribuir el minilote"));
       capturarErroresDeSequelize(error);
 
       if (error instanceof DataOutOfRangeError) {
@@ -365,7 +364,7 @@ class DistribucionProvincialServicio {
       if (limit) opciones.limit = +limit;
       if (order) opciones.order = [this.#calcularOrderEnTraerMinilotesPorCentroVacunacion(order, orderType)];
   
-      const { rows, count } = await DistribucionProvincial.findAndCountAll(opciones);
+      const { rows, count } = await DistribucionProvincial.findAndCountAll(opciones);//console.log(rows.map(r => r.toJSON().MiniLote.SubLote));
   
       const distribuciones = rows.map(dist => {
         return {
@@ -375,12 +374,12 @@ class DistribucionProvincialServicio {
           vencimiento: Utils.formatearAfechaArgentina(dist.MiniLote.SubLote.Lote.vencimiento),
           nombreComercial: dist.MiniLote.SubLote.Lote.Vacuna.nombreComercial,
           laboratorio: dist.MiniLote.SubLote.Lote.Vacuna.Laboratorio.nombre,
+          nroLote: dist.MiniLote.SubLote.Lote.nroLote
         };
       });
     
       return { distribuciones, cantidadDistribuciones: count };
     } catch (e) {
-      console.error(e);
       throw new Error("Error al traer el stock de lotes");
     }
   }
@@ -409,7 +408,7 @@ class DistribucionProvincialServicio {
     try {
       distribucion = await this.getDistribucionPorId({ id });
     } catch (error) {
-      console.log(pc.red("Error al traer la distribucion por ID"));
+      // console.log(pc.red("Error al traer la distribucion por ID"));
     }
 
     if (!distribucion) throw new Error("No existe la distribucion");

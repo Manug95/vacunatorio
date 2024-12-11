@@ -46,7 +46,7 @@ export function renderizarTablaStock(datos, depositoSeleccionado, rutaDescarte, 
 export function crearFilaMensajeDeTablaStock(mensaje, tabla = getElementById("cuerpo"), redistribuible = false) {
   tabla.innerHTML = "";
   const fila = createElement("tr", {});
-  const td = createElement("td", { content: mensaje, colSpan: redistribuible ? "7" : "6" }, "align-middle", "text-center");
+  const td = createElement("td", { content: mensaje, colSpan: redistribuible ? "8" : "7" }, "align-middle", "text-center");
   fila.appendChild(td);
   tabla.appendChild(fila);
 }

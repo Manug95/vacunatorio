@@ -133,7 +133,6 @@ class SolicitudesServicio {
     
       return { solicitudes, cantidadSolicitudes: count };
     } catch (e) {
-      console.error(e);
       throw new Error("Error al traer las solicitudes de sublotes");
     }
   }
@@ -176,7 +175,6 @@ class SolicitudesServicio {
     
       return { solicitudes, cantidadSolicitudes: count };
     } catch (e) {
-      console.error(e);
       throw new Error("Error al traer las solicitudes de minilotes");
     }
   }
@@ -208,20 +206,6 @@ class SolicitudesServicio {
     
     return SolicitudMinilote.decrement({ cantidad: cantidadADecrementar }, optObj);
   }
-
-  // async completarSolicitudSublote({ id, cantidad, transaction }) {
-  //   if (!id) throw new Error("Falta la id de la solicitud");
-
-  //   const sol = await SolicitudSublote.findByPk(id);
-  //   sol.estado = "COMPRADA";
-  //   sol.cantidad -= cantidad;
-
-  //   if (transaction) {
-  //     return SolicitudSublote.update(sol, { where: { id }, transaction });
-  //   } else {
-  //     return SolicitudSublote.update(sol, { where: { id } });
-  //   }
-  // }
 
   #calcularElOrdenDelListadoDeSolicitudesSublote(order, direccion) {
     const orden = [];

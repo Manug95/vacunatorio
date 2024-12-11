@@ -77,7 +77,6 @@ export default class LoteControlador {
     catch (error) {
       respuesta.error = true;
       status = 400;
-      console.log(error.message);
     }
     finally {
       res.status(status).json(respuesta);
@@ -99,9 +98,8 @@ export default class LoteControlador {
       resultadosConsultas.depositosNac = depositosNac;
       resultadosConsultas.vacunas = vacunas.map(v => v.toJSON());
       
-    } catch(e) {
-      console.error(e);
-    } finally {
+    } catch(e) {} 
+    finally {
       res.send(pug.renderFile("src/vistas/formularios/comprarLote.pug", {
         activeLink: { "comprar": "active-link" },
         depositos: resultadosConsultas.depositosNac ?? [],
@@ -124,7 +122,6 @@ export default class LoteControlador {
     }
     catch (error) {
       datos.error = true;
-      console.log(error.message);
     }
     finally {
       res.send(pug.renderFile("src/vistas/listados/listadodeStock.pug", {
@@ -153,7 +150,6 @@ export default class LoteControlador {
     }
     catch (error) {
       datos.error = true;
-      console.log(error.message);
     }
     finally {
       res.send(pug.renderFile("src/vistas/formularios/descartarLote.pug", {

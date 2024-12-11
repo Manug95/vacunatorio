@@ -180,12 +180,12 @@ class LoteServicio {
           vencimiento: Utils.formatearAfechaArgentina(l.vencimiento),
           nombreComercial: l.Vacuna.nombreComercial,
           laboratorio: l.Vacuna.Laboratorio.nombre,
+          nroLote: l.nroLote
         };
       });
     
       return { lotes, cantidadLotes: count };
     } catch (e) {
-      console.error(e);
       throw new Error("Error al traer el stock de lotes");
     }
   }
@@ -304,7 +304,7 @@ class LoteServicio {
     try {
       lote = await this.getLotePorId({ id });
     } catch (error) {
-      console.log(pc.red("Error al traer el lote por ID"));
+      // console.log(pc.red("Error al traer el lote por ID"));
     }
 
     if (!lote) throw new Error("No existe el lote");

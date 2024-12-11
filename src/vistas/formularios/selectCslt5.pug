@@ -1,0 +1,13 @@
+#select-cslt5.row.my-2.d-none
+    .col.col-md-6.d-flex.justify-content-center.justify-content-center.align-items-center
+        .position-relative.w-75.ms-1
+            label(for="lugar", class="form-label fw-bold") Lugar de la consulta
+            select#lugar(name="lugar", class="form-select cursor-pointer")
+                option(value="", selected, disabled) Seleccionar
+                option(value="deposito") Por Deposito Nacional
+                option(value="provincia") Por Provincia
+                option(value="centro") Por Centro de Vacunación
+            .invalid-tooltip Este campo es requerido
+    .col.col-md-6.d-flex.justify-content-center.align-items-end.mt-3.mt-lg-0
+        span.w-50.d-flex.justify-content-center
+            button#consultar-btn-cslt5.btn.btn-info(type="button") Colsultar

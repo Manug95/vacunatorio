@@ -1,5 +1,6 @@
 import { DataTypes, Model }from "sequelize";
 import { sequelize } from "../../sequelize.js";
+import { ROLES } from "../../utils.js";
 
 class Usuario extends Model { }
 
@@ -47,11 +48,11 @@ Usuario.init({
   },
   rol: {
     type: DataTypes.ENUM,
-    values: ['ADMIN_NAC', 'LOGIST_NAC', 'ENFERMERO', 'ADMIN_PROV', 'LOGIST_PROV', 'ADMIN_CEN', 'LOGIST_CEN'],
+    values: ROLES,
     allowNull: false,
     validate: {
       notEmpty: true,
-      isIn: [['ADMIN_NAC', 'LOGIST_NAC', 'ENFERMERO', 'ADMIN_PROV', 'LOGIST_PROV', 'ADMIN_CEN', 'LOGIST_CEN']]
+      isIn: [ROLES]
     }
   }
 }, {

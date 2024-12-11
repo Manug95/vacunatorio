@@ -15,33 +15,10 @@ export default class SubLoteControlador {
   static async crear(req, res) {
     let status = 201;
     const respuesta = { ok: true };
-    // const { lote, provincia, cantidad, solicitud } = req.body;
     const { tipoVacuna, provincia, cantidad, deposito, solicitud } = req.body;
-    // console.log(req.body);
 
     const transaction = await sequelize.transaction();
     try {
-      // const [ lote, prov ] = await Promise.all([
-      //   loteServicio.traerLotePorTipoVacuna({ tipoVacuna, cantidad }),
-      //   provinciaServicio.getProvinciaPorNombre({ nombre: provincia })
-      // ]);
-      // const lote = await loteServicio.traerLotePorTipoVacuna({ tipoVacuna, cantidad });
-      // const prov = await provinciaServicio.getProvinciaPorNombre({ nombre: provincia });
-      // await subLoteServicio.crearSubLote({ provincia: prov.nombre, cantidad, lote: lote.id });
-
-      //aca empieza lo actual no automatico
-      // const lote = await loteServicio.traerLotePorTipoVacunaYDeposito({ tipoVacuna, cantidad, deposito });
-      // // console.log(lote);
-
-      // if (!lote) throw new Error("No hay de estas vacunas en el deposito seleccionado");
-
-      // const promesas = [subLoteServicio.crearSubLote({ provincia, cantidad, lote: lote.id, transaction })];
-      // if (solicitud) promesas.push(solicitudesServicio.actualizarSolicitudSublote({ id: solicitud, estado: "COMPRADA", transaction }));
-
-      // const values = await Promise.all(promesas);
-      // console.log(values);
-
-      //aca empieza lo actual automatico
       const { cantidadSublotes, cantidadVacRestantes } = await subLoteServicio.crearSubLoteAutomatico({ tipoVacuna, provincia, cantidad, deposito, transaction });
       const vacunasEnviadas = cantidad - cantidadVacRestantes;
       const updateResult = await solicitudesServicio.actualizarCantidadVacunasSolicitudSublote(solicitud, vacunasEnviadas, transaction);
@@ -114,7 +91,6 @@ export default class SubLoteControlador {
     catch (error) {
       respuesta.error = true;
       status = 400;
-      console.log(error.message);
     }
     finally {
       res.status(status).json(respuesta);
