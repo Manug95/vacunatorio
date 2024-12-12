@@ -172,7 +172,6 @@ export default class SubLoteControlador {
     }
     finally {
       res.send(pug.renderFile("src/vistas/formularios/descartarSublote.pug", {
-        activeLink: "descartar-lote",
         sublote: sublote ?? "",
         paginadores: 1,
         error: datos.error,
@@ -181,7 +180,8 @@ export default class SubLoteControlador {
         motivosDescarte,
         tabTitle: "descartar sublote",
         isLogged: req.userData.isLogged,
-        rol: req.userData.rol
+        rol: req.userData.rol,
+        activeLink: {}
       }));
     }
 

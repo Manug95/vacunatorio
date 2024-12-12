@@ -153,7 +153,6 @@ export default class LoteControlador {
     }
     finally {
       res.send(pug.renderFile("src/vistas/formularios/descartarLote.pug", {
-        activeLink: "descartar-lote",
         lote: lote ?? "",
         paginadores: 1,
         error: datos.error,
@@ -162,7 +161,8 @@ export default class LoteControlador {
         motivosDescarte,
         tabTitle: "descartar lote",
         isLogged: req.userData.isLogged,
-        rol: req.userData.rol
+        rol: req.userData.rol,
+        activeLink: {}
       }));
     }
 

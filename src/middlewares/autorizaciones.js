@@ -9,7 +9,7 @@ export function validarPermisos(req, res, next) {
   }
 
   const { rol } = req.userData;
-  const ruta = PERMISOS.get(req.originalUrl);
+  const ruta = PERMISOS.get(req.originalUrl.split("?")[0]);;
 
   if (ruta && ruta.includes(rol)) {
     next();
@@ -26,7 +26,7 @@ export function validarPermisos(req, res, next) {
 
 /**
  * 
- * @param  {...any} permisos 'ADMIN_NAC', 'LOGIST_NAC', 'ENFERMERO', 'ADMIN_PROV', 'LOGIST_PROV', 'ADMIN_CEN', 'LOGIST_CEN', 'MASTER'
+ * @param  {...any} rolesPermitidos 'ADMIN_NAC', 'LOGIST_NAC', 'ENFERMERO', 'ADMIN_PROV', 'LOGIST_PROV', 'ADMIN_CEN', 'LOGIST_CEN', 'MASTER'
  * @returns {function}
  */
 export function validarPermisosRutasDinamicas(...rolesPermitidos) {

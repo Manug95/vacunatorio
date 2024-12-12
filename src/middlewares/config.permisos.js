@@ -25,11 +25,11 @@ export const PERMISOS = new Map([
   ],
   [
     "/sublotes", 
-    ['ADMIN_PROV', 'MASTER']
+    ['ADMIN_NAC', 'LOGIST_NAC', 'MASTER']
   ],
   [
     "/sublotes/crear", 
-    ['ADMIN_PROV', 'MASTER']
+    ['ADMIN_NAC', 'LOGIST_NAC', 'MASTER']
   ],
   [
     "/sublotes/listado", 
@@ -41,11 +41,11 @@ export const PERMISOS = new Map([
   ],
   [
     "/minilotes", 
-    ['ADMIN_CEN', 'MASTER']
+    ['ADMIN_PROV', 'LOGIST_PROV', 'MASTER']
   ],
   [
     "/minilotes/crear", 
-    ['ADMIN_CEN', 'MASTER']
+    ['ADMIN_PROV', 'LOGIST_PROV', 'MASTER']
   ],
   [
     "/minilotes/listado", 
@@ -69,11 +69,11 @@ export const PERMISOS = new Map([
   ],
   [
     "/pacientes", 
-    ['ADMIN_CEN', 'MASTER']
+    ['ADMIN_CEN', 'ENFERMERO', 'MASTER']
   ],
   [
     "/pacientes/registrar", 
-    ['ADMIN_CEN', 'MASTER']
+    ['ADMIN_CEN', 'ENFERMERO', 'MASTER']
   ],
   [
     "/vacunacion", 
@@ -81,15 +81,15 @@ export const PERMISOS = new Map([
   ],
   [
     "/solicitudes/sublote", 
-    ['ADMIN_NAC', 'LOGIST_NAC', 'MASTER']
-  ],
-  [
-    "/solicitudes/minilote", 
     ['ADMIN_PROV', 'LOGIST_PROV', 'MASTER']
   ],
   [
+    "/solicitudes/minilote", 
+    ['ADMIN_CEN', 'LOGIST_CEN', 'MASTER']
+  ],
+  [
     "/solicitudes/sublote-form", 
-    ['ADMIN_NAC', 'LOGIST_NAC', 'MASTER']
+    ['ADMIN_PROV', 'LOGIST_PROV', 'MASTER']
   ],
   [
     "/solicitudes/sublote-listado", 
@@ -101,7 +101,7 @@ export const PERMISOS = new Map([
   ],
   [
     "/solicitudes/vacuna-form", 
-    ['ADMIN_PROV', 'LOGIST_PROV', 'MASTER']
+    ['ADMIN_CEN', 'LOGIST_CEN', 'MASTER']
   ],
   [
     "/consultas", 

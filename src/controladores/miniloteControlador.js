@@ -226,7 +226,8 @@ export default class MiniLoteControlador {
         motivosDescarte,
         tabTitle: "descartar vacunas",
         isLogged: req.userData.isLogged,
-        rol: req.userData.rol
+        rol: req.userData.rol,
+        activeLink: {}
       }));
     }
   }
@@ -245,7 +246,8 @@ export default class MiniLoteControlador {
         dist: dist ?? "",
         tabTitle: "redistribuir vacunas",
         isLogged: req.userData.isLogged,
-        rol: req.userData.rol
+        rol: req.userData.rol,
+        activeLink: {}
       }));
     }
   }

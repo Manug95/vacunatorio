@@ -52,6 +52,6 @@ block contenido
                                 a(class="btn btn-primary p-1", href=`/sublotes/crear?sol=${solicitud.id}&tipoVac=${solicitud.tipoVacuna}&prov=${solicitud.provincia}&cant=${solicitud.cantidad}`) Enviar
                     else 
                         tr 
-                            td(class="align-middle text-center", colspan="4") #{error ? "HUBO UN PROBLEMA AL RECUPERAR LA SOLICITUDES" : "NO HAY SOLICITUDES PENDIENTES"}
+                            td(class="align-middle text-center", colspan="5") #{error ? "HUBO UN PROBLEMA AL RECUPERAR LA SOLICITUDES" : "NO HAY SOLICITUDES PENDIENTES"}
 
         include ../paginador.pug

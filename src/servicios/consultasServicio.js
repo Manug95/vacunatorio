@@ -47,7 +47,7 @@ class ConsultasServicio {
         type: QueryTypes.SELECT
       });
       
-      const columnas = ["TIPO VACUNA", "EN NACIÓN", "EN PROVINCIA", "EN CENTROS", "DESCARTADAS", "VENCIDAD", "APLICADAS"];
+      const columnas = ["TIPO VACUNA", "EN NACIÓN", "EN PROVINCIA", "EN CENTROS", "DESCARTADAS", "VENCIDAS", "APLICADAS"];
 
       return { 
         results: Object.keys(results).map(k => results[k]), 

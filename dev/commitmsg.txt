@@ -166,3 +166,11 @@ Vista Home
 
 fix paginador
 borrado de algunos console.log
+
+25° Commit
+Algunos fixes
+
+agregados los activeLink que faltaban
+cambios de roles para algunas acciones
+diagrama ER
+script de la BD

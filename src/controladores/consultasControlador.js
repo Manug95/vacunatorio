@@ -10,6 +10,8 @@ const CONSULTAS = {
   cslt6: consultasServicio.cslt6
 };
 
+const consultasValidas = ["cslt1", "cslt2", "cslt3", "cslt4", "cslt5", "cslt6"];
+
 export default class ConsultasControlador {
   static async antenderConsulta(req, res) {
     const { consulta } = req.params;
@@ -18,6 +20,7 @@ export default class ConsultasControlador {
     const respuesta = {};
 
     try {
+      if (!consultasValidas.some(c => c === consulta)) throw new Error("Consulta incorrecta");
 
       const { results, columnas } = await CONSULTAS[consulta](req.query);
       
@@ -27,6 +30,7 @@ export default class ConsultasControlador {
     }
     catch (error) {
       respuesta.error = true;
+      respuesta.mensaje = error.message;
       status = 400;
     }
     finally {
@@ -40,7 +44,7 @@ export default class ConsultasControlador {
 
     try {
       vista = pug.renderFile("src/vistas/listados/consultas.pug", {
-        activeLink: "consultas",
+        activeLink: { "consultas": "active-link" },
         tabTitle: "consultas",
         isLogged: req.userData.isLogged,
         rol: req.userData.rol

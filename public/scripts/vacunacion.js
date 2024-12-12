@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", (e) => {
     const result = await enviarGET(`/minilotes/distribucion?centro=${centroSeleccionado}`);
     if (result && result.length) {
       selectVacunas.innerHTML = "";
-      const disabledOption = createElement("option", { value: "", content: "Seleccionar centro", selected: true, disabled: true });
+      const disabledOption = createElement("option", { value: "", content: "Seleccionar vacuna", selected: true, disabled: true });
       selectVacunas.appendChild(disabledOption);
 
       // while (selectVacunas.firstElementChild.nextElementSibling) {
