@@ -7,5 +7,5 @@ export const sequelize = new Sequelize('vacunatorio', 'root', '', {
   define: {
     freezeTableName: true
   },
-  //logging: false
+  logging: false
 });
